@@ -142,10 +142,10 @@
       - date:           Thu 10/29
         topics:         LFS, FFS
 
-- name:     Consistency and Integrity
+- name:     Consistency, Integrity
   days:
       - date:           Tue 11/03
-        topics:         Consistency and Integrity
+        topics:         Consistency, Integrity
         assignments:    
           - Reading 12
 
