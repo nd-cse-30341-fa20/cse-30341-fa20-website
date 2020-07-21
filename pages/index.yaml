@@ -47,8 +47,8 @@ body:       |
     - **Construct** applications that utilize processes, threads, and sockets
       to solve problems requiring concurrent or parallel computation.
 
-    - **Explain** how resources such as memory is allocated and managed by the
-      operating system.
+    - **Explain** how resources such as cpu time and memory are allocated and
+      managed by the operating system.
 
     - **Evaluate** the trade-offs embedded in different operating system
       techniques, algorithms, and data structures.
