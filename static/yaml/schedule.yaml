@@ -1,0 +1,171 @@
+- name:     "Unit 01: System Calls and Processes"
+
+- name:     Hardware, Operating Systems
+  days:
+      - date:           Tue 08/11
+        topics:         Syllabus, Computer Hardware, Boot Sequence
+        assignments:     
+          - Reading 01
+
+      - date:           Thu 08/13
+        topics:         OS Taxonomy, OS History, OS Themes
+
+- name:     System Calls, Processes
+  days:
+      - date:           Tue 08/18
+        topics:         System Calls
+        assignments:     
+          - Reading 02
+
+      - date:           Thu 08/20
+        topics:         Processes
+
+- name:     Scheduling
+  days:
+      - date:           Tue 08/25
+        topics:         Scheduling (FIFO, Round Robin)
+        assignments:
+          - Reading 03
+
+      - date:           Thu 08/27
+        topics:         Scheduling (MLFQ, Lottery)
+
+      - date:           Sat 08/29
+        assignments:
+          - Project 01
+
+- name:     "Unit 02: Concurrency with Threads"
+
+- name:     Concurrency
+  days:
+      - date:           Tue 09/01
+        topics:         Events
+        assignments:
+          - Reading 04
+
+      - date:           Thu 09/03
+        topics:         Threads
+
+- name:     Locks, Condition Variables
+  days:
+      - date:           Tue 09/08
+        topics:         Locks
+        assignments:
+          - Reading 05
+
+      - date:           Thu 09/10
+        topics:         Condition Variables
+        
+- name:     Semaphores, Deadlock
+  days:
+      - date:           Tue 09/15
+        topics:         Semaphores
+        assignments:
+          - Reading 06
+
+      - date:           Thu 09/17
+        topics:         Deadlock
+          
+      - date:           Sat 09/19
+        assignments:
+          - Project 02
+
+- name:     "Exam 01: System Calls, Processes, Threads"
+
+- name:     Exam 01
+  days:
+      - date:           Tue 09/22
+        topics:         ''
+        items:
+          - name:       Checklist 01
+
+      - date:           Thu 09/24
+        topics:         ''
+        items:
+          - name:       Exam 01
+
+- name:   "Unit 03: Virtual Memory"
+
+- name:     Virtual Memory
+  days:
+      - date:           Tue 09/29
+        topics:         Address Spaces, Translation
+        assignments:
+          - Reading 07
+
+      - date:           Thu 10/01
+        topics:         Free-Space Management
+
+- name:     Segmentation, Paging
+  days:
+      - date:           Tue 10/06
+        topics:         Segmentation
+        assignments:
+          - Reading 08
+
+      - date:           Thu 10/08
+        topics:         Paging
+
+- name:     Caching, Swapping
+  days:
+      - date:           Tue 10/13
+        topics:         TLBs, Page Tables
+        assignments:
+          - Reading 09
+
+      - date:           Thu 10/15
+        topics:         Swapping
+      
+      - date:           Sat 10/17
+        assignments:
+          - Project 03
+
+- name:     "Unit 04: File Systems"
+
+- name:     Devices
+  days:
+      - date:           Tue 10/20
+        topics:         I/O Devices
+        assignments:
+          - Reading 10
+
+      - date:           Thu 10/22
+        topics:         RAID
+
+- name:     File Systems
+  days:
+      - date:           Tue 10/27
+        topics:         File Systems
+        assignments:    
+          - Reading 11
+
+      - date:           Thu 10/29
+        topics:         LFS, FFS
+
+- name:     Consistency and Integrity
+  days:
+      - date:           Tue 11/03
+        topics:         Consistency and Integrity
+        assignments:    
+          - Reading 12
+
+      - date:           Thu 11/05
+        topics:         ZFS, GFS
+      
+      - date:           Sat 11/07
+        assignments:
+          - Project 04
+
+- name:     "Exam 01: Virtual Memory, File Systems"
+
+- name:     Exam 02
+  days:
+      - date:           Tue 11/10
+        topics:         ''
+        items:
+          - name:       Checklist 02
+
+      - date:           Tue 11/12
+        topics:         ''
+        items:
+          - name:       Exam 02

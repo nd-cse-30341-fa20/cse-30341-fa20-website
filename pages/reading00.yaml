@@ -1,0 +1,404 @@
+title:      "Reading 00: Introduction"
+icon:       fa-book
+navigation: []
+internal:
+external:
+body:       |
+
+    **Everyone**:
+
+    Welcome to [CSE 30341 Operating System Principles], which (as the syllabus
+    states) is a course that "introduces all aspects of modern operating
+    systems", including topics such as "process structure and synchronization,
+    interprocess communication, memory management, file systems, security, I/O,
+    and distributed files systems".  What this means is that we will be
+    exploring the key ideas behind operating systems such as Linux, Windows,
+    and macOS and studying the underlying abstractions these systems provide to
+    user applications.
+
+    <div class="alert alert-info" markdown="1">
+
+    #### <i class="fa fa-bookmark"></i> TL;DR
+
+    For this week, you need to setup your [GitLab] repository, read about basic
+    hardware and operating system concepts, and submit your responses to the
+    [Reading 00 Quiz].
+
+    </div>
+
+    ## Course Overview
+
+    Last semester, most of you took the [CSE 20289 Systems Programming] course
+    where you learned about how to use a Unix system and how to program
+    applications in that environment.  Throughout the course, you experienced
+    and practiced the [Unix Philosophy]:
+
+    1. Write programs that do one thing and do it well.
+
+    2. Write programs to work together.
+
+    3. Write programs to handle text streams, because that is a universal interface.
+
+    You did this by writing [shell scripts], [Python] applications, and
+    utilities in [C].  You even wrote a webserver that took advantage of
+    multiple processes!
+
+    In this class, we will take the next step and explore what data structures,
+    algorithms, and mechanisms are necessary at the operating system level to
+    support such applications.  That is, we will discuss how the [operating
+    system kernel] provides different **abstractions** that allow us to safely
+    and efficiently execute multiple programs that communicate with each other
+    while accessing different hardware resources.  In short, we will uncover
+    the **magic** that powers the [Unix Philosophy].
+
+    For this course, we will focus on three main ideas:
+
+    1. **Virtualization**: How does the operating system represent the
+    underlying hardware resources?
+
+    2. **Concurrency**: How does the operating system coordinate multiple
+    streams of execution?
+
+    3. **Persistence**: How does the operating system organize data?
+
+    To explore these topics and apply the concepts learned in class, you will
+    implement **six programming projects** throughout the semester: implement a
+    file copying utility, implement a basic Unix [shell], implement a [message
+    bus], implement [malloc], implement [memcache], and implement a
+    [filesystem].  These projects will require some design work, extensive
+    testing, and utilization of the skills you learned in both [CSE 20289
+    Systems Programming] and **CSE 20312 Data Structures**.
+
+    Additionally, you will have weekly **reading assignments** (the first one
+    is below).  These will automatically be graded by the [continuous
+    integration] system provided by [GitLab].
+
+    Of course, there will be two exams: a **midterm exam** before Fall Break
+    and a **final exam** during Finals Week.
+
+    [CSE 20289 Systems Programming]:    https://www3.nd.edu/~pbui/teaching/cse.20289.sp19/
+    [Unix Philosophy]:      https://en.wikipedia.org/wiki/Unix_philosophy
+    [shell scripts]:        https://en.wikipedia.org/wiki/Shell_script
+    [Python]:               https://www.python.org/
+    [C]:                    https://en.wikipedia.org/wiki/C_(programming_language)
+    [operating system kernel]: https://en.wikipedia.org/wiki/Kernel_(operating_system)
+    [message bus]:  https://en.wikipedia.org/wiki/Message_queue
+    [memcache]:     http://memcached.org/
+    [malloc]:       http://man7.org/linux/man-pages/man3/malloc.3.html
+    [filesystem]:   https://en.wikipedia.org/wiki/File_system
+    [continuous integration]: https://en.wikipedia.org/wiki/Continuous_integration
+    [shell]: https://en.wikipedia.org/wiki/Unix_shell
+
+    ## Task 1: GitLab
+
+    For this week, your first task is to setup your [GitLab] repository by doing the following:
+
+    1. **Fork** the class assignments repository:
+      [cse-30341-fa19-assignments](https://gitlab.com/nd-cse-30341-fa19/cse-30341-fa19-assignments)
+
+        <div class="thumbnail">
+        <img src="static/img/gitlab-fork.png" class="img-responsive"/>
+        </div>
+
+    2. **Configure** the **Settings** of your repository such that:
+
+        - Under **General** > **Project description (optional)**, record your name and netid.
+
+            <div class="thumbnail">
+            <img src="static/img/gitlab-project-description.png" class="img-responsive"/>
+            </div>
+
+        - Under **Permissions** > **Project visibility**, select **Private**.
+
+            <div class="thumbnail">
+            <img src="static/img/gitlab-project-visibility.png" class="img-responsive"/>
+            </div>
+
+    3. **Add** the instructional staff to your repository:
+
+        - Under **Project members**, select the ***Add member** tab.
+
+        - Under **Project members** > **Select member to invite**, enter in
+          the following accounts:
+
+            1. Peter Bui (**@pbui**)
+            2. Edoardo Bianchi (**@ebianchi98**)
+            3. Emily Strout (**@estrout**)
+            4. Joo Yun (Rosa) Kim (**@jkim63**)
+            5. Kathleen Capella (**@kcapella**)
+            6. Kathleen Liebscher (**@KTLiebscher**)
+            7. Logan Yokum (**@lyokum**)
+            8. <p>William Diederich (**@wdiederi**)</p>
+
+        - Under **Project members** > **Choose a role permission**, select
+          **Maintainer**.
+
+        - Under **Project members** > **Access expiration date**, select
+          **December 31, 2019** (`2019-12-31`).
+
+        <div class="thumbnail">
+        <img src="static/img/gitlab-project-members.png" class="img-responsive"/>
+        </div>
+
+    4. Once this is done, you can [clone] your [git] repository to your local machine:
+
+            :::bash
+            $ git clone https://gitlab.com/$USERNAME/cse-30341-fa19-assignments.git
+
+        **Note**: If you have not done so already, you should consider setting
+        up [SSH Keys](https://docs.gitlab.com/ce/ssh/README.html) on [GitLab]
+        to enable password-less pushing and pulling.
+
+
+    [clone]:    https://git-scm.com/docs/git-clone
+    [git]:      https://git-scm.com/
+
+    <div class="alert alert-danger" markdown="1">
+    #### <i class="fa fa-gitlab"></i> GitLab Repository
+
+    You are responsible for ensuring that your [GitLab] assignments repository
+    is in proper order, which means you have the correct settings and
+    permissions set.  Failure to properly configure your repository will
+    adversely impact your grade.
+
+    </div>
+
+    ## Task 2: Reading
+
+    The readings for **Tuesday, August 21** are
+
+    1. [Operating Systems: Three Easy Pieces]
+
+        1. [A Dialogue on the Book](http://pages.cs.wisc.edu/~remzi/OSTEP/dialogue-threeeasy.pdf)
+        2. <p>[Introduction to Operating Systems](http://pages.cs.wisc.edu/~remzi/OSTEP/intro.pdf)</p>
+
+    2. [Inside the Linux boot process](https://www.ibm.com/developerworks/library/l-linuxboot/index.html)
+
+        **Optional**: [6 Stages of Linux Boot Process (Startup
+        Sequence)](http://www.thegeekstuff.com/2011/02/linux-boot-process/),
+        [An introduction to the Linux boot and startup
+        processes](https://opensource.com/article/17/2/linux-boot-and-startup),
+        and [Kernel Boot
+        Process](https://0xax.gitbooks.io/linux-insides/content/Booting/)
+
+    3. [Git Branching](https://git-scm.com/docs/git-branch)
+
+        *Consider doing the [Learning Git
+        Branching](http://learngitbranching.js.org/) tutorial if you are not
+        familiar with branching.*
+
+    **Note**: Don't worry if you don't get the readings done by Tuesday, as
+    this is the first week of class.
+
+    ## Task 3: Quiz
+
+    Once you have done the readings, answer the following [Reading 00 Quiz]
+    questions:
+
+    <div id="quiz-questions"></div>
+
+    <div id="quiz-responses"></div>
+
+    <script src="static/js/dredd-quiz.js"></script>
+    <script>
+    loadQuiz('static/json/reading00.json');
+    </script>
+
+    To submit your answers, you will need create a `answers.json` or
+    `answers.yaml` file in the `reading00` folder of your **assignments**
+    repository:
+
+    1. For this class, you must use a **separate [git] branch for each
+    assignment**.  This means that the work for each reading and challenge must
+    be done in a separate branch.  To create and checkout a new branch, you can
+    do the following:
+
+            :::bash
+            $ git checkout master         # Make sure we are in master branch
+            $ git pull --rebase           # Make sure we are up-to-date with GitLab repository
+
+            $ git checkout -b reading00   # Create reading00 branch and check it out
+
+        Once you do the above, you should see the following output for the
+        [git-branch] command:
+
+            :::bash
+            $ git branch
+              master
+            * reading00
+
+        The `*` indicates that we are currently on the `reading00` branch.
+
+    2. You can either hand-write the `answers` file using your favorite text
+    editor or you can use the online form to generate the [JSON] data.
+
+        A hand-written `answers.yaml` may look like the following:
+
+            :::text
+            q1: [telemetry]
+            q2:
+              - scalability
+              - processor
+              - mouse
+              - keyboard
+
+            q3:
+              - functions
+              - call
+              - awesome
+              - lame
+
+            q4: toomanythreads
+
+            q5:
+              - iOS
+              - monitoring
+              - iphones
+              - NSA
+
+            q6: [init, bios, kernel, bootloader, mbr]
+
+        The equivalent `answers.json` generated using the online form may look
+        like the following:
+
+            :::json
+            {
+              "q1": "telemetry",
+              "q2": [
+                "scalability",
+                "processor",
+                "mouse",
+                "keyboard"
+              ],
+              "q3": [
+                "functions",
+                "call",
+                "awesome",
+                "lame"
+              ],
+              "q4": "toomanythreads",
+              "q5": [
+                "iOS",
+                "monitoring",
+                "iphones",
+                "NSA"
+              ],
+              "q6": [
+                "init",
+                "bios",
+                "kernel",
+                "bootloader",
+                "mbr"
+              ]
+            }
+
+        You may use either format.  To determine which symbols correspond to
+        which response, take a look at the [Reading 00 Quiz] file.
+
+        To check your answers, you can use the provided `.scripts/submit.py`
+        script:
+
+            :::bash
+            $ cd reading00                        # Go into reading00 folder
+            $ $EDITOR answers.json                # Edit your answers.json file
+
+            $ ../.scripts/submit.py               # Submit reading00
+            Submitting reading00 assignment ...
+            Submitting reading00 quiz ...
+                  Q1 0.00
+                  Q2 0.12
+                  Q3 0.00
+                  Q4 0.00
+                  Q5 0.00
+                  Q6 0.10
+               Score 0.23
+
+        This script will submit your `reading00/answers.json` file to [dredd],
+        which is the automated grading system.  [dredd] will take your answers
+        and return to you a score as shown above.  Each reading is worth
+        **3.0** points.
+
+        **Note**: You may submit your quiz answers as many times as you want;
+        [dredd] does not keep track of who submits what or how many times.  It
+        simply returns a score.
+
+    3. Once you have your answers file, you need to add, commit the file, and
+    push your commits to [GitLab]:
+
+            :::bash
+            $ git add answers.json                # Add answers.json to staging area
+            $ git commit -m "Reading 00: Done"    # Commit work
+
+            $ git push -u origin reading00        # Push branch to GitLab
+
+        **Note**: You may edit and commit changes to your branch as many times
+        as you wish.  Just make sure all of your work goes in the appropriate
+        branch and then perform a `git push` when you are done.
+
+    4. When you are ready for your final submission, you need to [create a merge request]
+        via the [GitLab] interface:
+
+
+        - First, go to your repository's **Branches** page and then press the
+        **Merge Request** button for the appropriate branch:
+
+            <div class="thumbnail">
+            <img src="static/img/gitlab-branches.png" class="img-responsive"/>
+            </div>
+
+        - Next, click on the "Change branches" link so you can set the **Target
+          branch** to your own repository (rather than the class repository).
+
+            <div class="thumbnail">
+            <img src="static/img/gitlab-new-merge-request.png" class="img-responsive"/>
+            </div>
+
+            Failure to select your own repository will lead to you
+            unintentionally sharing your answers to the class, so please make
+            sure you select your repository and not the class one.
+
+        - Finally, assign the merge request to the appropriate TA (reference
+          the [Reading 00 TA List]) and submit the merge request.
+
+            <div class="thumbnail">
+            <img src="static/img/gitlab-merge-request.png" class="img-responsive"/>
+            </div>
+
+        Every commit on [GitLab] will automatically submit your quiz or code to
+        [dredd] and the results of each run is displayed in the merge request
+        as a **Pipeline** task.  To view the results of the submission, click
+        on the **Pipeline** number and then the **test** button.  You should
+        then be able to see the results of the automated test, which should
+        look something like this:
+
+        <div class="thumbnail">
+        <img src="static/img/gitlab-pipeline.png" class="img-responsive"/>
+        </div>
+
+    Once you have made the merge request, the TA can verify your work and
+    provide feedback via the discussion form inside the merge request.  If
+    necessary, you can update your submission by simply commit and pushing to
+    the appropriate branch; the merge request will automatically be updated to
+    match your latest work.
+
+    When all work is complete, the TA will merge your branch and close the
+    merge request.
+
+    <div class="alert alert-danger" markdown="1">
+    #### <i class="fa fa-gitlab"></i> Merge Requests
+
+    Please do not accept or close your own merge requests.  Doing so will
+    confuse the graders, who use the list of open merge requests to know who to
+    grade.
+
+    </div>
+
+    [CSE 30341 Operating System Principles]:    index.html
+    [Operating Systems: Three Easy Pieces]:     http://pages.cs.wisc.edu/~remzi/OSTEP/
+    [GitLab]:                               https://gitlab.com
+    [Reading 00 Quiz]:                      static/json/reading00.json
+    [JSON]:                                 http://www.json.org/
+    [git-branch]:                           https://git-scm.com/docs/git-branch
+    [dredd]:                                https://dredd.h4x0r.space
+    [create a merge request]:               https://docs.gitlab.com/ee/gitlab-basics/add-merge-request.html
+    [Reading 00 TA List]:                   reading00_tas.html
