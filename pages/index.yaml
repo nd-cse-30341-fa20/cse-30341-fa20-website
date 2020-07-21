@@ -44,8 +44,9 @@ body:       |
     - **Discuss**  how operating systems provide abstractions for
       virtualization, concurrency, and persistence.
 
-    - **Construct** applications that utilize processes, threads, and sockets
-      to solve problems requiring concurrent or parallel computation.
+    - **Construct** applications that utilize processes, threads, interprocess
+      communication, and synchronization primitives to solve problems requiring
+      concurrent or parallel computation.
 
     - **Explain** how resources such as cpu time and memory are allocated and
       managed by the operating system.
