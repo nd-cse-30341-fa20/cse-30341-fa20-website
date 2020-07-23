@@ -78,6 +78,9 @@ body:       |
 
             <dt><i class="fa fa-home"></i> Location</dt>
             <dd>141 DeBartolo Hall</dd>
+            
+            <dt><i class="fa fa-video-camera"></i> Zoom Meeting</dt>
+            <dd><a href="https://notredame.zoom.us/j/96468934558">964 6893 4558</a></dd>
 
             <dt><i class="fa fa-envelope"></i> Mailing List (Class)</dt>
             <dd><a href="mailto:fa20-cse-30341-01-group@nd.edu">fa20-cse-30341-01-group@nd.edu</a></dd>
