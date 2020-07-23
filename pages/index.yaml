@@ -277,7 +277,7 @@ body:       |
                     <td class="text-center">4 &times; 30</td>
                 </tr>
                 <tr>
-                    <td><span class="label label-danger">Exams</span> Two in-class Exams.</td>
+                    <td><span class="label label-danger">Exams</span> Two timed exams.</td>
                     <td class="text-center">2 &times; 60</td>
                 </tr>
                 <tr>
@@ -348,9 +348,10 @@ body:       |
                   submitted to your own <b>private</b> <a
                   href="https://github.com">GitHub</a> repository.  Unless
                   specified otherwise:
+                </p>
+                <p>
                 <ul>
                 <li><b>Readings</b> are due by <b>noon</b> on the <b>Monday</b> of each week.</li>
-                <br>
                 <li><b>Projects</b> are due by <b>noon</b> on the <b>Saturday</b> of each week.</li>
                 </ul>
                 </p>
@@ -500,7 +501,44 @@ body:       |
             </div>
         </div>
     </div>
+    
+    <div class="row">
+        <div class="col-md-10 col-md-offset-1">
+            <div class="alert alert-warning">
+            <h4><i class="fa fa-medkit"></i> Health and Safety Protocols</h4>
+            <p>In this class, as elsewhere on campus, <b>students must comply with
+            all University health and safety protocols</b>, including:</p>
+            <p>
+            <ul>
+            <li>Face masks that completely cover the nose and mouth will be
+            worn by all students and instructors.</li>
 
+            <li>Physical distancing will be maintained in all instructional spaces.</li>
+
+            <li>Students will sit in assigned seats throughout the semester, which
+            will be documented by faculty for purposes of any needed contact
+            tracing.</li>
+
+            <li>Protocols for staged entry to and exit from classrooms and
+            instructional spaces will be followed.</li>
+            </ul>
+            </p>
+
+            <p>We are part of a community of learning in which compassionate
+            care for one another is part of our spiritual and social charter.
+            Consequently, compliance with these protocols is an expectation for
+            everyone enrolled in this course. If a student refuses to comply
+            with the University’s health and safety protocols, the student must
+            leave the classroom and will earn an unexcused absence for the
+            class period and any associated assignments/assessments for the
+            day. Persistent deviation from expected health and safety
+            guidelines may be considered a violation of the University’s <a
+            href="https://dulac.nd.edu/community-standards/standards/">"Standards
+            of Conduct,”</a> as articulated in <a href="https://dulac.nd.edu/">du Lac: A
+            Guide for Student Life</a>, and will be referred accordingly.</p>
+            </div>
+        </div>
+    </div>
 
     <div class="row">
         <div class="page-header">
