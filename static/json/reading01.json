@@ -1,0 +1,49 @@
+{
+    "q1": {
+        "type": "multiple", 
+        "question": "\n<strong>\n\nAccording to the authors of \"Operating Systems: Three Easy Pieces\", what\nare the three key ideas in Operating Systems?\n\n</strong>\n", 
+        "responses": {
+            "telemetry": "Telemetry", 
+            "scalability": "Scalability", 
+            "virtualization": "Virtualization", 
+            "concurrency": "Concurrency", 
+            "performance": "Performance", 
+            "security": "Security", 
+            "persistence": "Persistence", 
+            "userexperience": "User Experience"
+        }
+    }, 
+    "q3": {
+        "type": "blank", 
+        "question": "\n<strong>\n\nUser applications interact with the OS via ____, which are initiated\nthrough a special hardware instruction called a ____.  During one of these\nservice requests, we transition from ____ mode to ____ mode.\n\n</strong>\n"
+    }, 
+    "q2": {
+        "type": "blank", 
+        "question": "\n<strong>\n\n____ is when the OS takes a physical resource (such as the ____, or ____,\nor a ____) and transforms it into a more general, powerful, and easy-to-use\nform.\n\n</strong>\n"
+    }, 
+    "q5": {
+        "type": "blank", 
+        "question": "\n<strong>\n\nWith the advent of ____ it became possible to run multiple jobs at a time\nand thus improve CPU ____.  Because the OS now had to manage multiple\ntasks, it became necessary to provide ____ so one program would not be able\nto access the memory of another program.  Moreover, having multiple\napplications running at the same time means the OS has to provide\nmechanisms and policies for dealing with ____ issues.\n\n</strong>\n"
+    }, 
+    "q4": {
+        "type": "single", 
+        "question": "<strong>\n\nWhy does the program <code>threads.c</code> in Figure 2.5 generate the\nwrong output when ran with a large number of threads?\n\n</strong>\n", 
+        "responses": {
+            "toomanythreads": "Too many threads lead to resource exhaustion.", 
+            "atomicops": "The counter is not incremented atomically.", 
+            "nullpointers": "The code uses NULL pointers which is incorrect.", 
+            "globalvariables": "Each thread has its own global variable, so the counter is not updated properly."
+        }
+    }, 
+    "q6": {
+        "type": "order", 
+        "question": "\n<strong>\nOrder the following stages of a typical x86 boot sequence from first to last.\n</strong>\n", 
+        "responses": {
+            "bios": "BIOS", 
+            "init": "Init System", 
+            "bootloader": "Bootloader", 
+            "mbr": "Master Boot Record (MBR)", 
+            "kernel": "OS Kernel"
+        }
+    }
+}
