@@ -5,7 +5,7 @@ import random
 import glob
 import yaml
 
-TAS      = [ta['gitlab'] for ta in yaml.safe_load(open('static/yaml/ta.yaml'))]
+TAS      = [ta['github'] for ta in yaml.safe_load(open('static/yaml/ta.yaml'))]
 STUDENTS = []
 
 for student in csv.DictReader(open('static/csv/students.csv', 'rU')):
