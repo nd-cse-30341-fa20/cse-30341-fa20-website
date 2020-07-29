@@ -1,0 +1,63 @@
+{
+    "q1": {
+        "type": "blank",
+        "question": "\n<strong>\n\nModern operating systems use a basic technique known as ____, which allows\nusers to run as many concurrent processes as they would like on a single\n____.  To do this, the OS will need to employ low-level ____ or methods\nsuch as a ____, which gives the OS the ability to stop one program and start\nanother on a given CPU.  Additionally, on top of these methods, the OS will\nneed to provide intelligence in the form of ____ or algorithms that make\ndecisions within the OS.\n\n</strong>\n"
+    },
+    "q2": {
+        "type": "multiple",
+        "question": "\n<strong>\n\nAfter a <code>fork()</code>, both the parent and the child processes are\nalmost exactly the same except they have different (choose all that apply):\n\n</strong>\n",
+        "responses": {
+            "address": "Address spaces",
+            "registers": "Registers",
+            "code": "Program code",
+            "pid": "Process identifiers (PID)",
+            "uid": "User identifier (UID)"
+        }
+    },
+    "q3": {
+        "type": "multiple",
+        "question": "\n<strong>\n\nWhen a program is executed, the operating system must do which of the\nfollowing tasks (choose all that apply)?\n\n</strong>\n",
+        "responses": {
+            "kill": "Kill an existing process.",
+            "fs": "Allocate space on the hard drive.",
+            "code": "Load code and static data in memory.",
+            "stack": "Create and initialize the stack and heap.",
+            "io": "Setup I/O or file descriptors.",
+            "main": "Jump to the <tt>main()</tt> routine.",
+            "compile": "Compile the code.",
+            "init": "Signal the init process."
+        }
+    },
+    "q4": {
+        "type": "blank",
+        "question": "\n<strong>A process be in three different states:</strong>\n\n<ol>\n\n  <li><b>The ____ state is where a process can be ran, but for some reason\n  the OS has chosen not to run it at the current moment.</b></li>\n\n  <li><b>The ____ state is where a process has performed some kind of\n  operation that makes it unavailable to be ran until another even takes\n  place.</b></li>\n\n  <li><b>The ____ state is where a process is actively executing on a processor</b></li>\n\n</ol>\n"
+    },
+    "q5": {
+        "type": "order",
+        "question": "\n<strong>\n\nSuppose our user application wishes to open a file for reading.  Order the\nfollowing events:\n\n</strong>\n",
+        "responses": {
+            "syscall": "User application calls <tt>open()</tt> system call.",
+            "trap": "Hardware receives trap.",
+            "registers": "Hardware saves registers to kernel stack.",
+            "kernelmode": "Hardware moves to kernel mode.",
+            "jump": "Hardware jumps to trap handler.",
+            "handler": "OS handles trap by doing work of syscall.",
+            "return": "OS returns-from-trap."
+        }
+    },
+    "q6": {
+        "type": "blank",
+        "question": "\n<strong>\n\nOn early versions of the Macintosh operating system, the OS used a ____\napproach where the OS trusts the processes of the system to behave\nreasonably.  Of course, this was a terrible idea, so modern operating\nsystems now utilize a ____ to raise a CPU exception, halt the current\nprocess, and load a pre-configured ____ in the OS.  When this happens, the\n____ needs to make a decision on which process to run next.  If it chooses\nto execute another process, then the OS must perform a ____.\n</strong>\n"
+    },
+    "q7": {
+        "type": "multiple",
+        "question": "<strong>\n\nDuring a context switch, what information must be saved and restored\n(choose all that apply)?\n\n</strong>\n",
+        "responses": {
+            "registers": "General purpose registers",
+            "pc": "Program counter",
+            "ksp": "Kernel stack pointer",
+            "files": "Open files",
+            "memory": "Address space"
+        }
+    }
+}

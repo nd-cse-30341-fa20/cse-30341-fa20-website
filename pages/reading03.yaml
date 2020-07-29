@@ -1,0 +1,201 @@
+title:      "Reading 03: Scheduling"
+icon:       fa-book
+navigation: []
+internal:
+external:
+body:       |
+
+    **Everyone**:
+
+    Now that we have examined what a [process] is, we now need to explore how
+    the operating system decides which [process] to run during a [context
+    switch].  To do this, the operating system can employ a variety of
+    [scheduling] algorithms that try to balance competing goals and metrics.
+
+    <div class="alert alert-info" markdown="1">
+
+    #### <i class="fa fa-search"></i> TL;DR
+
+    For this reading assignment, you are to read about [scheduling] with a
+    focus on the [FIFO], [SJF], [STCF], [Round Robin], [MLFQ], and [Lottery]
+    algorithms, submit your responses to the [Reading 03 Quiz], and modify your
+    program to use [fork] to compute [SHA1] digests concurrently.
+
+    </div>
+
+    [scheduling]:       https://en.wikipedia.org/wiki/Scheduling_(computing)#Process_scheduler
+    [FIFO]:             https://en.wikipedia.org/wiki/Scheduling_(computing)#First_come.2C_first_served
+    [SJF]:              https://en.wikipedia.org/wiki/Scheduling_(computing)#Shortest_remaining_time_first
+    [STCF]:             https://en.wikipedia.org/wiki/Shortest_remaining_time
+    [Round Robin]:      https://en.wikipedia.org/wiki/Scheduling_(computing)#Round-robin_scheduling
+    [MLFQ]:             https://en.wikipedia.org/wiki/Scheduling_(computing)#Multilevel_queue_scheduling
+    [Lottery]:          https://en.wikipedia.org/wiki/Lottery_scheduling
+    [process]:          https://en.wikipedia.org/wiki/Process_(computing)
+    [context switch]:   https://en.wikipedia.org/wiki/Context_switch
+    [SHA1]:             https://en.wikipedia.org/wiki/SHA-1
+    [fork]:             https://www.man7.org/linux/man-pages/man2/fork.2.html
+
+    ## Reading
+
+    <img src="static/img/ostep.jpg" class="pull-right">
+
+    The readings for this week are:
+
+    1. [Operating Systems: Three Easy Pieces]
+
+        1. [Scheduling: Introduction](http://pages.cs.wisc.edu/~remzi/OSTEP/cpu-sched.pdf)
+        2. [Scheduling: MLFQ](http://pages.cs.wisc.edu/~remzi/OSTEP/cpu-sched-mlfq.pdf)
+        3. [Scheduling: Lottery](http://pages.cs.wisc.edu/~remzi/OSTEP/cpu-sched-lottery.pdf)
+        4. <p>[Scheduling: MP](http://pages.cs.wisc.edu/~remzi/OSTEP/cpu-sched-multi.pdf)</p>
+
+    [Linux]:    https://kernel.org
+
+    ## Quiz
+
+    Once you have done the readings, answer the following [Reading 03 Quiz]
+    questions:
+
+    <div id="quiz-questions"></div>
+
+    <div id="quiz-responses"></div>
+
+    <script src="static/js/dredd-quiz.js"></script>
+    <script>
+    loadQuiz('static/json/reading03.json');
+    </script>
+
+    ## Program
+
+    For this week's program, you are to modify the `program.c` from [Reading
+    02] such that you use a separate child [process] to compute the [SHA1]
+    digest for each argument.  In other words, for each file argument, you need
+    to [fork] a child process that computes and displays the [SHA1] digest of
+    the contents of the file.  The parent should collect the exit statuses of
+    its children and return `0` if all children are successful.  Otherwise, it
+    should return the number of children that failed as its own exit status.
+
+    ### Example
+
+    The usage and output of your program should be the same as [sha1sum]:
+
+        :::bash
+        $ ./program Makefile  # Compute SHA1 of Makefile
+        50bb7f7ccf1ca089f3c5eaff5fe95e56ddbe53a5  Makefile
+
+        $ echo $?             # Check exit status
+        0
+
+        $ ./program asdf      # Handle invalid files
+
+        $ echo $?             # Check exit status
+        1
+
+    ### Requirements
+
+    - You may only use I/O system calls such as [open], [read], and [close] to
+      access the contents of each file.
+
+    - You must use the `SHA1_Init`, `SHA1_Update1`, and `SHA1_Final` functions
+      provided by [OpenSSL].
+
+    - You must not have any resource leaks or memory errors as detected by
+      [valgrind].
+
+    - You must use [fork] and [wait] and [WEXITSTATUS].
+
+    - Each child process must run concurrently (ie. without waiting for another
+      process).
+
+    <div class="alert alert-warning" markdown="1">
+    **Note**: To link properly to the [SHA1] functions, you will need to add
+      `-lcrypto` to the `LIBS` variable in your `Makefile`.
+    </div>
+
+    ## Submission
+
+    To submit you work, follow the same process outlined in [Reading 01]:
+
+        :::bash
+        $ git checkout master                 # Make sure we are in master branch
+
+        $ git pull --rebase                   # Make sure we are up-to-date with GitHub
+
+        $ git checkout -b reading03           # Create reading03 branch and check it out
+
+        $ cd reading03                        # Go into reading03 folder
+        $ $EDITOR answers.json                # Edit your answers.json file
+
+        $ ../.scripts/submit.py               # Check reading03 quiz
+        Submitting reading03 assignment ...
+        Submitting reading03 quiz ...
+              Q1 0.50
+              Q2 0.50
+              Q3 0.20
+              Q4 0.30
+              Q5 0.70
+              Q6 0.50
+              Q7 0.30
+           Score 3.00
+
+        $ git add answers.json                # Add answers.json to staging area
+        $ git commit -m "Reading 03: Quiz"    # Commit work
+
+        $ $EDITOR program.c                   # Edit your program.c file
+
+        $ make test-program                   # Check reading03 program
+        Testing reading03 program...
+         I/O System Calls                                             ... Success
+         I/O Functions                                                ... Success
+         SHA1 Functions                                               ... Success
+         Process System Calls                                         ... Success
+         program                                                      ... Success
+         program (valgrind)                                           ... Success
+         program Makefile                                             ... Success
+         program Makefile (valgrind)                                  ... Success
+         program Makefile README.md                                   ... Success
+         program Makefile README.md (valgrind)                        ... Success
+         program Makefile README.md program.c                         ... Success
+         program Makefile README.md program.c (valgrind)              ... Success
+         program Makefile README.md program.c asdf                    ... Success
+         program Makefile README.md program.c asdf (valgrind)         ... Success
+           Score 3.00
+
+        $ git add program.c                   # Add program.c to staging area
+        $ git commit -m "Reading 03: Quiz"    # Commit work
+
+        $ git push -u origin reading03        # Push branch to GitHub
+
+    <div class="alert alert-success" markdown="1">
+    #### <i class="fa fa-github"></i> Pull Request
+
+    Once you have committed your work and pushed it to [GitHub], remember to
+    create a **pull request** and assign it to the appropriate **teaching
+    assistant** from the [Reading 03 TA List].
+
+    </div>
+
+    [Operating Systems: Three Easy Pieces]:     http://pages.cs.wisc.edu/~remzi/OSTEP/
+    [Reading 01]:             reading01.html
+    [Reading 02]:             reading02.html
+    [Reading 03 Quiz]:        static/json/reading03.json
+    [JSON]:                   http://www.json.org/
+    [git-branch]:             https://git-scm.com/docs/git-branch
+    [dredd]:                  https://dredd.h4x0r.space
+    [GitHub]:                 https://github.com
+    [valgrind]:               https://www.valgrind.org/
+
+    [Reading 03 TA List]:     reading03_tas.html
+
+    [system calls]:     https://en.wikipedia.org/wiki/System_call
+    [processes]:        https://en.wikipedia.org/wiki/Process_(computing)
+    [open]:             http://man7.org/linux/man-pages/man2/open.2.html
+    [read]:             http://man7.org/linux/man-pages/man2/read.2.html
+    [close]:            http://man7.org/linux/man-pages/man2/close.2.html
+    [fork]:             http://man7.org/linux/man-pages/man2/fork.2.html
+    [wait]:             http://man7.org/linux/man-pages/man2/wait.2.html
+    [WEXITSTATUS]:      http://man7.org/linux/man-pages/man2/wait.2.html
+    [SHA1]:             https://en.wikipedia.org/wiki/SHA-1
+    [sha1sum]:          https://man7.org/linux/man-pages/man1/sha1sum.1.html
+    [processes]:        https://en.wikipedia.org/wiki/Process_(computing)
+    [context switch]:   https://en.wikipedia.org/wiki/Context_switch
+    [OpenSSL]:          https://www.openssl.org
