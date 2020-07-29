@@ -162,7 +162,7 @@ body:       |
 
     ## Submission
 
-    To submit you work, follow the same process outlined in [Reading 00]:
+    To submit you work, follow the same process outlined in [Reading 01]:
 
         :::bash
         $ git checkout master                 # Make sure we are in master branch
@@ -223,7 +223,7 @@ body:       |
     </div>
 
     [Operating Systems: Three Easy Pieces]:     http://pages.cs.wisc.edu/~remzi/OSTEP/
-    [Reading 00]:             reading00.html
+    [Reading 01]:             reading01.html
     [Reading 02 Quiz]:        static/json/reading02.json
     [JSON]:                   http://www.json.org/
     [git-branch]:             https://git-scm.com/docs/git-branch
