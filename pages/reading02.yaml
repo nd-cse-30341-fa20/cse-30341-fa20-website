@@ -122,7 +122,7 @@ body:       |
     the `hash_from_file`.  Note, we are interested in computing the [SHA1]
     digest.
 
-    You will want your code to be structured as so:
+    You will want your code to be structured in the following manner:
 
         :::text
         function sha1sum_file(path, cksum):
@@ -139,9 +139,8 @@ body:       |
 
         function main(arguments):
           For each argument:
-              Compute SHA1 Digest
-              Display SHA1 Digest
-
+              Compute SHA1 Digest using sha1sum_file
+              Display SHA1 Digest in hexadecimal
 
     <div class="alert alert-warning" markdown="1">
     **Note**: To link properly to the [SHA1] functions, you will need to add
