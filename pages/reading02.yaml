@@ -104,14 +104,16 @@ body:       |
 
     ### Requirements
 
-    - You may only use I/O system calls such as [open], [read], and [close] to
-      access the contents of each file.
+    - Your program must compile cleanly with no warnings.
 
-    - You must use the `SHA1_Init`, `SHA1_Update1`, and `SHA1_Final` functions
-      provided by [OpenSSL].
+    - Your program may only use I/O system calls such as [open], [read], and
+      [close] to access the contents of each file.
 
-    - You must not have any resource leaks or memory errors as detected by
-      [valgrind].
+    - Your program must use the `SHA1_Init`, `SHA1_Update1`, and `SHA1_Final`
+      functions provided by [OpenSSL].
+
+    - Your program must not have any resource leaks or memory errors as
+      detected by [valgrind].
 
     ### Hints
 
