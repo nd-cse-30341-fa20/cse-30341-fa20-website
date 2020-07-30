@@ -92,16 +92,18 @@ body:       |
 
     ### Requirements
 
-    - You may only use I/O system calls such as [open], [read], and [close] to
-      access the contents of each file.
+    - Your code must compile cleanly with no warnings.
 
-    - You must use the `SHA1_Init`, `SHA1_Update1`, and `SHA1_Final` functions
-      provided by [OpenSSL].
+    - Your program may only use I/O system calls such as [open], [read], and
+      [close] to access the contents of each file.
 
-    - You must not have any resource leaks or memory errors as detected by
-      [valgrind].
+    - Your program must use the `SHA1_Init`, `SHA1_Update1`, and `SHA1_Final`
+      functions provided by [OpenSSL].
 
-    - You must use [fork] and [wait] and [WEXITSTATUS].
+    - Your program must not have any resource leaks or memory errors as
+      detected by [valgrind].
+
+    - Your program must use [fork] and [wait] and [WEXITSTATUS].
 
     - Each child process must run concurrently (ie. without waiting for another
       process).
@@ -109,6 +111,29 @@ body:       |
     <div class="alert alert-warning" markdown="1">
     **Note**: To link properly to the [SHA1] functions, you will need to add
       `-lcrypto` to the `LIBS` variable in your `Makefile`.
+    </div>
+
+    ### Hints
+
+    You should not need to modify your original `sha1sum_file` function from
+    [Reading 02].  Instead, you should modify the `main` function as follows:
+
+        :::text
+        function main():
+            For each argument:
+                Create child process to:
+                    Compute SHA1 Digest using sha1sum_file
+                    Display SHA1 Digest in hexadecimal
+
+            For each argument:
+                Wait for each child and update the overall program status
+
+    <div class="alert alert-danger" markdown="1">
+    #### <i class="fa fa-bomb"></i> Fork Bomb
+
+    Make sure you terminate the child process properly, otherwise you may end
+    up in a situation where you create a [fork bomb].
+
     </div>
 
     ## Submission
@@ -199,3 +224,4 @@ body:       |
     [processes]:        https://en.wikipedia.org/wiki/Process_(computing)
     [context switch]:   https://en.wikipedia.org/wiki/Context_switch
     [OpenSSL]:          https://www.openssl.org
+    [fork bomb]:        https://en.wikipedia.org/wiki/Fork_bomb
