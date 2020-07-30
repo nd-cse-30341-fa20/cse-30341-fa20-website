@@ -229,6 +229,8 @@ body:       |
     8. There is no video capture for this class.
     9. Students may consult online references or copy from resources if properly cited.
     10. Students may consult or copy from solutions found online or from other students.
+    11. Students must wear a mask in class.
+    12. Students may change where they sit in class whenever they want.
 
     <div class="alert alert-success" markdown="1">
     **Note**: Simply print `True` or `False` for each question (each answer on its own line with no trailing space).
