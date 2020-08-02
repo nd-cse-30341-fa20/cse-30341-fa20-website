@@ -1,63 +1,69 @@
 {
     "q1": {
         "type": "blank",
-        "question": "\n<strong>\n\nModern operating systems use a basic technique known as ____, which allows\nusers to run as many concurrent processes as they would like on a single\n____.  To do this, the OS will need to employ low-level ____ or methods\nsuch as a ____, which gives the OS the ability to stop one program and start\nanother on a given CPU.  Additionally, on top of these methods, the OS will\nneed to provide intelligence in the form of ____ or algorithms that make\ndecisions within the OS.\n\n</strong>\n"
+        "question": "\n<strong>\n\nIn order to create a ____ policy or ____, we first need to consider our\ntypical ____ or collection of processes running in the system.\nAdditionally, we will need to determine a ____ or means of measuring the\neffectiveness of our decision-making process.  For instance, ____ is the\ntime at which the job completes minus the time at which it arrived in the\nsystem.  This is in contrast to ____ which is the time from when a job\narrives in a system to the first time it is scheduled.\n\n</strong>\n"
     },
     "q2": {
         "type": "multiple",
-        "question": "\n<strong>\n\nAfter a <code>fork()</code>, both the parent and the child processes are\nalmost exactly the same except they have different (choose all that apply):\n\n</strong>\n",
+        "question": "\n<strong>\n\nAssuming we relax assumption 1, which of the following is true about FIFO\nscheduling (choose all that apply)?\n\n</strong>\n",
         "responses": {
-            "address": "Address spaces",
-            "registers": "Registers",
-            "code": "Program code",
-            "pid": "Process identifiers (PID)",
-            "uid": "User identifier (UID)"
+            "preemption": "It requires the ability to preempt jobs.",
+            "turnaround": "It produces optimal average turnaround times.",
+            "convoy": "It can suffer from the convoy effect."
         }
     },
     "q3": {
         "type": "multiple",
-        "question": "\n<strong>\n\nWhen a program is executed, the operating system must do which of the\nfollowing tasks (choose all that apply)?\n\n</strong>\n",
+        "question": "\n<strong>\n\nAssuming we relax assumptions 1 and 2, which of the following is true about\nSJF scheduling (choose all that apply)?\n\n</strong>\n",
         "responses": {
-            "kill": "Kill an existing process.",
-            "fs": "Allocate space on the hard drive.",
-            "code": "Load code and static data in memory.",
-            "stack": "Create and initialize the stack and heap.",
-            "io": "Setup I/O or file descriptors.",
-            "main": "Jump to the <tt>main()</tt> routine.",
-            "compile": "Compile the code.",
-            "init": "Signal the init process."
+            "preemption": "It requires the ability to preempt jobs.",
+            "turnaround": "It produces optimal average turnaround times.",
+            "convoy": "It can suffer from the convoy effect."
         }
     },
     "q4": {
-        "type": "blank",
-        "question": "\n<strong>A process be in three different states:</strong>\n\n<ol>\n\n  <li><b>The ____ state is where a process can be ran, but for some reason\n  the OS has chosen not to run it at the current moment.</b></li>\n\n  <li><b>The ____ state is where a process has performed some kind of\n  operation that makes it unavailable to be ran until another even takes\n  place.</b></li>\n\n  <li><b>The ____ state is where a process is actively executing on a processor</b></li>\n\n</ol>\n"
+        "type": "multiple",
+        "question": "\n<strong>\n\nAssuming we relax assumptions 1, 2, and 3, which of the following is true\nabout STCF scheduling (choose all that apply)?\n\n</strong>\n",
+        "responses": {
+            "preemption": "It requires the ability to preempt jobs.",
+            "turnaround": "It produces optimal average turnaround times.",
+            "convoy": "It can suffer from the convoy effect."
+        }
     },
     "q5": {
-        "type": "order",
-        "question": "\n<strong>\n\nSuppose our user application wishes to open a file for reading.  Order the\nfollowing events:\n\n</strong>\n",
-        "responses": {
-            "syscall": "User application calls <tt>open()</tt> system call.",
-            "trap": "Hardware receives trap.",
-            "registers": "Hardware saves registers to kernel stack.",
-            "kernelmode": "Hardware moves to kernel mode.",
-            "jump": "Hardware jumps to trap handler.",
-            "handler": "OS handles trap by doing work of syscall.",
-            "return": "OS returns-from-trap."
-        }
+        "type": "blank",
+        "question": "\n<strong>\n\nTo improve ____, the ____ scheduling policy only runs jobs for a brief\nperiod and then switches to the next job in the run queue.  This scheduling\npolicy must take care in setting the length of the ____ in order to ____\nthe cost of ____ without making it so long that the system is no longer\nresponsive.\n\n</strong>\n"
     },
     "q6": {
         "type": "blank",
-        "question": "\n<strong>\n\nOn early versions of the Macintosh operating system, the OS used a ____\napproach where the OS trusts the processes of the system to behave\nreasonably.  Of course, this was a terrible idea, so modern operating\nsystems now utilize a ____ to raise a CPU exception, halt the current\nprocess, and load a pre-configured ____ in the OS.  When this happens, the\n____ needs to make a decision on which process to run next.  If it chooses\nto execute another process, then the OS must perform a ____.\n</strong>\n"
+        "question": "\n<strong>\n\nIn general, any policy that is ____, that is evenly divides the CPU among\nactive processes on a small time scale, will perform poorly on metrics such\nas ____ time but well on metrics such as ____ time.\n\n</strong>\n"
     },
     "q7": {
         "type": "multiple",
-        "question": "<strong>\n\nDuring a context switch, what information must be saved and restored\n(choose all that apply)?\n\n</strong>\n",
+        "question": "\n<strong>\n\nWhich of the following statements is true about the MLFQ scheduling policy\n(choose all that apply)?\n\n</strong>\n",
         "responses": {
-            "registers": "General purpose registers",
-            "pc": "Program counter",
-            "ksp": "Kernel stack pointer",
-            "files": "Open files",
-            "memory": "Address space"
+            "queues": "MLFQ uses multiple queues with different priority levels.",
+            "apriori": "MLFQ requires a priori knowledge of the processes.",
+            "roundrobin": "MLFQ uses round-robin to schedule jobs of the same priority level.",
+            "raises": "MLFQ raises the priority of a job that has used up its entire time slice.",
+            "lowers": "MLFQ lowers the priority of a job once it uses up its allotment at a given level.",
+            "sjf": "MLFQ approximates SJF because it assumes jobs are short and starts them with the highest priority.",
+            "starvation": "MLFQ overcomes the problem of starvation by periodically performing a priority boost."
         }
+    },
+    "q8": {
+        "type": "multiple",
+        "question": "\n<strong>\n\nWhich of the following statements is true about the proportional-share scheduling policy\n(choose all that apply)?\n\n</strong>\n",
+        "responses": {
+            "tickets": "Tickets represent the share of a resource a process should receive.",
+            "random": "The use of randomness is advantageous since it avoids worst case scenarios, is lightweight, and fast.",
+            "transfer": "Once allocated, a process has a constant number of tickets.",
+            "guarantee": "Proportional-share scheduling guarantees meeting desired division of work.",
+            "implementation": "This policy is simple to implement with a random number generator and a linked list that tracks the processes."
+        }
+    },
+    "q9": {
+        "type": "blank",
+        "question": "\n<strong>\n\nIn systems with multiple CPUs or cores, we must consider multiprocessor\nscheduling policies such as ____ which use multiple queues to schedule\njobs.  With these disciplines, we must be careful with ____ where one queue\nmay get more work than another.  To prevent this, we need techniques for\nperforming ____, which moves a job from one CPU to another.  ____ is one\napproach where a queue that is low on jobs will occasionally take work\nfrom another fuller queue.\n\n</strong>\n"
     }
 }
