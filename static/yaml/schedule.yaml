@@ -13,7 +13,10 @@
             link:       https://docs.google.com/presentation/d/1-OAMXWRHcKutrrfSqGJ0u20iy8FQ9ANQ67EoVyu7JNM/edit?usp=sharing
 
       - date:           Thu 08/13
-        topics:         OS Taxonomy, OS History, OS Themes
+        topics:         OS Taxonomy, History, Themes
+        items:
+          - name:       Slides
+            link:       https://docs.google.com/presentation/d/1c2GJ_6ZELVRu3qiEr5XYgaEFp_2xeFzSUa3Bj5cxCqc/edit?usp=sharing
 
 - name:     System Calls, Processes
   days:
