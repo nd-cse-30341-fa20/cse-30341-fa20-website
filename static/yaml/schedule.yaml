@@ -6,6 +6,11 @@
         topics:         Syllabus, Computer Hardware, Boot Sequence
         assignments:     
           - Reading 01
+        items:
+          - name:       Slides
+            link:       https://docs.google.com/presentation/d/18hEi9j3dOctyxd1NhvLI8v6DSjUz4DcO9O-T2ixMHW4/edit?usp=sharing
+          - name:       Slides
+            link:       https://docs.google.com/presentation/d/1-OAMXWRHcKutrrfSqGJ0u20iy8FQ9ANQ67EoVyu7JNM/edit?usp=sharing
 
       - date:           Thu 08/13
         topics:         OS Taxonomy, OS History, OS Themes
