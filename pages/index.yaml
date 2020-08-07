@@ -159,13 +159,25 @@ body:       |
     </div>
     </div>
 
-    <div class="row">
-        <div class="col-md-12">
-            <h3>Office Hours</h3>
-            <div class="thumbnail">
-                <img src="static/img/office-hours.svg">
-            </div>
-        <div>
+    <div class="row" markdown="1">
+      <div class="col-md-12" markdown="1">
+        <h3>Office Hours</h3>
+        <div class="thumbnail">
+            <img src="static/img/office-hours.svg">
+        </div>
+      <div>
+      <div class="alert alert-success" markdown="1">
+      <h4><i class="fa fa-video-camera"></i> Online Office Hours</h4>
+
+      Online office hours for the teaching assistants will take place in [Zoom
+      Meeting 954 0655 3260](https://notredame.zoom.us/j/95406553260).
+      Please use the main session for **general** questions.  If you have an
+      **individual** question, then request a private **breakout room** with
+      the teaching assistant.
+
+      If you need more individualized attention, please contact the
+      **instructor** to schedule an **appointment**.
+      </div>
     </div>
 
     <div class="row">
