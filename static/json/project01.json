@@ -1,0 +1,53 @@
+{
+    "q1": {
+        "type": "multiple",
+        "question": "\n<strong>\n\nWhich of the following statements regarding <b>system calls</b> are true\n(select all that apply)?\n\n</strong>\n",
+        "responses": {
+            "block": "When a system call occurs, the process is blocked until the kernel returns a result.",
+            "cheap": "Because system calls are handled by the kernel, they are generally fast and efficient when compared to normal function calls.",
+            "context": "A system call always leads to a context switch from one process to another.",
+            "modes": "A system call always leads to a transition from user mode to kernel mode.",
+            "trap": "One way to implement system calls is to have a user application perform a trap that is caught by the CPU.",
+            "table": "The code to handle each system call is stored in the CPU's trap table.",
+            "signal": "Each process sets up its trap table by using the <tt>signal</tt> system call."
+        }
+    },
+    "q2": {
+        "type": "multiple",
+        "question": "\n<strong>\n\nWhich of the following statements regarding <b>signals</b> are true (select\nall that apply)?\n\n</strong>\n",
+        "responses": {
+            "ignored": "Any signal can be ignored by a user process.",
+            "interrupt": "When a signal is delivered to a process, the process is interrupted and then runs the corresponding handler before returning to where it was interrupted.",
+            "signal": "Applications can send a signal to another process by using the <tt>signal</tt> system call.",
+            "kill": "Applications can send a signal to another process by using the <tt>kill</tt> system call.",
+            "syscall": "Signals can interrupt system calls such as <tt>read</tt>.",
+            "pause": "To pause another process, you can send it the <tt>SIGPAUSE</tt> signal.",
+            "cont": "To unpause another process, you can send it the <tt>SIGCONT</tt> signal."
+        }
+    },
+    "q3": {
+        "type": "multiple",
+        "question": "\n<strong>\n\nWhich of the following statements regarding <b>process states</b> are true\n(select all that apply)?\n\n</strong>\n",
+        "responses": {
+            "new": "A new process is automatically placed in the running state when it is created.",
+            "blocked": "A process can go from blocked to running when a system call completes.",
+            "running": "A process can go from running to blocked when a system call is initiated.",
+            "ready": "A process can go from blocked to ready when a system call completes.",
+            "timeslice": "A process can go from ready to running when its timeslice is up.",
+            "context": "A context switch usually occurs when a process goes from running to ready.",
+            "terminated": "A process can only be terminated when it is in the waiting state."
+        }
+    },
+    "q4": {
+        "type": "blank",
+        "question": "\n<p><strong>\n\nConsider a single-CPU, a timeslice of <tt>10 ms</tt>, and the following processes:\n\n</strong></p>\n\n<pre>\nProcess       Arrival Time        Run Time\nA             0 ms                20 ms\nB             10 ms               30 ms\nC             20 ms               10 ms\n</pre>\n\n<p>\nGiven the <b>FIFO</b> scheduling policy, sketch out when each process is in\neither the <i>waiting</i> and <i>running</i> state.\n</p>\n\n<pre>\nWaiting:              _(01)_    _(02)_    _(03)_    _(04)_\n\nRunning:    _(05)_    _(06)_    _(07)_    _(08)_    _(09)_    _(10)_\n\nTime:     0 ------ 10 ------ 20 ------ 30 ------ 40 ------ 50 ------ 60\n</pre>\n\n<!--\n<p>\n<ol>\n  <li>____</li>\n  <li>____</li>\n  <li>____</li>\n  <li>____</li>\n  <li>____</li>\n\n  <li>____</li>\n  <li>____</li>\n  <li>____</li>\n  <li>____</li>\n  <li>____</li>\n</ol>\n</p>\n//-->\n"
+    },
+    "q5": {
+        "type": "blank",
+        "question": "\n<p><strong>\n\nConsider a single-CPU, a timeslice of <tt>10 ms</tt>, and the following processes:\n\n</strong></p>\n\n<pre>\nProcess       Arrival Time        Run Time\nA             0 ms                20 ms\nB             10 ms               30 ms\nC             20 ms               10 ms\n</pre>\n\n<p>\nGiven the <b>RDRN</b> scheduling policy, sketch out when each process is in\neither the <i>waiting</i> and <i>running</i> state.\n</p>\n\n<pre>\nWaiting:              _(01)_    _(02)_    _(03)_\n\nRunning:    _(04)_    _(05)_    _(06)_    _(07)_    _(08)_    _(09)_\n\nTime:     0 ------ 10 ------ 20 ------ 30 ------ 40 ------ 50 ------ 60\n</pre>\n\n<!--\n<p>\n<ol>\n  <li>____</li>\n  <li>____</li>\n  <li>____</li>\n  <li>____</li>\n  <li>____</li>\n\n  <li>____</li>\n  <li>____</li>\n  <li>____</li>\n  <li>____</li>\n</ol>\n</p>\n//-->\n"
+    },
+    "q6": {
+        "type": "blank",
+        "question": "\n<p><strong>\n\nConsider a single-CPU, a timeslice of <tt>10 ms</tt>, and the following processes:\n\n</strong></p>\n\n<pre>\nProcess       Arrival Time        Run Time\nA             0 ms                20 ms\nB             10 ms               30 ms\nC             20 ms               10 ms\n</pre>\n\n<p>\nGiven the <b>MLFQ</b> scheduling policy, sketch out when each process is in\nthe <i>running</i> state and which <tt>queue</tt> level it is in.\n\nYou may assume that <tt>Queue 0</tt> has a timeslice of <tt>10 ms</tt> and\n<tt>Queue 1</tt> has a timeslice of <tt>20 ms</tt>.\n\n</p>\n\n<pre>\nQueue 0:    _(01)_    _(02)_    _(03)_\n\nQueue 1:              _(04)_    _(05)_    _(06)_    _(07)_    _(08)_\n\nRunning:    _(09)_    _(10)_    _(11)_    _(12)_    _(13)_    _(14)_\n\nTime:     0 ------ 10 ------ 20 ------ 30 ------ 40 ------ 50 ------ 60\n</pre>\n\n<!--\n<p>\n<ol>\n  <li>____</li>\n  <li>____</li>\n  <li>____</li>\n  <li>____</li>\n  <li>____</li>\n\n  <li>____</li>\n  <li>____</li>\n  <li>____</li>\n  <li>____</li>\n  <li>____</li>\n\n  <li>____</li>\n  <li>____</li>\n  <li>____</li>\n  <li>____</li>\n</ol>\n</p>\n//-->\n"
+    }
+}
