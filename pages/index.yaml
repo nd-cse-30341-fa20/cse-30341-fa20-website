@@ -237,6 +237,8 @@ body:       |
                       {% set item['label'] = 'danger' %}
                     {% elif item['name'].lower().startswith('checklist') %}
                       {% set item['label'] = 'warning' %}
+                    {% elif item['name'].lower().startswith('panopto') %}
+                      {% set item['label'] = 'info' %}
                     {% else %}
                       {% set item['label'] = 'default' %}
                     {% end %}
