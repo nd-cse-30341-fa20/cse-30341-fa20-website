@@ -26,9 +26,15 @@
         topics:         System Calls
         assignments:     
           - Reading 02
+        items:
+          - name:       Slides
+            link:       https://docs.google.com/presentation/d/1Dk37T_2hzv5cLzORa52KMccohaMNXvwIfTsgwIKsTos/edit?usp=sharing
 
       - date:           Thu 08/20
         topics:         Processes
+        items:
+          - name:       Slides
+            link:       https://docs.google.com/presentation/d/1xdHjO8111lhdaDX-EPJ8ASPMnnkmXzYCIzok33jd6Sg/edit?usp=sharing
 
 - name:     Scheduling
   days:
