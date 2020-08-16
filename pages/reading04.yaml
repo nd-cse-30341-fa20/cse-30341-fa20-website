@@ -1,0 +1,176 @@
+title:      "Reading 04: Events and Threads"
+icon:       fa-book
+navigation: []
+internal:
+external:
+body:       |
+
+    **Everyone**:
+
+    For the past couple of weeks, we have studied how an operating system
+    virtualizes the CPU by providing [processes] and [scheduling] policies.  By
+    enabling users to execute multiple jobs simultaneously, the OS enables
+    better utilization of the hardware and allows for more sophisticated
+    workflows.  Unfortunately, this [multiprogramming] ability comes with the
+    cost of complexity due to issues related to [concurrency].
+
+    This week we will examine both [event-based programming] and [pthreads].
+    Afterwards, we will further explore how to tackle the challenges of
+    [concurrency] with tools such as [locks], [condition variables], and
+    [semaphores].
+
+    <div class="alert alert-info" markdown="1">
+
+    #### <i class="fa fa-search"></i> TL;DR
+
+    For this reading assignment, you are to read about two forms of
+    [concurrency]: [event-based programming] via [select] and [poll], and
+    [threads] ala [pthreads], submit your responses to the [Reading 04
+    Quiz], and explore [system calls] with [strace].
+
+    </div>
+
+    [processes]: https://en.wikipedia.org/wiki/Process_(computing)
+    [scheduling]: https://en.wikipedia.org/wiki/Scheduling_(computing)
+    [concurrency]: https://en.wikipedia.org/wiki/Concurrency_(computer_science)
+    [event-based programming]: https://en.wikipedia.org/wiki/Event-driven_programming
+    [threads]: https://en.wikipedia.org/wiki/Thread_(computing)
+    [select]: http://man7.org/linux/man-pages/man2/select.2.html
+    [poll]: http://man7.org/linux/man-pages/man2/poll.2.html
+    [multiprogramming]: https://en.wikipedia.org/wiki/Computer_multitasking
+    [pthreads]: http://man7.org/linux/man-pages/man7/pthreads.7.html
+    [locks]: https://en.wikipedia.org/wiki/Lock_(computer_science)
+    [condition variables]: https://en.wikipedia.org/wiki/Monitor_(synchronization)
+    [semaphores]: https://en.wikipedia.org/wiki/Semaphore_(programming)
+    [system calls]: https://en.wikipedia.org/wiki/System_call
+    [system call]: https://en.wikipedia.org/wiki/System_call
+
+    ## Reading
+
+    <img src="static/img/ostep.jpg" class="pull-right">
+
+    The readings for this week are:
+
+    1. [Operating Systems: Three Easy Pieces]
+
+        1. [Dialogue](http://pages.cs.wisc.edu/~remzi/OSTEP/dialogue-concurrency.pdf)
+        2. [Concurrency and Threads](http://pages.cs.wisc.edu/~remzi/OSTEP/threads-intro.pdf)
+        3. [Thread API](http://pages.cs.wisc.edu/~remzi/OSTEP/threads-api.pdf)
+        4. [Event-based Concurrency](http://pages.cs.wisc.edu/~remzi/OSTEP/threads-events.pdf)
+
+    ### Optional Readings
+
+    1. [On the duality of operating system structures](https://blog.acolyer.org/2014/12/08/on-the-duality-of-operating-system-structures/)
+
+        - [Why events are a bad idea](https://blog.acolyer.org/2014/12/10/why-events-are-a-bad-idea/)
+        - <p>[Why threads are a bad idea](https://blog.acolyer.org/2014/12/09/why-threads-are-a-bad-idea/)</p>
+
+    2. [Async IO on Linux: select, poll, and epoll](https://jvns.ca/blog/2017/06/03/async-io-on-linux--select--poll--and-epoll/)
+
+    [Linux]:    https://kernel.org
+
+    ## Quiz
+
+    Once you have done the readings, answer the following [Reading 04 Quiz]
+    questions:
+
+    <div id="quiz-questions"></div>
+
+    <div id="quiz-responses"></div>
+
+    <script src="static/js/dredd-quiz.js"></script>
+    <script>
+    loadQuiz('static/json/reading04.json');
+    </script>
+
+    ### Program
+
+    For this week, you are to explore [system calls] by running [strace] on
+    your `program` from [Reading 03]:
+
+        :::bash
+        $ cd reading03                # Go to reading03 folder
+
+        $ strace -c ./program *       # Trace the system calls used by the Reading 03 program
+
+    After running [strace] a few times, you are to modify `program.c` in
+    `reading04` to print the responses to the following questions:
+
+    1. Order the following [system calls] from fastest to slowest: `open`,
+      `close`, `read`. (*Print response with only a single space between each
+      word*)
+
+    2. Which [system call] is called the most?
+
+    3. Which [system call] failed the most?
+
+    4. Instead of [fork], which system call was used to create a new process?
+
+    5. Which [system call] was the slowest (ie. most `usecs/call`)?
+
+    6. Which of the following was slowest: `close`, `stat`, `wait4`?
+
+    [Reading 03]: reading03.html
+    [strace]: https://man7.org/linux/man-pages/man1/strace.1.html
+    [fork]: https://www.man7.org/linux/man-pages/man2/fork.2.html
+    
+    ## Submission
+
+    To submit you work, follow the same process outlined in [Reading 01]:
+
+        :::bash
+        $ git checkout master                 # Make sure we are in master branch
+
+        $ git pull --rebase                   # Make sure we are up-to-date with GitHub
+
+        $ git checkout -b reading04           # Create reading04 branch and check it out
+
+        $ cd reading04                        # Go into reading04 folder
+        $ $EDITOR answers.json                # Edit your answers.json file
+
+        $ ../.scripts/submit.py               # Check reading04 quiz
+        Submitting reading04 assignment ...
+        Submitting reading04 quiz ...
+              Q1 0.20
+              Q2 0.20
+              Q3 0.30
+              Q4 1.10
+              Q5 0.10
+              Q6 0.20
+              Q7 0.40
+              Q8 0.50
+           Score 3.00
+
+        $ git add answers.json                # Add answers.json to staging area
+        $ git commit -m "Reading 04: Quiz"    # Commit work
+
+        $ $EDITOR program.c                   # Edit your program.c file
+
+        $ make test-program                   # Check reading04 program
+        Testing reading04 program...
+           Score 3.00
+
+        $ git add program.c                   # Add program.c to staging area
+        $ git commit -m "Reading 04: Quiz"    # Commit work
+
+        $ git push -u origin reading04        # Push branch to GitHub
+
+    <div class="alert alert-success" markdown="1">
+    #### <i class="fa fa-github"></i> Pull Request
+
+    Once you have committed your work and pushed it to [GitHub], remember to
+    create a **pull request** and assign it to the appropriate **teaching
+    assistant** from the [Reading 04 TA List].
+
+    </div>
+
+    [Operating Systems: Three Easy Pieces]:     http://pages.cs.wisc.edu/~remzi/OSTEP/
+    [JSON]:                   http://www.json.org/
+    [git-branch]:             https://git-scm.com/docs/git-branch
+    [dredd]:                  https://dredd.h4x0r.space
+    [GitHub]:                 https://github.com
+    [valgrind]:               https://www.valgrind.org/
+    [Reading 01]:             reading01.html
+
+    [Reading 04 Quiz]:        static/json/reading04.json
+    [Reading 04 TA List]:     reading04_tas.html
