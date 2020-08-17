@@ -81,7 +81,7 @@ body:       |
     >
     > For each argument given to `program`, compute the [SHA1] digest of
     > the contents of each file argument and display it.
-    
+
     The purpose of this exercise is for you to review using basic I/O [system
     calls] such as [open], [read], and [close].  If you need a refresher, please
     read [Files and
@@ -208,6 +208,9 @@ body:       |
          program Makefile README.md program.c (valgrind)              ... Success
          program Makefile README.md program.c asdf                    ... Success
          program Makefile README.md program.c asdf (valgrind)         ... Success
+         program Makefile README.md /bin/ls /bin/bash                 ... Success
+         program Makefile README.md /bin/ls /bin/bash (valgrind)      ... Success
+
            Score 3.00
 
         $ git add program.c                   # Add program.c to staging area
