@@ -357,6 +357,68 @@ body:       |
     - `timestamp.c`: This contains the implementation of a function that
       returns the current time in the form of a `double`
 
+    #### Hints
+
+    Here are some hints to help you get started with the project:
+
+    - `process.c`: To start a process, you will need to [fork] and [exec].
+      Consider using [execvp] by using [strtok] to form a local array of
+      arguments to pass to the system call:
+
+            :::c
+            fork()
+
+            Child:
+                char *argv[MAX_ARGUMENTS] = {0}
+                ...
+
+                for (char *token = strtok(command, " "); token; token = strtok(NULL, " ")) {
+                  argv[i++] = token;
+                }
+
+                execvp(argv[0], argv);
+                ...
+
+            Parent:
+                Update timestamp
+
+    - `scheduler.c`: When waiting, you should consider using [waitpid] so you
+      do not block or hang.  If a child has terminated, then you should remove
+      it from the queue it is in, update its metrics, and then move it to the
+      finished queue.
+
+            :::c
+            while ((pid = waitpid(-1, NULL, WNOHANG)) > 0) {
+                Process *found = queue_remove(&s->running, pid); 
+                ...
+            }
+
+    - `signal.c`: When the timer goes off, your schedule should **wait** on any
+      terminated children and then schedule the **next** process.
+
+            :::c
+            schedule_wait(&PQShellScheduler);
+            schedule_next(&PQShellScheduler);
+
+    - `pqsh.c`: To activate a regular timer interval, you should consider using
+      the [setitimer] system call.
+
+            :::c
+            struct itimerval interval = {
+              .it_interval = { .tv_sec = 0, .tv_usec = s->timeout },
+              .it_value    = { .tv_sec = 0, .tv_usec = s->timeout },
+            };
+            if (setitimer(ITIMER_REAL, &interval, NULL) < 0) {
+              ...
+            }
+
+    [fork]:   https://man7.org/linux/man-pages/man2/fork.2.html
+    [exec]:   https://man7.org/linux/man-pages/man3/exec.3.html
+    [execvp]: https://man7.org/linux/man-pages/man3/exec.3.html
+    [strtok]: https://man7.org/linux/man-pages/man3/strtok.3.html
+    [waitpid]: https://man7.org/linux/man-pages/man2/waitpid.2.html
+    [setitimer]: https://man7.org/linux/man-pages/man2/setitimer.2.html
+
     #### Testing
 
     To verify the correctness of the `Process`, `Queue`, and `timestamp`
