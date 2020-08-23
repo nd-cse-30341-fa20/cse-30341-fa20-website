@@ -393,8 +393,8 @@ body:       |
                 ...
             }
 
-    - `signal.c`: When the timer goes off, your schedule should **wait** on any
-      terminated children and then schedule the **next** process.
+    - `signal.c`: When the timer goes off, your signal handler should **wait**
+      on any terminated children and then schedule the **next** process.
 
             :::c
             schedule_wait(&PQShellScheduler);
