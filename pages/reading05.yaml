@@ -1,0 +1,253 @@
+title:      "Reading 05: Locks and Condition Variables"
+icon:       fa-book
+navigation: []
+internal:
+external:
+body:       |
+
+    **Everyone**:
+
+    Last week, we have studied two different forms of [concurrency]:
+      [event-based programming] via [select]/[poll] and [threads] (ala
+      [pthreads]).  While the former allowed us to overlap I/O and computation,
+      it did not allow us to take advantage of parallelism.  To do harness
+      multiple hardware resources, we will need to utilize [threads].
+      Unfortunately, using [threads] also means we need to employ [locks] and
+      [condition variables] to ensure correct concurrent access to shared
+      resources.
+
+    The readings this week focus on how [locks] and [condition variables] work
+    and how we can use them to implement [concurrent data structures].
+
+    <div class="alert alert-info" markdown="1">
+
+    #### <i class="fa fa-search"></i> TL;DR
+
+    For this reading assignment, you are to read about using [locks] and
+    [condition variables] to synchronize [pthreads], submit your responses
+    to the [Reading 05 Quiz], and modify your program to use threads.
+
+    </div>
+
+    [concurrency]: https://en.wikipedia.org/wiki/Concurrency_(computer_science)
+    [event-based programming]: https://en.wikipedia.org/wiki/Event-driven_programming
+    [threads]: https://en.wikipedia.org/wiki/Thread_(computing)
+    [select]: http://man7.org/linux/man-pages/man2/select.2.html
+    [poll]: http://man7.org/linux/man-pages/man2/poll.2.html
+    [multiprogramming]: https://en.wikipedia.org/wiki/Computer_multitasking
+    [pthreads]: http://man7.org/linux/man-pages/man7/pthreads.7.html
+    [locks]: https://en.wikipedia.org/wiki/Lock_(computer_science)
+    [condition variables]: https://en.wikipedia.org/wiki/Monitor_(synchronization)
+    [semaphores]: https://en.wikipedia.org/wiki/Semaphore_(programming)
+    [concurrent data structures]: https://en.wikipedia.org/wiki/Concurrent_data_structure
+
+    <img src="static/img/ostep.jpg" class="pull-right">
+
+    ## Reading
+
+    The readings for this week are:
+
+    1. [Operating Systems: Three Easy Pieces]
+
+        1. [Locks](http://pages.cs.wisc.edu/~remzi/OSTEP/threads-locks.pdf)
+        2. [Lock-based Concurrent Data Structures](http://pages.cs.wisc.edu/~remzi/OSTEP/threads-locks-usage.pdf)
+        3. [Condition Variables](http://pages.cs.wisc.edu/~remzi/OSTEP/threads-cv.pdf)
+
+    ### Optional Readings
+
+    The following are optional related readings:
+
+    1. [Simple, Fast, and Practical Non-Blocking and Blocking Concurrent Queue Algorithms](http://www.cs.rochester.edu/research/synchronization/pseudocode/queues.html)
+
+    2. [The Producer/Consumer Problem](https://docs.oracle.com/cd/E19455-01/806-5257/sync-31/index.html)
+
+    3. [Multithreading: Producer Consumer Problem](http://austingwalters.com/multithreading-producer-consumer-problem/)
+
+    ## Quiz
+
+    Once you have done the readings, answer the following [Reading 05 Quiz]
+    questions:
+
+    <div id="quiz-questions"></div>
+
+    <div id="quiz-responses"></div>
+
+    <script src="static/js/dredd-quiz.js"></script>
+    <script>
+    loadQuiz('static/json/reading05.json');
+    </script>
+
+    ## Program
+
+    For this week's program, you are to modify the `program.c` from [Reading
+    03] such that you use separate [threads] instead of [processes] to compute
+    the [SHA1] digest for each argument. In other words, for each file
+    argument, you need to create a thread that computes and displays the SHA1
+    digest of the contents of the file. The main thread should collect the exit
+    statuses of its worker threads and return `0` if all the threads were
+    successful.  Otherwise, it should return the number of threads that failed
+    as its own exit status.
+
+    ### Example
+
+    The usage and output of your program should be the same as [sha1sum]:
+
+        :::bash
+        $ ./program Makefile  # Compute SHA1 of Makefile
+        50bb7f7ccf1ca089f3c5eaff5fe95e56ddbe53a5  Makefile
+
+        $ echo $?             # Check exit status
+        0
+
+        $ ./program asdf      # Handle invalid files
+
+        $ echo $?             # Check exit status
+        1
+
+    ### Requirements
+
+    - Your code must compile cleanly with no warnings.
+
+    - Your program may only use I/O system calls such as [open], [read], and
+      [close] to access the contents of each file.
+
+    - Your program must use the `SHA1_Init`, `SHA1_Update`, and `SHA1_Final`
+      functions provided by [OpenSSL].
+
+    - Your program must not have any resource leaks or memory errors as
+      detected by [valgrind].
+
+    - Your program must use [pthread_create] and [pthread_join].
+
+    - Each thread must run concurrently (ie. without waiting for another
+      thread to complete first).
+
+    <div class="alert alert-warning" markdown="1">
+    **Note**: To link properly to the [SHA1] functions, you will need to add
+      `-lcrypto` to the `LIBS` variable in your `Makefile`.
+    </div>
+
+    ### Hints
+
+    You should not need to modify your original `sha1sum_file` function from
+    [Reading 03].  Instead, you should first create a thread function:
+
+        :::c
+        void *sha1sum_thread(void *arg) {
+            char *path = (char *)arg;
+            ...
+            if (!sha1sum_file(path, cksum)) {
+                ...
+            }
+
+            ...
+            return 0;
+        }
+
+    The body of this thread function should be similar to the body of the child
+    process in [Reading 03].
+
+    Once you have a `sha1sum_thread` function, you will need to modify the
+    `main` function as follows:
+
+        :::text
+        function main():
+            pthread_t thread[argc - 1]  # Thread array
+
+            For each argument:
+                Create a thread stored in thread[i] that runs sha1sum_thread
+
+            For each thread in thread array:
+                Join thread[i]
+
+    [processes]:        https://en.wikipedia.org/wiki/Process_(computing)
+    [open]:             http://man7.org/linux/man-pages/man2/open.2.html
+    [read]:             http://man7.org/linux/man-pages/man2/read.2.html
+    [close]:            http://man7.org/linux/man-pages/man2/close.2.html
+    [SHA1]:             https://en.wikipedia.org/wiki/SHA-1
+    [sha1sum]:          https://man7.org/linux/man-pages/man1/sha1sum.1.html
+    [processes]:        https://en.wikipedia.org/wiki/Process_(computing)
+    [OpenSSL]:          https://www.openssl.org
+    [fork bomb]:        https://en.wikipedia.org/wiki/Fork_bomb
+    [pthread_create]:   https://man7.org/linux/man-pages/man3/pthread_create.3.html
+    [pthread_join]:     https://man7.org/linux/man-pages/man3/pthread_join.3.html
+    [Reading 03]:       reading03.html
+    [valgrind]:         https://www.valgrind.org/
+
+    ## Submission
+
+    To submit you work, follow the same process outlined in [Reading 00]:
+
+        :::bash
+        $ git checkout master                 # Make sure we are in master branch
+        $ git pull --rebase                   # Make sure we are up-to-date with GitLab
+
+        $ git checkout -b reading05           # Create reading05 branch and check it out
+
+        $ cd reading05                        # Go into reading05 folder
+        $ $EDITOR answers.json                # Edit your answers.json file
+
+        $ ../.scripts/submit.py               # Check reading05 quiz
+        Submitting reading05 assignment ...
+        Submitting reading05 quiz ...
+             Q01 0.50
+             Q02 0.20
+             Q03 0.30
+             Q04 0.50
+             Q05 0.30
+             Q06 0.20
+             Q07 0.20
+             Q08 0.20
+             Q09 0.20
+             Q10 0.40
+           Score 3.00
+
+        $ git add answers.json                # Add answers.json to staging area
+        $ git commit -m "Reading 05: Quiz"    # Commit work
+
+        $ $EDITOR program.c                   # Edit your program.c file
+
+        $ make test-program                   # Check reading03 program
+        Testing reading05 program...
+         I/O System Calls                                             ... Success
+         I/O Functions                                                ... Success
+         SHA1 Functions                                               ... Success
+         Process System Calls                                         ... Success
+         Thread Functions                                             ... Success
+         program                                                      ... Success
+         program (valgrind)                                           ... Success
+         program Makefile                                             ... Success
+         program Makefile (valgrind)                                  ... Success
+         program Makefile README.md                                   ... Success
+         program Makefile README.md (valgrind)                        ... Success
+         program Makefile README.md program.c                         ... Success
+         program Makefile README.md program.c (valgrind)              ... Success
+         program Makefile README.md program.c asdf                    ... Success
+         program Makefile README.md program.c asdf (valgrind)         ... Success
+         program Makefile README.md /bin/ls /bin/bash                 ... Success
+         program Makefile README.md /bin/ls /bin/bash (valgrind)      ... Success
+           Score 3.00
+
+        $ git add program.c                   # Add program.c to staging area
+        $ git commit -m "Reading 05: Code"    # Commit work
+
+        $ git push -u origin reading05        # Push branch to GitHub
+
+    <div class="alert alert-success" markdown="1">
+    #### <i class="fa fa-github"></i> Pull Request
+
+    Once you have committed your work and pushed it to [GitHub], remember to
+    create a **pull request** and assign it to the appropriate **teaching
+    assistant** from the [Reading 05 TA List].
+
+    </div>
+
+    [Operating Systems: Three Easy Pieces]:     http://pages.cs.wisc.edu/~remzi/OSTEP/
+    [GitHub]:                                   https://github.com
+    [Reading 00]:                               reading00.html
+    [Reading 05 Quiz]:                          static/json/reading05.json
+    [JSON]:                                     http://www.json.org/
+    [git-branch]:                               https://git-scm.com/docs/git-branch
+    [dredd]:                                    https://dredd.h4x0r.space
+    [create a merge request]:                   https://docs.gitlab.com/ee/gitlab-basics/add-merge-request.html
+    [Reading 05 TA List]:                       reading05_tas.html

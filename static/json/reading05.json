@@ -1,0 +1,75 @@
+{
+    "q01": {
+        "type": "blank",
+        "question": "\n<strong>\n\nWhen using threads, we can protect a critical section by employing a ____.\nTo do so, we must first declare a ____ which holds the state of the object\nat any instant in time.  This object is either ____, which means no thread\nholds the object, or ____, which means exactly one thread (aka the ____)\nholds the object and is in the critical section.\n\n</strong>\n"
+    },
+    "q02": {
+        "type": "multiple",
+        "question": "<strong>\n\n  Regarding coarse vs fine-grained locking, which of the following\n  statements are true (choose all that apply)?\n\n</strong>\n",
+        "responses": {
+            "coarse": "Coarse-grained locking is safer since it protects more critical sections.",
+            "bkl": "The big kernel lock (BKL) is an example of coarse-grained locking.",
+            "different": "Fine-grained locking increases concurrency by protecting different data structures with different locks.",
+            "one": "Coarse-grained locking increases concurrency because only one lock needs to be acquired rather than many."
+        }
+    },
+    "q03": {
+        "type": "blank",
+        "question": "<strong>\nTo evaluate different locking mechanisms, we need to consider three basic criteria:\n\n<ol>\n\n<li>____: Whether or not the lock actually prevents multiple threads from\nentering a critical section.</li>\n\n<li>____: Whether or not each thread contending for the lock gets a fair\nshot at acquiring it.</li>\n\n<li>____: How much overhead is added by using the locking mechanism.</li>\n\n</ol>\n\n</strong>\n"
+    },
+    "q04": {
+        "type": "multiple",
+        "question": "<strong>\n\nTo implement locks, we need support from the hardware.  Which of the\nfollowing statements about different locking mechanisms are true (select\nall that apply)?\n\n</strong>\n",
+        "responses": {
+            "interrupts": "Although simple, disabling interrupts has numerous problems as a locking mechanism.",
+            "testandset": "Test-and-Set provides a machine instruction that allows us to test the old value at a memory location and while simultaneously setting the memory location to a new value.",
+            "compareandswap": "Compare-and-Swap provides a machine instruction that allows us to test a value, update it if it is the expected value, and return the actual value at that memory location.",
+            "loadlink": "Load-Linked and Store-Conditional instructions work together to atomically fetch a value and update it.",
+            "fetchandadd": "Fetch-And-Add can be used to implement a ticket lock, which guarantees progress for all threads."
+        }
+    },
+    "q05": {
+        "type": "multiple",
+        "question": "<strong>\n\nRegarding spin locks, which of the following statements are true (select\nall that apply)?\n</strong>\n",
+        "responses": {
+            "waiting": "Spin-waiting is inefficient because a thread wastes CPU resources simply waiting for another thread to release a lock",
+            "fairness": "Spin locks are both correct and guarantee fairness.",
+            "yielding": "Yielding allows a thread to deschedule itself when it discovers the lock it wants is being held.",
+            "parking": "Parking involves putting a thread to sleep temporarily and into a queue that will be used to select the next thread to wake up.",
+            "futex": "A futex is a mutex implemented on the filesystem."
+        }
+    },
+    "q06": {
+        "type": "blank",
+        "question": "<strong>\n\nTo make a data structure ____, that is ensure it provides correct\nconcurrent access to data, we can utilize a ____, where locks are acquired\nand released automatically as you can and return from object methods.\n</strong>\n"
+    },
+    "q07": {
+        "type": "multiple",
+        "question": "\n<strong>\n\nWhich of the following statements are true regarding implementing\nconcurrent lists, queues, and hash tables (sellect all that apply)?\n\n</strong>\n",
+        "responses": {
+            "lock": "We should only lock portions of methods that actually access the shared data resources.",
+            "concurrency": "We should generally add more concurrency to make things faster.",
+            "flow": "We should be wary of code that has many returns or exits as that can make it difficult to manage our locks.",
+            "nested": "We should avoid building data structures consisting of nested concurrent data structures due to complexity and performance issues."
+        }
+    },
+    "q08": {
+        "type": "blank",
+        "question": "<strong>\n\nTo avoid spin waiting, we can use a ____ to create an explicit queue that\nthreads can put themselves on when some state of execution is not as\ndesired.  When another thread changes said state, it can wake a ____ thread\nand allow them to continue by ____ on the object.\n\n</strong>\n"
+    },
+    "q09": {
+        "type": "multiple",
+        "question": "<strong>\n\nRegarding the producer / consumer implementation in Figure 30.6, why is it\nconsidered a broken solution (select all that apply)?\n\n</strong>\n",
+        "responses": {
+            "early": "To prevent from waking up too early, the condition variable should be locked.",
+            "critical": "It is possible for multiple threads to be in the critical section.",
+            "waiting": "The code waits while holding the mutex.",
+            "change": "It is possible for the state of the bounded before to change between when a thread is signaled and when it is woken up.",
+            "signal": "The code signals all threads rather than having producers notifying consumers and consumers notifying producers."
+        }
+    },
+    "q10": {
+        "type": "blank",
+        "question": "<strong>\n\nTo fix the broken solution in Figure 30.6, we first need to use ____ to\ncheck the condition.  Doing so will allow us to handle ____, which happens\nwhen a multiple threads are woken up even though only one signal has taken\nplace.  Second, we need to have two conditions such that the producer waits\non the ____ condition and signals ____.  Conversely, the consumer waits on\n____ and signals ____.\n\n</strong>\n"
+    }
+}
