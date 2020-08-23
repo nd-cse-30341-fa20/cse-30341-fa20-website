@@ -70,9 +70,15 @@
         topics:         Events
         assignments:
           - Reading 04
+        items:
+          - name:       Slides
+            link:       https://docs.google.com/presentation/d/1jFzPWqf-zsnf6MTiN5w3ZWbHu8JhZD2BQwq1OPUlHOk/edit?usp=sharing
 
       - date:           Thu 09/03
         topics:         Threads
+        items:
+          - name:       Slides
+            link:       https://docs.google.com/presentation/d/1GPieTfa0eQSbBXSHR7E3_j4_gcmgxtIvvtXX4kDTw5k/edit?usp=sharing
 
 - name:     Locks, Condition Variables
   days:
