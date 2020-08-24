@@ -86,9 +86,15 @@
         topics:         Locks
         assignments:
           - Reading 05
+        items:
+          - name:       Slides
+            link:       https://docs.google.com/presentation/d/1UjSH97_uPuWlzds6er6KusYiRWam7Us9nUzwBnwUfRY/edit?usp=sharing
 
       - date:           Thu 09/10
         topics:         Condition Variables
+        items:
+          - name:       Slides
+            link:       https://docs.google.com/presentation/d/1wAq8zWoMHoeAq6sukKvrFtwVVqzzK44UJcZZUj0LfR0/edit?usp=sharing
         
 - name:     Semaphores, Deadlock
   days:
