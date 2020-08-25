@@ -51,6 +51,8 @@
         items:
           - name:       Slides
             link:       https://docs.google.com/presentation/d/1H0AHNrOxeWu02NaZNm_5iOffSvSQAlDzS_wTRA9iT7k/edit?usp=sharing
+          - name:       Panopto
+            link:       https://notredame.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=d5007b53-e302-4dbb-82b4-ac220102e0cb
 
       - date:           Thu 08/27
         topics:         Scheduling (MLFQ, Lottery)
