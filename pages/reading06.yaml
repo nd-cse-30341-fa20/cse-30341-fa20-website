@@ -1,0 +1,306 @@
+title:      "Reading 06: Semaphores and Deadlock"
+icon:       fa-book
+navigation: []
+internal:
+external:
+body:       |
+
+    **Everyone**:
+
+    Last week, we discussed how to utilize [locks] and [condition variables] to
+    synchronize multiple [threads] and to construct [concurrent data
+    structures].  Though tricky, we saw that there were some common programming
+    patterns that allow us to implement [monitor] style [mutual exclusion].
+
+    The readings this week focus on a new synchronization primitive called a
+    [semaphore] and on concurrency bugs such as [deadlock].
+
+    <div class="alert alert-info" markdown="1">
+
+    #### <i class="fa fa-search"></i> TL;DR
+
+    For this reading assignment, you are to read about [semaphores] and
+    [deadlock], and submit your responses to the [Reading 06 Quiz].
+
+    </div>
+
+    [concurrency]: https://en.wikipedia.org/wiki/Concurrency_(computer_science)
+    [event-based programming]: https://en.wikipedia.org/wiki/Event-driven_programming
+    [thread]: https://en.wikipedia.org/wiki/Thread_(computing)
+    [threads]: https://en.wikipedia.org/wiki/Thread_(computing)
+    [pthreads]: http://man7.org/linux/man-pages/man7/pthreads.7.html
+    [locks]: https://en.wikipedia.org/wiki/Lock_(computer_science)
+    [condition variables]: https://en.wikipedia.org/wiki/Monitor_(synchronization)
+    [semaphore]: https://en.wikipedia.org/wiki/Semaphore_(programming)
+    [semaphores]: https://en.wikipedia.org/wiki/Semaphore_(programming)
+    [concurrent data structures]: https://en.wikipedia.org/wiki/Concurrent_data_structure
+    [monitor]: https://en.wikipedia.org/wiki/Monitor_(synchronization)
+    [mutual exclusion]: https://en.wikipedia.org/wiki/Mutual_exclusion
+    [deadlock]: https://en.wikipedia.org/wiki/Deadlock
+
+    <img src="static/img/ostep.jpg" class="pull-right">
+
+    ## Reading
+
+    The readings for this week are:
+
+    1. [Operating Systems: Three Easy Pieces]
+
+        1. [Semaphores](http://pages.cs.wisc.edu/~remzi/OSTEP/threads-sema.pdf)
+
+        2. [Concurrency Bugs](http://pages.cs.wisc.edu/~remzi/OSTEP/threads-bugs.pdf)
+
+        3. [Summary](http://pages.cs.wisc.edu/~remzi/OSTEP/threads-dialogue.pdf)
+
+    ### Optional Resources
+
+    1. [Overview of POSIX Semaphores](http://man7.org/linux/man-pages/man7/sem_overview.7.html)
+
+    2. [The Little Book of Semaphores](http://open.umn.edu/opentextbooks/BookDetail.aspx?bookId=83)
+
+    3. [The Dining Philosophers Problem With Ron Swanson](http://adit.io/posts/2013-05-11-The-Dining-Philosophers-Problem-With-Ron-Swanson.html)
+
+    ## Quiz
+
+    Once you have done the readings, answer the following [Reading 06 Quiz]
+    questions:
+
+    <div id="quiz-questions"></div>
+
+    <div id="quiz-responses"></div>
+
+    <script src="static/js/dredd-quiz.js"></script>
+    <script>
+    loadQuiz('static/json/reading06.json');
+    </script>
+
+    ## Program
+
+    In [Reading 05], you created a [thread] to compute the [sha1sum] of each
+    argument.  This provides concurrency and parallelism, but it is possible to
+    overwhelm the system and waste time if there are a lot of arguments (and
+    thus a lot of threads).  Instead of creating [threads] on-demand, we will
+    instead use a [thread pool] to create `2` workers then feed them work via
+    the concurrent [queue] discussed in [Lecture 10].
+
+    In summary, you are to modify the program in [Reading 05] to use the
+    [producer consumer] model where there are `2` consumers threads (ie.
+    `sha1sum_thread`) and `1` producer thread (ie. `main`).
+
+    [thread pool]: https://en.wikipedia.org/wiki/Thread_pool
+    [producer consumer]: https://en.wikipedia.org/wiki/Producer%E2%80%93consumer_problem
+    [queue]: https://github.com/nd-cse-30341-fa20/cse-30341-fa20-examples/tree/master/lecture10
+    [Lecture 10]: https://docs.google.com/presentation/d/1wAq8zWoMHoeAq6sukKvrFtwVVqzzK44UJcZZUj0LfR0/edit?usp=sharing
+
+    <div class="alert alert-success" markdown="1">
+
+    **Note**: You will want to copy the `queue.h`, `queue.c`, and `thread.h`
+      files from the [Lecture 10] [queue] example.  Additionally, you will need
+      to modify the `Queue` to support storing [c-string]s (ie. `char *`)
+      instead of `int`s.
+
+    </div>
+
+    [c-string]: https://en.wikipedia.org/wiki/C_string_handling
+
+    ### Example
+
+    The usage and output of your program should be the same as [sha1sum]:
+
+        :::bash
+        $ ./program Makefile  # Compute SHA1 of Makefile
+        50bb7f7ccf1ca089f3c5eaff5fe95e56ddbe53a5  Makefile
+
+        $ echo $?             # Check exit status
+        0
+
+        $ ./program asdf      # Handle invalid files
+
+        $ echo $?             # Check exit status
+        1
+
+    ### Requirements
+
+    - Your code must compile cleanly with no warnings.
+
+    - Your program may only use I/O system calls such as [open], [read], and
+      [close] to access the contents of each file.
+
+    - Your program must use the `SHA1_Init`, `SHA1_Update`, and `SHA1_Final`
+      functions provided by [OpenSSL].
+
+    - Your program must not have any resource leaks or memory errors as
+      detected by [valgrind].
+
+    - Your program must use `Thread`, `thread_create`, `thread_join` from
+      `thread.h` discussed in [Lecture 10].
+
+    - Your program must use `Queue`, `queue_create`, `queue_push`, `queue_pop`,
+      and `queue_delete` from `queue.h` discussed in [Lecture 10].
+
+    - Each thread must run concurrently (ie. without waiting for another
+      thread to complete first).
+
+    <div class="alert alert-warning" markdown="1">
+
+    **Note**: To link properly to the [SHA1] functions, you will need to add
+      `-lcrypto` to the `LIBS` variable in your `Makefile`.  You will also need
+      to add the `-pthread` flag to your `CFLAGS`.
+
+      Make sure your `program` links with `queue.c` in addition to `program.c`.
+
+    </div>
+
+    ### Hints
+
+    You can define the following constants to make your life easier:
+
+        :::c
+        #define MAX_THREADS 2                 /* Number of threads in thread pool */
+        #define QSIZE       4                 /* Maximum size of Queue structure */
+        #define SENTINEL    (const char *)-1  /* Sentinel to mark end of Queue */
+
+    You will need to modify your `sha1sum_thread` from [Reading 05] into the
+    following structure:
+
+        :::c
+        void *sha1sum_thread(void *arg) {
+            Queue *q = (Queue *)arg;
+            ...
+            while (...) {
+                path = queue_pop(q);
+                ...
+
+                if (sha1sum_file(path, cksum)) {
+                    ...
+                } else {
+                    ...
+                }
+            }
+            ...
+            return (void *)failures;
+        }
+
+    This [thread] function while repeatedly pop from the `Queue` until it
+    reaches a `SENTINEL` value.  For each value popped from the `Queue`, the
+    [thread] should compute the [sha1sum] of the `path` and track if there are
+    any failures.  At the end, the [thread] should return the number of failed
+    [sha1sum] computations.
+
+    To implement the [thread pool] pattern, you will need to modify your `main`
+    function to look like the following:
+
+        :::text
+        function main():
+            Thread thread[MAX_THREAD]  # Thread array
+            Queue *q = queue_create(SENTINEL, QSIZE)
+
+            # Start thread pool
+            For each thread:
+                Create a thread stored in thread[i] that runs sha1sum_thread on q.
+
+            # Producer: send work to queue
+            For each argument:
+                Push argument into q
+
+            # Clean up thread pool
+            For each thread:
+                Push SENTINEL into q
+                Join thread[i] and aggregate failures.
+
+    [processes]:        https://en.wikipedia.org/wiki/Process_(computing)
+    [open]:             http://man7.org/linux/man-pages/man2/open.2.html
+    [read]:             http://man7.org/linux/man-pages/man2/read.2.html
+    [close]:            http://man7.org/linux/man-pages/man2/close.2.html
+    [SHA1]:             https://en.wikipedia.org/wiki/SHA-1
+    [sha1sum]:          https://man7.org/linux/man-pages/man1/sha1sum.1.html
+    [processes]:        https://en.wikipedia.org/wiki/Process_(computing)
+    [OpenSSL]:          https://www.openssl.org
+    [fork bomb]:        https://en.wikipedia.org/wiki/Fork_bomb
+    [pthread_create]:   https://man7.org/linux/man-pages/man3/pthread_create.3.html
+    [pthread_join]:     https://man7.org/linux/man-pages/man3/pthread_join.3.html
+    [Reading 03]:       reading03.html
+    [valgrind]:         https://www.valgrind.org/
+
+    ## Submission
+
+    To submit you work, follow the same process outlined in [Reading 00]:
+
+        :::bash
+        $ git checkout master                 # Make sure we are in master branch
+        $ git pull --rebase                   # Make sure we are up-to-date with GitLab
+
+        $ git checkout -b reading06           # Create reading06 branch and check it out
+
+        $ cd reading06                        # Go into reading06 folder
+        $ $EDITOR answers.json                # Edit your answers.json file
+
+        $ ../.scripts/submit.py               # Check reading06 quiz
+        Submitting reading06 assignment ...
+        Submitting reading06 quiz ...
+             Q01 0.60
+             Q02 0.30
+             Q03 0.30
+             Q04 0.10
+             Q05 0.40
+             Q06 0.80
+             Q07 0.20
+             Q08 0.30
+           Score 3.00
+
+        $ git add answers.json                # Add answers.json to staging area
+        $ git commit -m "Reading 06: Quiz"    # Commit work
+
+        $ $EDITOR program.c                   # Edit your program.c file
+
+        $ make test-program                   # Check reading03 program
+        Testing reading06 program...
+         I/O System Calls                                             ... Success
+         I/O Functions                                                ... Success
+         SHA1 Functions                                               ... Success
+         Process System Calls                                         ... Success
+         Thread Functions                                             ... Success
+         Queue Functions                                              ... Success
+         program                                                      ... Success
+         program (valgrind)                                           ... Success
+         program Makefile                                             ... Success
+         program Makefile (valgrind)                                  ... Success
+         program Makefile README.md                                   ... Success
+         program Makefile README.md (valgrind)                        ... Success
+         program Makefile README.md program.c                         ... Success
+         program Makefile README.md program.c (valgrind)              ... Success
+         program Makefile README.md program.c asdf                    ... Success
+         program Makefile README.md program.c asdf (valgrind)         ... Success
+         program Makefile README.md /bin/ls /bin/bash                 ... Success
+         program Makefile README.md /bin/ls /bin/bash (valgrind)      ... Success
+         program Makefile README.md a /bin/ls /bin/bash b             ... Success
+         program Makefile README.md a /bin/ls /bin/bash b (valgrind)  ... Success
+           Score 3.00
+
+        $ git add Makefile                    # Add Makefile to staging area
+        $ git add program.c                   # Add program.c to staging area
+        $ git add queue.c                     # Add queue.c to staging area
+        $ git add queue.h                     # Add queue.h to staging area
+        $ git add thread.h                    # Add thread.h to staging area
+        $ git commit -m "Reading 06: Code"    # Commit work
+
+        $ git push -u origin reading06        # Push branch to GitHub
+
+    <div class="alert alert-success" markdown="1">
+    #### <i class="fa fa-github"></i> Pull Request
+
+    Once you have committed your work and pushed it to [GitHub], remember to
+    create a **pull request** and assign it to the appropriate **teaching
+    assistant** from the [Reading 06 TA List].
+
+    </div>
+
+    [Operating Systems: Three Easy Pieces]:     http://pages.cs.wisc.edu/~remzi/OSTEP/
+    [GitHub]:                                   https://github.com
+    [Reading 00]:                               reading00.html
+    [Reading 05]:                               reading05.html
+    [Reading 06 Quiz]:                          static/json/reading06.json
+    [JSON]:                                     http://www.json.org/
+    [git-branch]:                               https://git-scm.com/docs/git-branch
+    [dredd]:                                    https://dredd.h4x0r.space
+    [Reading 06 TA List]:                       reading06_tas.html

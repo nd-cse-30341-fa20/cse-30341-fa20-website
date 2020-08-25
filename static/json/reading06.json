@@ -1,0 +1,59 @@
+{
+    "q01": {
+        "type": "blank",
+        "question": "<strong>\n\nA ____ is a synchronization primitive that consists of an ____ value that\nwe can manipulate with two routines:\n</strong>\n\n<ol>\n\n  <li><b>____</b>: This function decrements the value of the semaphore and\n  waits if the value of the semaphore is negative.</li>\n\n  <li><b>____</b>: This function increments the value of the semaphore and\n  then wakes up any waiting threads.</li>\n  \n</ol>\n"
+    },
+    "q02": {
+        "type": "multiple",
+        "question": "<strong>\n\nRegarding using semaphores to implement locks and condition variables,\nwhich of the following statements are true (choose all that apply)?\n\n</strong>\n",
+        "responses": {
+            "lock_init": "To make a lock (binary semaphore), we initialize the semaphore to 1.",
+            "cond_init": "To make a condition variable, we initialize the semaphore to 1.",
+            "lock_call": "To make a lock (binary semaphore), we first <tt>sem_post</tt>, perform the critical section, and then <tt>sem_wait</tt>",
+            "cond_call": "To make a condition variable, we use <tt>sem_post</tt> to signal and <tt>sem_wait</tt> to wait."
+        }
+    },
+    "q03": {
+        "type": "multiple",
+        "question": "<strong>\n\nRegarding reader-writer locks, which of the following statements are true\n(choose all that apply)?\n\n</strong>\n",
+        "responses": {
+            "concurrency": "Reader-writer locks allow for multiple concurrent readers as long as there are no writers.",
+            "writers": "Reader-writer locks suspend all readers once a writer requires access.",
+            "starvation": "Reader-writer locks are prone to starvation problems.",
+            "overhead": "Reader-writer locks generally improve performance over simple and fast locking primitives."
+        }
+    },
+    "q04": {
+        "type": "single",
+        "question": "<strong>\n\nTo solve the Dining Philosopher's problem, the book proposes the following\nsolution:\n\n</strong>\n",
+        "responses": {
+            "order": "Change the order in which the last philosopher acquires the forks.",
+            "waiter": "Have a waiter direct which philosophers can eat.",
+            "starve": "Just let some of the philosophers starve.",
+            "rdrn": "Have philosophers eat in round-robin fashion.",
+            "forks": "Buy more forks."
+        }
+    },
+    "q05": {
+        "type": "blank",
+        "question": "<strong>\nTwo types of non-deadlock concurrency bugs are:\n</strong>\n\n<ol>\n\n<li><b>____</b>: These bugs occur when the assumption of atomicity is incorrect.</li>\n\n<li><b>____</b>: These bugs occur when the desired order of operations is\nnot enforced during execution.</li>\n\n</ol>\n"
+    },
+    "q06": {
+        "type": "blank",
+        "question": "<strong>\n\nDeadlock occurs when the following four conditions hold:\n\n</strong>\n\n<ol>\n\n<li><b>____</b>: There exists a circular chain of threads such that each\nthread holds one or more resources that are being requested by the next\nthread in the chain.</li>\n\n<li><b>____</b>: Resources cannot be forcibly removed from threads that are\nholding them.</li>\n\n<li><b>____</b>: Threads hold resources allocated to them while waiting for\nadditional resources.</li>\n\n<li><b>____</b>: Threads claim exclusive control of resources that they\nrequire.</li>\n\n</ol>\n"
+    },
+    "q07": {
+        "type": "multiple",
+        "question": "<strong>\n\nWhich of the following are ways to prevent deadlock (choose all that apply)?\n\n</strong>\n",
+        "responses": {
+            "ordering": "Provide some form of ordering to circumvent circular waiting.",
+            "holding": "Make sure we always acquire locks one at a time.",
+            "livelock": "Prefer methods that utilize livelock instead of deadlock.",
+            "lockfree": "Avoid locks by using atomic hardware instructions."
+        }
+    },
+    "q08": {
+        "type": "blank",
+        "question": "<strong>\n\nRather than prevent deadlock, we can instead try to avoid it by having a\nsmart ____ that will consider the dependencies between threads or by having a\nservice that ____ deadlock and provides ____ techniques.\n\n</strong>\n"
+    }
+}
