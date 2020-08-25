@@ -123,8 +123,11 @@ body:       |
       thread to complete first).
 
     <div class="alert alert-warning" markdown="1">
+
     **Note**: To link properly to the [SHA1] functions, you will need to add
-      `-lcrypto` to the `LIBS` variable in your `Makefile`.
+      `-lcrypto` to the `LIBS` variable in your `Makefile`.  You will also need
+      to add the `-pthread` flags to your `CFLAGS`.
+
     </div>
 
     ### Hints
