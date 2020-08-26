@@ -104,9 +104,15 @@
         topics:         Semaphores
         assignments:
           - Reading 06
+        items:
+          - name:       Slides
+            link:       https://docs.google.com/presentation/d/1mmsm8bBoXOqO8zwsLRsh4zRMMHh00F8jf-QF1lanOPw/edit?usp=sharing
 
       - date:           Thu 09/17
         topics:         Deadlock
+        items:
+          - name:       Slides
+            link:       https://docs.google.com/presentation/d/1RH3gX0C-3RLy7iyc2Y9g3jNs2t8949VTeKlZaPEu3UQ/edit?usp=sharing
           
       - date:           Sat 09/19
         assignments:
