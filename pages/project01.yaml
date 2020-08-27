@@ -522,6 +522,19 @@ body:       |
     loadQuiz('static/json/project01.json');
     </script>
 
+    The results of the quiz should look like the following:
+
+        :::text
+        Submitting project01 assignment ...
+        Submitting project01 quiz ...
+              Q1 0.40
+              Q2 0.40
+              Q3 0.40
+              Q4 0.50
+              Q5 0.90
+              Q6 1.40
+           Score 4.00
+
     <div class="alert alert-info" markdown="1">
     #### <i class="fa fa-git"></i> Assignments Repository
 
