@@ -1,0 +1,40 @@
+{
+    "q1": {
+        "type": "multiple",
+        "question": "\n<strong>\n\nWhich of the following statements regarding <b>threads</b>,\n<b>processes</b>, and <b>events</b> are true (select all that apply)?\n\n</strong>\n",
+        "responses": {
+            "threads_resources": "Threads require less resources than processes.",
+            "threads_shared": "Threads can communicate with each other using shared memory.",
+            "threads_cleanup": "Threads provide automatic resource cleanup on exit.",
+            "threads_parallel": "Threads can readily take advantage of parallel resources such as multiple CPU cores.",
+            "events_overhead": "Event-based I/O can be used to provide low overhead concurrency.",
+            "events_sync": "Event-based I/O can alleviate the need for explicit synchronization primitives.",
+            "events_parallel": "Event-based I/O can readily take advantage of parallel resources such as multiple CPU cores.",
+            "events_blocking": "Event-based I/O prefers blocking or long running operations."
+        }
+    },
+    "q2": {
+        "type": "multiple",
+        "question": "\n<strong>\n\nWhich of the following statements regarding <b>synchronization</b> and\n<b>deadlock</b> are true (select all that apply)?\n\n</strong>\n",
+        "responses": {
+            "monitor_mutex": "Monitors typically use mutexes and condition variables to provide safe concurrent access to data structures.",
+            "monitor_semaphore": "Monitors cannot be implemented using semaphores to provide safe concurrent access to data structures.",
+            "mutex_deadlock": "The use of mutexes helps prevents deadlock.",
+            "mutex_race": "The use of mutexes helps prevents race conditions.",
+            "mutex_cond": "You can use a mutex without a condition variable.",
+            "cond_deadlock": "The use of condition variables helps avoid deadlock.",
+            "cond_wait": "The use of condition variables helps avoid busy waiting.",
+            "cond_mutex": "You can use a condition variable without a mutex.",
+            "semaphore_deadlock": "The use of semaphores helps prevents deadlock.",
+            "semaphore_racewait": "The use of semaphores helps prevents race conditions and busy waiting."
+        }
+    },
+    "q3": {
+        "type": "blank",
+        "question": "\n<p>\n\nSuppose you and your friends are going slacklining. Unfortunately, the\nslackline can only support up to three people on it at a time.\u00a0 Therefore,\nif there are many people, they will need to wait before they can get onto\nthe slackline.\n\n</p>\n\n<p>Assuming each person performs the following procedure:</p>\n\n<pre>\nget_on()\u00a0 \u00a0 \u00a0 \u00a0 \u00a0   // Get on slackline if there is enough room\ncross_slackline() \u00a0 // Attempt to walk across slackline\nget_off() \u00a0 \u00a0 \u00a0 \u00a0   // Get off of slackline\n</pre>\n\n<p><strong>Solve this concurrency problem using locks and condition\nvariables.</strong></p>\n\n<pre>\n# Global Variables\n\nThe following are global variables for a solution that uses locks and\ncondition variables.  Fill-in the blanks to initialize the global variables\nproperly.\n\nconst  CAPACITY\u00a0 = ____   // 1. Initialize CAPACITY\nsize_t NSlackers = ____   // 2. Initialize NSlackers\n\nMutex  Lock\nCond\u00a0  Line\n\n# Code\n\nThe following are lines of code that can be used to implement the solution.\nSelect and order the lines of code to implement the get_on() and get_off()\nfunctions.\n      \nNote, record your answer with spaces between each number:\n\n    1 2 3\n\n1. Lock(Lock)\n2. Unlock(Lock) \n3. Wait(Line, Lock)\n4. Signal(Line)\n5. while NSlackers >= CAPACITY:\n6. while NSlackers == 0:\n7. NSlackers++\n8. NSlackers--\n\n# Code for get_on()\n\n____  // 3. Select and order the lines of code above to implement get_on()\n\n# Code for get_off()\n\n____  // 4. Select and order the lines of code above to implement get_off()\n\n</pre>\n"
+    },
+    "q4": {
+        "type": "blank",
+        "question": "\n<p>\n\nSuppose you and your friends are going to Salsa night hosted by our beloved\nRamzi. You are willing to dance, but only after at least <tt>2</tt> of your\nfriends have started dancing.\n\n</p>\n\n<p><strong>Solve this concurrency problem using semaphores.</strong></p>\n\n<pre>\n# Global Variables\n\nThe following are global variables for a solution that uses semaphores.\nFill-in the blanks to initialize the global variables properly.\n\nconst     MIN_FRIENDS = ____  // 1. Initialize MIN_FRIENDS\nsize_t \u00a0 \u00a0Friends \u00a0 \u00a0 = ____  // 2. Initialize Friends\nSemaphore\u00a0Lock\u00a0 \u00a0 \u00a0 \u00a0 = ____  // 3. Initialize Lock\nSemaphore\u00a0Dancing \u00a0 \u00a0 = ____  // 4. Initialize Dancing\n\n# Code\n\nThe following are lines of code that can be used to implement the solution.\nSelect and order the lines of code to implement the you_dance() and\nfriend_dance() functions.\n      \nNote, record your answer with spaces between each number:\n\n    1 2 3\n\n1. Post(Lock)\n2. Wait(Lock)\n3. Post(Dancing)\n4. Wait(Dancing)\n5. if Friends >= MIN_FRIENDS\n6. if Friends == 0\n7. Friends++\n8. Friends--\n\n# Code for you_dance()\n\n____  // 5. Select and order the lines of code above to implement you_dance()\n\n# Code for friend_dance()\n\n____  // 6. Select and order the lines of code above to implement friend_dance()\n\n</pre>\n"
+    }
+}

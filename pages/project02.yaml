@@ -1,0 +1,864 @@
+title:      "Project 02: Message Queue"
+icon:       fa-book
+navigation: []
+internal:
+external:
+body:       |
+
+    ## Overview
+
+    The second project is to build a [message queue] client that interacts with a
+    rudimentary [pub/sub] system using [POSIX threads] and [network sockets] via
+    a [RESTful] API.  In a [pub/sub] system there is usually one server and multiple
+    clients:
+
+    <div class="thumbnail text-center">
+    <img src="static/img/project02-pubsub.png" class="img-responsive">
+    </div>
+
+    As shown above, a typical [pub/sub] system has a server that maintains a
+    collection of **topics**, which serve as endpoints for messages, and
+    **queues**, which store the messages corresponding to individual clients or
+    groups. Clients in the [pub/sub] system connect to this server and perform
+    the following operations:
+
+    > **(1)** `SUBSCRIBE`: This associates a **queue** to a particular
+    **topic**.
+
+    In the example above, **Client A** sends an [HTTP] `PUT` command to
+    **subscribe** the "Spidey" **queue** to the "Marvel" **topic**.  This means
+    that any **messages** sent to the "Marvel" **topic** will be automatically
+    forwarded to the "Spidey" queue.
+
+    Note, clients can **subscribe** to as many **topics** as they wish.
+    However, they will only receive messages after they have **subscribed**
+    (any messages sent to the **topic** before they **subscribe**) will not be
+    accessible.
+
+    > **(2)** `PUBLISH`: This posts a **message** to a particular **topic**.
+
+    In the example above, **Client B** sends a [HTTP] `PUT` command to
+    **publish** a **message** to the "Marvel" **topic** with the message
+    **body**: "With great power, comes great responsibility".  Internally, the
+    [pub/sub] server will see that "Spidey" is **subscribed** to the the
+    "Marvel" **topic**, and thus it will forward the **message** to the
+    "Spidey" **queue**.
+
+    > **(3)** `RETRIEVE`: This fetches one **message** in the **queue**.
+
+    In the example above, **Client A** sends a [HTTP] `GET` command to
+    **retrieve** a **message** from the "Spidey" **queue**.  Internally, the
+    [pub/sub] server will fetch one message from the "Spidey" **queue** and
+    return it as the response to the [HTTP] request.
+
+    Note, when clients **retrieve** a **message** but the corresponding
+    **queue** is empty, then the [pub/sub] server will delay responding to the
+    request until there is something in the **queue**.  This means that
+    performing a **retrieve** operation is a **blocking** action for the
+    client.
+
+    Working in groups of **one** or **two** people, you are to create a
+    **library** that utilizes [POSIX threads] and [concurrent data structures]
+    to implement a **client library** for the described [pub/sub] system.
+    Additionally, you are to utilize this library to a simple **chat
+    application**.  Both the **client library** and the **chat application**
+    are due by **midnight** on **Monday, October 14, 2019**.
+
+    More details about this project and your deliverables are described below.
+
+    <div class="alert alert-info" markdown="1">
+    #### <i class="fa fa-envelope-o"></i> Publisher / Subscriber
+
+    As mentioned in class, [pub/sub] systems are used on many real-world
+    platforms such as [Google Cloud] and [Amazon Web Services].  These systems
+    allow developers to construct distributed and parallel applications that
+    operate concurrently by utilizing both [message passing] and [event-driven]
+    programming paradigms.
+
+    </div>
+
+    [pub/sub]:          https://en.wikipedia.org/wiki/Publish%E2%80%93subscribe_pattern
+    [POSIX threads]:    https://en.wikipedia.org/wiki/POSIX_Threads
+    [network sockets]:  https://en.wikipedia.org/wiki/Network_socket
+    [Google Cloud]:     https://cloud.google.com/pubsub/docs/overview
+    [Amazon Web Services]: https://aws.amazon.com/pub-sub-messaging/
+    [message passing]:  https://en.wikipedia.org/wiki/Message_passing
+    [event-driven]:     https://en.wikipedia.org/wiki/Event-driven_programming
+
+    ### Protocol
+
+    The communication between the client and server utilizes [HTTP] to perform
+    [RESTful] operations:
+
+    <table class="table table-striped table-bordered" markdown="1">
+      <thead>
+        <th>Operation</th>
+        <th>Description</th>
+        <th>Request/Response</th>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="text-strong">Subscribe</td>
+          <td>This associates a `$QUEUE` to a particular `$TOPIC`.</td>
+          <td>
+          <h5>Request</h5>
+          <pre>
+    PUT /subscription/$QUEUE/$TOPIC</pre>
+          <h5>Response</h5>
+          <p>If `$QUEUE` does not exist, then the server will respond with a
+          `404` [HTTP] status code and the message:</p>
+          <pre>
+    There is no queue named: $QUEUE</pre>
+          <p>Otherwise, the server will respond with a `200` [HTTP] status code
+          and the message:</p>
+          <pre>
+    Subscribed queue ($QUEUE) to topic ($TOPIC)</pre>
+          </td>
+        </tr>
+        <tr>
+          <td class="text-strong">Unsubscribe</td>
+          <td>This disassociates a `$QUEUE` to a particular `$TOPIC`.</td>
+          <td>
+          <h5>Request</h5>
+          <pre>
+    DELETE /subscription/$QUEUE/$TOPIC</pre>
+          <h5>Response</h5>
+          <p>If `$QUEUE` does not exist, then the server will respond with a
+          `404` [HTTP] status code and the message:</p>
+          <pre>
+    There is no queue named: $QUEUE</pre>
+          <p>Otherwise, the server will respond with a `200` [HTTP] status code
+          and the message:</p>
+          <pre>
+    Unsubscribed queue ($QUEUE) from topic ($TOPIC)</pre>
+          </td>
+        </tr>
+        <tr>
+          <td class="text-strong">Publish</td>
+          <td>This posts a **message** `$BODY` to a particular `$TOPIC`.</td>
+          <td>
+          <h5>Request</h5>
+          <pre>
+    PUT /topic/$TOPIC
+
+    $BODY</pre>
+          <h5>Response</h5>
+          <p>If there are no subscribers to `$TOPIC`, then the server will respond with a
+          `404` [HTTP] status code and the message:</p>
+          <pre>
+    There are no subscribers for topic: $TOPIC</pre>
+          <p>Otherwise, the server will respond with a `200` [HTTP] status code
+          and the message:</p>
+          <pre>
+    Published message ($BYTES bytes) to $SUBSCRIBERS subscribers of $TOPICS</pre>
+          </td>
+        </tr>
+        <tr>
+          <td class="text-strong">Retrieve</td>
+          <td>This fetches a **message** `$BODY` from a particular `$QUEUE`.</td>
+          <td>
+          <h5>Request</h5>
+          <pre>
+    GET /queue/$QUEUE</pre>
+          <h5>Response</h5>
+          <p>If there is no `$QUEUE`, then the server will respond with a
+          `404` [HTTP] status code and the message:</p>
+          <pre>
+    There is no queue named: $QUEUE</pre>
+          <p>Otherwise, the server will respond with a `200` [HTTP] status code
+          and the message `$BODY`:</p>
+          <pre>
+    $BODY</pre>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    Some notes about this protocol:
+
+    - Communication should be done via *streaming* [network sockets].
+
+    - Each transaction is a [HTTP] request in the form:
+
+            :::bash
+            $METHOD $URI HTTP/1.0\r\n
+            Content-Length: $BYTES\r\n
+            \r\n
+            $BODY
+
+        Most of the [RESTful] operations above only need the first line.  For
+            instance, to **subscribe** the "Spidey" **queue** to the "Marvel"
+            **topic**, it is sufficient that we do:
+
+            :::bash
+            PUT /subscription/Spidey/Marvel HTTP/1.0\r\n
+            \r\n
+
+        However, to **publish** a message, we must send the whole [HTTP]
+        request format:
+
+            :::bash
+            PUT /topic/Marvel HTTP/1.0\r\n
+            Content-Length: 44
+            \r\n
+            With great power, comes great responsibility
+
+    - As fitting with the [RESTful] programming paradigm, the client will need
+      to reconnect to the server for each operation.
+
+    Feel free to use [curl] or [nc] to play around with the either the client
+    or server.
+
+    ### Server
+
+    Due to the limited time frame, a [Python] server is provided to you in the
+    [Project 02] repository:
+
+        :::bash
+        # Usage
+        $ ./bin/mq_server.py --help
+        ...
+
+        # Start Server on port 9123
+        $ ./bin/mq_server.py --port=9123
+
+    If you take a look at the server source code, you will see that it uses the
+    [Tornado] framework, which provides event-based concurrency for overlapping
+    compute and I/O.  This means that the server will handle as many clients as
+    system resources allow and will continuously process requests until the
+    client disconnects (implicitly or explicitly).
+
+    ### Client
+
+    The main goal of this project is to create a client library (ie.
+    `lib/libmq_client.a`) that communicates to a [pub/sub] server as described
+    above.  This library will be used by a variety of test programs and an
+    **chat application** of your own design.
+
+    <div class="thumbnail text-center">
+    <img src="static/img/project02-client.png" class="img-responsive">
+    </div>
+
+    #### Concurrency
+
+    As shown above, the client library should utilize multiple [POSIX threads]
+    to enable concurrent publishing and retrieving messages.  This means that
+    at any one time, the library should be able to do the following things
+    concurrently:
+
+    1. **Publishing**: The library should be able to publish any messages that
+    have been queued up in an **outgoing** queue.  That is, any `PUBLISH` or
+    `SUBSCRIBE` requests should go to the **outgoing** queue rather than
+    directly to the [pub/sub] server.  It will be the job of a **pusher**
+    thread to send the messages of the **outgoing** queue to the server.
+
+    2. **Retrieving**: The library should be able to retrieve any messages that
+    the server has available to the client and place them into an **incoming**
+    queue.  That is, a **puller** thread should continuously **retrieve**
+    messages from the [pub/sub] server and place them in the **incoming**
+    queue.
+
+    Because of this, the library should have at least `2` [POSIX threads].  To
+    coordinate data access between these [threads], you should utilize
+    [concurrent data structures].  This architecture will allow the client
+    library to operate **asynchronously** and allow the user to setup their own
+    **event loop** or to simply overlap compute and I/O in any fashion they
+    want.
+
+    <div class="alert alert-success" markdown="1">
+    #### <i class="fa fa-bars"></i> Back to the Queue
+
+    Hide most of the complexity of [multi-threaded] programming by using
+    [concurrent data structures] such as the **queue** we created in [Lecture
+    10: Condition Variables].  Note, you can use any combination of [locks],
+    [condition variables], and [semaphores] to **synchronize** the [threads] in
+    your client library.
+
+    </div>
+
+    [threads]: https://en.wikipedia.org/wiki/Thread_(computing)
+    [multi-threaded]: https://en.wikipedia.org/wiki/Thread_(computing)
+    [concurrent data structures]: https://en.wikipedia.org/wiki/Concurrent_data_structure
+    [Lecture 10: Condition Variables]: https://docs.google.com/presentation/d/1wAq8zWoMHoeAq6sukKvrFtwVVqzzK44UJcZZUj0LfR0/edit?usp=sharing
+    [locks]: https://en.wikipedia.org/wiki/Lock_(computer_science)
+    [condition variables]: https://en.wikipedia.org/wiki/Monitor_(synchronization)#Condition_variables
+    [semaphores]: https://en.wikipedia.org/wiki/Semaphore_(programming)
+
+    #### Chat Application
+
+    Once you have implemented the client library and are confident in your
+    testing, you must create a **chat application** that utilizes the [pub/sub]
+    system.  Here are some **requirements**:
+
+    1. Must support **multiple** users from **different** machines.
+
+    2. Must allow for users to enter in **messages** that are sent to other
+    users via the [pub/sub] system.
+
+    3. Must support a `/exit` or `/quit` command for terminating the
+    application.
+
+    4. Must **terminate gracefully** (ie. no hanging).
+
+    5. Must properly **manage resources** (ie. no resource leaks).
+
+    <div class="alert alert-warning" markdown="1">
+    #### <i class="fa fa-comments"></i> Chat Application
+
+    The exact nature of the messages exchanged between the clients is up to
+    you.  However, the **chat application** must utilize your **client
+    library** and must **utilize multiple [threads]** correctly.
+    </div>
+
+    ## Deliverables
+
+    As noted above, you are to work **individually** or in **pairs** to
+    implement `libmq_client.a`.  You must use [C99] (not [C++]) as the
+    implementation language.  Any test scripts or auxillary tools can be
+    written in any reasonable scripting language.
+
+    [C99]:  https://en.wikipedia.org/wiki/C99
+    [C++]:  https://isocpp.org/
+
+    ### Timeline
+
+    Here is a timeline of events related to this project:
+
+    <table class="table table-striped table-bordered" markdown="1">
+      <thead>
+        <th>Date</th>
+        <th>Event</th>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="text-strong">Saturday, August 29</td>
+          <td>Project description and repository are available.</td>
+        </tr>
+        <tr>
+          <td class="text-strong">Saturday, September 12</td>
+          <td>Brainstorming should be completed.</td>
+        </tr>
+        <tr>
+          <td class="text-strong">Saturday, September 19</td>
+          <td>Client library and chat application must be completed.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="alert alert-success" markdown="1">
+    #### <i class="fa fa-github"></i> Final Submission
+
+    For the final submission, please open a **Pull Request** on your repository
+    (for your `development` branch to the `master` branch) and assign it to the
+    **instructor**.
+
+    </div>
+
+    ### Repository
+
+    To start this project, you must create a [Project 02] repository on
+    [GitHub] using the following template:
+
+    > [https://classroom.github.com/g/sTq3c9zo](https://classroom.github.com/g/sTq3c9zo)
+
+    <div class="alert alert-warning" markdown="1">
+    **Note**: Do your work in a separate [git] branch that can be later merged
+    into the `master` branch (ie. make a `development` branch, **DO NOT COMMIT
+    OR MERGE TO MASTER**).
+    </div>
+
+    ### Documentation
+
+    The [Project 02] repository includes a `README.md` file with the following
+    sections:
+
+    1. **Students**: This should be the names and email addresses of each group
+    member.
+
+    2. **Brainstorming**: This contains questions that should help you design
+    and plan your approach to the project. **You do not need to fill these out,
+    but they are meant to be helpful**.
+
+    3. **Demonstration**: This should contain a link to a **video** of your
+    demonstration of your **chat application**.
+
+    4. **Errata**: This should contain a description of any known errors or
+    deficiencies in your implementation.
+
+    You must complete this document report as part of your project.
+
+    ### Source Code
+
+    As you can see, the base [Project 02] repository contains a `README.md`
+    file and the following folder hierarchy:
+
+        :::bash
+        project02
+            \_  Makefile        # This is the project Makefile
+            \_  bin             # This contains the executables and test scripts
+            \_  include
+                \_  mq          # This contains the mq client header files
+            \_  lib             # This contains the mq client library
+            \_  src             # This contains the mq client source code
+            \_  tests           # This contains the test source code
+
+    You must maintain this folder structure for your project and place files in
+    their appropriate place.
+
+    <div class="alert alert-warning" markdown="1">
+    #### <i class="fa fa-code"></i> K.I.S.S.
+
+    While the exact organization of the project code is up to you, keep in mind
+    that you will be graded in part on **coding style**, **cleaniness**, and
+    **organization**.  This means your code should be consistently formatted,
+    not contain any dead code, have reasonable comments, and appropriate naming
+    among other things:
+
+    - Break long functions into smaller functions.
+
+    - Make sure each function does one thing and does it well.
+
+    - Abstract, but don't over do it.
+
+    Please refer to these [Coding Style] slides for some tips and guidelines on
+    coding style expectations.
+
+    </div>
+
+
+    #### Compiling
+
+    To help you get started, we have provided you with a `Makefile` with all
+    the necessary targets:
+
+        ::bash
+        $ make                  # Builds lib/libmq_client.a
+        Compiling src/socket.o
+        Compiling src/request.o
+        Compiling src/queue.o
+        Compiling src/mq.o
+        Linking   lib/libmq_client.a
+
+        $ make test             # Builds and runs test programs
+        Compiling tests/test_queue_functional.o
+        Linking   bin/test_queue_functional
+        Compiling tests/test_queue_unit.o
+        Linking   bin/test_queue_unit
+        Compiling tests/test_request_unit.o
+        Linking   bin/test_request_unit
+        Compiling tests/test_echo_client.o
+        Linking   bin/test_echo_client
+
+        Testing test_request_unit...
+         request_create                           ... Success
+         request_delete                           ... Success
+         request_write                            ... Success
+
+        Testing test_queue_unit...
+         queue_create                             ... Success
+         queue_push                               ... Success
+         queue_pop                                ... Success
+         queue_delete                             ... Success
+
+        Testing test_queue_functional             ... Success
+
+        Testing test_echo_client                  ... Success
+
+        $ make clean            # Removes all targets and intermediate objects
+        Removing  objects
+        Removing  libraries
+        Removing  test programs
+
+    <div class="alert alert-warning" markdown="1">
+    **Note**, you will need to modify this `Makefile` to build your **chat
+    application**.
+    </div>
+
+    #### Running
+
+    As noted above, you are provided with a [Python] implementation of the
+    [pub/sub] server.  To run it, you just specify the port you want to use (by
+    default it is `9620`):
+
+        $ ./bin/mq_server.py --port=9456        # Start server on port 9456
+
+    Since you are only writing the **client library**, we have provided a
+    simple test client application that uses your library called
+    `test_echo_client`.  Once the server is up and running, you can use the
+    test program by doing the following:
+
+        $ ./bin/test_echo_client localhost 9456 # Contact localhost on port 9456
+
+    #### Implementation
+
+    All of the [C99] header files are in the `include/mq` folder while the
+    [C99] source code for the client librar is in the `src/client` directory.
+    To help you get started, parts of the project are already implemented:
+
+        :::bash
+        [~] include/mq/client.h     # MQ client header (mostly implemented)
+        [x] include/mq/logging.h    # MQ logging header (implemented)
+        [~] include/mq/queue.h      # MQ queue header (mostly implemented)
+        [x] include/mq/request.h    # MQ request header (implemented)
+        [x] include/mq/socket.h     # MQ socket header (implemented)
+        [x] include/mq/string.h     # MQ string header (implemented)
+        [x] include/mq/thread.h     # MQ thread header (implemented)
+        [ ] src/client.c            # MQ client implementation (not implemented)
+        [ ] src/queue.c             # MQ queue implementation (not implemented)
+        [ ] src/request.c           # MQ request implementation (not implemented)
+        [x] src/socket.c            # MQ socket implementation (implemented)
+
+    Basically, the **socket** code along with the basic code skeleton is
+    provided to you.  However, you must implement the **client**, **queue**,
+    and **request** structures and functionality.  Each of the functions in the
+    incomplete files above have comments that describe what needs to be done.
+
+    You will need to examine these source files and complete the implementation
+    of the **message queue** client library. To do so, you will first need to
+    implement a basic concurrent `Queue` structure and utilize it in your
+    `MessageQueue` client structure:
+
+    1. `include/mq/client.h`, `include/mq/queue.h`: While most of the headers
+    are complete, these two are considered only mostly implemented because they
+    lack any [mutexes], [condition variables], or [semaphores].  That is, they
+    do not currently utilize any synchronization primitives.  You will need to
+    determine which ones you wish to use and how.
+
+          To help simplify your code a bit, we have provided
+          `include/mq/thread.h` which contains macros and type definitions that
+          can help simplify your [POSIX threads] code.  Feel free to either use
+          these or ignore them.
+
+    2. `src/request.c`: This file contains the implementation of a `Request`
+    structure which records the basic components of a [HTTP] request:
+
+          a. `method`: This is the [HTTP] method to perform (ie. `GET`, `PUT`,
+          `DELETE`).
+
+          b. `uri`: This is the resource to access (ie. `/topic/$TOPIC` or
+          `/queue/$QUEUE`)
+
+          c. `body`: This is the body of the [HTTP] message.
+
+    3. `src/queue.c`: This file contains the implementation of a
+    concurrent `Queue` structure which implements a basic [monitor] for
+    synchronized access to the `Queue` via `push` and `pop` operations.  You
+    will need to think carefully on how and when to use your synchronization
+    primitives.
+
+    4. `src/client.c`: This file contains the implementation of the
+    `MessageQueue` client structure which is the object the user will interface
+    with.  This is where you will define functions that wrap and implement the
+    [RESTful] API described above.  Likewise, this is where you will need to
+    implement the [POSIX threads] that run in the background (ie. **pusher**
+    and **puller**).
+
+    #### Testing
+
+    To test the client library, we have provided a variety of tests:
+
+        :::bash
+        $ make test
+
+        Testing test_request_unit...
+         request_create                           ... Success
+         request_delete                           ... Success
+         request_write                            ... Success
+
+        Testing test_queue_unit...
+         queue_create                             ... Success
+         queue_push                               ... Success
+         queue_pop                                ... Success
+         queue_delete                             ... Success
+
+        Testing test_queue_functional             ... Success
+
+        Testing test_echo_client                  ... Success
+
+    The `test_request_unit` is a [unit test] for the `Request` structure you
+    will be utilizing.  Similarly, the `test_queue_unit` is a [unit test] for
+    the concurrent queue you will be implementing.  It also comes with a
+    functional test (i.e.  `test_queue_functional`) that tests the queue with
+    multiple threads.  Finally, we include a basic echo client test (ie.
+    `test_echo_client`) that will use your message queue library to perform
+    basic operations.
+
+    <div class="alert alert-info" markdown="1">
+    Feel free to create **additional tests** to verify the correctness of your
+    library.
+    </div>
+
+    ## Reflection
+
+    To reflect on the project and the concepts involved, you will need to
+    create a **group video demonstration** of your software artifact and
+    complete an **individual quiz** (*each member will submit their own answers
+    to their own private assignments repository*).
+
+    ### Video Demonstration
+
+    As part of your grade, your group will need to create a video that
+    demonstrates and discusses the following:
+
+    1. Your **library** passing the automated tests.
+
+    2. Your **chat application** working with multiple clients.
+
+    3. Any **errata, quirks, or unresolved issues** in your project.
+
+    4. What you **learned** by doing this project.
+
+    The video should include narration to describe what is being presented and
+    should cover the requirements enumerated above. It should be no longer than
+    `5` minutes.
+
+    Please upload the video to either [YouTube] or [Google Drive] and provide a
+    link to it in your `README.md`.
+
+    [YouTube]: https://youtube.com
+    [Google Drive]: https://drive.google.com
+
+    ### Individual Quiz
+
+    Once you have completed the project, answer the following [Project 02 Quiz]
+    questions **individually** in your own personal `assignments` repository on [GitHub]:
+
+    <div id="quiz-questions"></div>
+
+    <div id="quiz-responses"></div>
+
+    <script src="static/js/dredd-quiz.js"></script>
+    <script>
+    loadQuiz('static/json/project02.json');
+    </script>
+
+    The results of the quiz should look like the following:
+
+        :::text
+        Submitting project02 assignment ...
+        Submitting project02 quiz ...
+              Q1 0.50
+              Q2 0.50
+              Q3 1.70
+              Q4 1.30
+           Score 4.00
+
+    <div class="alert alert-info" markdown="1">
+    #### <i class="fa fa-git"></i> Assignments Repository
+
+    Each group member should do the quiz on their own and record their answers
+    in the `project02` folder in their **assignments** [GitHub] repository.
+
+    Please make a **pull request** and assign it to your [Reading 06 TA List]
+    grader.
+
+    </div>
+
+    [Project 02 Quiz]: static/json/project02.json
+
+    ## Grading
+
+    Your project will be graded on the following metrics:
+
+    <table class="table table-striped table-bordered" markdown="1">
+      <thead>
+        <th>Metric</th>
+        <th>Points</th>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <strong>Source Code</strong>
+            <ol>
+              <li><b>General</b>
+                <ul>
+                  <li>Builds and cleans without warnings or errors</li>
+                  <li>Uses system calls appropriately</li>
+                  <li>Manages resources such as memory and files appropriately</li>
+                  <li>Is consistent, readable, and organized</li>
+                  <li>Has regular commits and submitted on-time.</li>
+                </ul>
+              </li>
+              <br>
+              <li><b>Request</b>
+              <ul>
+                  <li>Implements `request_create` appropriately</li>
+                  <li>Implements `request_delete` appropriately</li>
+                  <li>Implements `request_write` appropriately</li>
+              </ul>
+              </li>
+              <br>
+              <li><b>Queue</b>
+              <ul>
+                  <li>Implements `queue_create` appropriately</li>
+                  <li>Implements `queue_delete` appropriately</li>
+                  <li>Implements `queue_push` appropriately</li>
+                  <li>Implements `queue_pop` appropriately</li>
+              </ul>
+              </li>
+              <br>
+              <li><b>Client</b>
+                <ul>
+                  <li>Performs `SUBSCRIBE` properly</li>
+                  <li>Performs `UNSUBSCRIBE` properly</li>
+                  <li>Performs `PUBLISH` properly</li>
+                  <li>Performs `RETRIEVE` properly</li>
+                  <li>Successfully shutdowns properly</li>
+                  <li>Utilizes multiple threads for sending and receiving properly</li>
+                  <li>Utilizes concurrent data structures properly</li>
+                  <li>Free of concurrency bugs (race conditions, deadlocks, etc.)</li>
+                </ul>
+              </li>
+              <br>
+              <li><b>Chat Application</b>
+                <ul>
+                  <li>Supports multiple users from different machines</li>
+                  <li>Utilizes multiple threads properly</li>
+                  <li>Utilizes client library for communication properly</li>
+                  <li>Free of concurrency bugs (race conditions, deadlocks, etc.)</li>
+                  <li>Terminates gracefully</li>
+                </ul>
+              </li>
+            </ol>
+          </td>
+          <td>
+            <strong>22.0</strong>
+            <ol class="list-unstyled">
+              <li><b><i>4.0</i></b>
+                <ul class="list-unstyled">
+                  <li><i>0.5</i></li>
+                  <li><i>0.5</i></li>
+                  <li><i>1.0</i></li>
+                  <li><i>1.0</i></li>
+                  <li><i>1.0</i></li>
+                </ul>
+              </li>
+              <br>
+              <li><b><i>1.5</i></b>
+                <ul class="list-unstyled">
+                  <li><i>0.5</i></li>
+                  <li><i>0.5</i></li>
+                  <li><i>0.5</i></li>
+                </ul>
+              </li>
+              <br>
+              <li><b><i>5.0</i></b>
+                <ul class="list-unstyled">
+                  <li><i>0.5</i></li>
+                  <li><i>0.5</i></li>
+                  <li><i>2.0</i></li>
+                  <li><i>2.0</i></li>
+                </ul>
+              </li>
+              <br>
+              <li><b><i>7.0</i></b>
+                <ul class="list-unstyled">
+                  <li><i>0.5</i></li>
+                  <li><i>0.5</i></li>
+                  <li><i>0.5</i></li>
+                  <li><i>0.5</i></li>
+                  <li><i>1.5</i></li>
+                  <li><i>1.5</i></li>
+                  <li><i>1.0</i></li>
+                  <li><i>1.0</i></li>
+                </ul>
+              </li>
+              <br>
+              <li><b><i>4.5</i></b>
+                <ul class="list-unstyled">
+                  <li><i>1.0</i></li>
+                  <li><i>1.0</i></li>
+                  <li><i>1.0</i></li>
+                  <li><i>1.0</i></li>
+                  <li><i>0.5</i></li>
+                </ul>
+              </li>
+            </ol>
+          </td>
+        </tr>
+        <tr>
+          <td>
+          <strong>Reflection</strong>
+          <ol>
+            <li><b>Group Video Demonstration</b>
+            <ul>
+              <li>Exhibits reasonable audio and video quality</li>
+              <li>Demonstrates <b>library</b> passing automated tests</li>
+              <li>Demonstrates <b>chat application</b> working with multiple clients</li>
+              <li>Discusses errata, quirks, or unresolved issues</li>
+              <li>Discusses what the group learned from the project</li>
+            </ul>
+            <br>
+            </li>
+            <li><b>Individual Quiz</b></li>
+          </ol>
+          </td>
+          <td>
+          <strong>8.0</strong>
+          <ol class="list-unstyled">
+            <li><b><i>4.0</i></b>
+            <ul class="list-unstyled">
+              <li><i>0.50</i></li>
+              <li><i>1.00</i></li>
+              <li><i>1.00</i></li>
+              <li><i>0.75</i></li>
+              <li><i>0.75</i></li>
+            </ul>
+            <br>
+            </li>
+            <li><b>4.0</b></li>
+          </ol>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="alert alert-warning" markdown="1">
+    #### <i class="fa fa-git"></i> Commit History
+
+    To encourage you to work on the project **regularly** (rather than leaving
+    it until the last second) and to practice performing **incremental
+    development**, part of your grade will be based on whether or not you have
+    regular and reasonably sized commits in your [git] log.
+
+    That is, you will **lose** a point if you commit everything at once near
+    the project deadline.
+
+    </div>
+
+    <div class="alert alert-danger" markdown="1">
+    #### <i class="fa fa-warning"></i> Error Handling
+
+    In addition to meeting the functional requirements of the project (as
+    described above), your program **must not exhibit any memory leaks** or
+    **invalid memory accesses** as would be detected by [Valgrind].
+
+    Additionally, because [system calls] can fail, your program must implement
+    **robust error handling** and ensure your code checks the status of [system
+    calls] when reasonable.
+
+    Moreover, you code must compile **without any warnings** (and `-Wall` must
+    be one of the `CFLAGS`).
+
+    </div>
+
+    [Linux]:        https://kernel.org
+    [system call]:  https://en.wikipedia.org/wiki/System_call
+    [system calls]: https://en.wikipedia.org/wiki/System_call
+    [Valgrind]:     http://valgrind.org/
+    [Operating Systems: Three Easy Pieces]: http://pages.cs.wisc.edu/~remzi/OSTEP/
+    [Project 02]:       https://github.com/nd-cse-30341-fa20/cse-30341-fa20-project02
+    [Reading 00]:       reading00.html
+    [Reading 06 TA List]:       reading06_tas.html
+    [GitHub]:           https://github.com
+    [Coding Style]:     https://docs.google.com/presentation/d/1v1Y428Eu0L3K_QqeML3ffOYxyZ353LBCJP0B_wyvihw/edit?usp=sharing
+    [message queue]:    https://en.wikipedia.org/wiki/Message_queue
+    [RESTful]:      https://en.wikipedia.org/wiki/Representational_state_transfer
+    [HTTP]:         https://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol
+    [Python]:       https://www.python.org/
+    [Tornado]:      https://www.tornadoweb.org/
+    [curl]:         https://curl.haxx.se/
+    [nc]:           https://linux.die.net/man/1/nc
+    [unit test]:    https://en.wikipedia.org/wiki/Unit_testing
+    [unit tests]:   https://en.wikipedia.org/wiki/Unit_testing
+    [test-driven development]: https://en.wikipedia.org/wiki/Test-driven_development
+    [git]:          https://git-scm.com/
