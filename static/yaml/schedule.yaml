@@ -59,6 +59,8 @@
         items:
           - name:       Slides
             link:       https://docs.google.com/presentation/d/1d5_2tzGEQpHoth9_NPFvlR6xAEM2S472rsIYUtYMKxQ/edit?usp=sharing
+          - name:       Panopto
+            link:       https://notredame.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=c2176e0c-9268-43e3-bca2-ac240110a2fa
 
       - date:           Sat 08/29
         assignments:
@@ -75,6 +77,8 @@
         items:
           - name:       Slides
             link:       https://docs.google.com/presentation/d/1jFzPWqf-zsnf6MTiN5w3ZWbHu8JhZD2BQwq1OPUlHOk/edit?usp=sharing
+          - name:       Panopto
+            link:       https://notredame.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=25b39e8c-e820-4009-aa36-ac290101d2f3
 
       - date:           Thu 09/03
         topics:         Threads
