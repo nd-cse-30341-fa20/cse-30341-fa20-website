@@ -85,6 +85,8 @@
         items:
           - name:       Slides
             link:       https://docs.google.com/presentation/d/1GPieTfa0eQSbBXSHR7E3_j4_gcmgxtIvvtXX4kDTw5k/edit?usp=sharing
+          - name:       Panopto
+            link:       https://notredame.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=97a0178c-5665-4370-b20e-ac2b010d4206
 
 - name:     Locks, Condition Variables
   days:
