@@ -97,6 +97,8 @@
         items:
           - name:       Slides
             link:       https://docs.google.com/presentation/d/1UjSH97_uPuWlzds6er6KusYiRWam7Us9nUzwBnwUfRY/edit?usp=sharing
+          - name:       Panopto
+            link:       https://notredame.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=bb611756-d138-4b3b-a64a-ac30010a0649
 
       - date:           Thu 09/10
         topics:         Condition Variables
