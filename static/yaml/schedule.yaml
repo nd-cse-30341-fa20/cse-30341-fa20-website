@@ -105,6 +105,8 @@
         items:
           - name:       Slides
             link:       https://docs.google.com/presentation/d/1wAq8zWoMHoeAq6sukKvrFtwVVqzzK44UJcZZUj0LfR0/edit?usp=sharing
+          - name:       Panopto
+            link:       https://notredame.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=8a15d49b-1f0f-4090-ae43-ac32010db3c1
         
 - name:     Semaphores, Deadlock
   days:
