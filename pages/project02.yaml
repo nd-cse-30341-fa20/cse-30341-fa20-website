@@ -62,7 +62,7 @@ body:       |
     to implement a **client library** for the described [pub/sub] system.
     Additionally, you are to utilize this library to a simple **chat
     application**.  Both the **client library** and the **chat application**
-    are due by **noon** on **Saturday, September 19, 2020**.
+    are due by **11:59PM** on **Tuesday, September 22, 2020**.
 
     More details about this project and your deliverables are described below.
 
@@ -339,7 +339,7 @@ body:       |
           <td>Brainstorming should be completed.</td>
         </tr>
         <tr>
-          <td class="text-strong">Saturday, September 19</td>
+          <td class="text-strong">Tuesday, September 22</td>
           <td>Client library and chat application must be completed.</td>
         </tr>
       </tbody>
