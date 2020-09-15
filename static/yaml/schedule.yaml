@@ -117,6 +117,8 @@
         items:
           - name:       Slides
             link:       https://docs.google.com/presentation/d/1mmsm8bBoXOqO8zwsLRsh4zRMMHh00F8jf-QF1lanOPw/edit?usp=sharing
+          - name:       Panopto
+            link:       https://notredame.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=bb3ea9c3-6514-46fe-afad-ac370106fc2b
 
       - date:           Thu 09/17
         topics:         Deadlock
