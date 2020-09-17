@@ -1,0 +1,169 @@
+title:      "Reading 07: Virtual Memory"
+icon:       fa-book
+navigation: []
+internal:
+external:
+body:       |
+
+    **Everyone**:
+
+    Next week, we will return to the idea of [virtualization] and consider how
+    the operating system *abstracts* physical memory for each process.
+
+    <div class="alert alert-info" markdown="1">
+
+    #### <i class="fa fa-search"></i> TL;DR
+
+    For this reading assignment, you are to read about [address spaces],
+    [free-space management], [address translation], and [segmentation], and
+    submit your responses to the [Reading 07 Quiz].
+
+    </div>
+
+    [address spaces]: https://en.wikipedia.org/wiki/Address_space
+    [free-space management]: https://en.wikipedia.org/wiki/Memory_management
+    [address translation]: https://en.wikipedia.org/wiki/CPU_cache#Address_translation
+    [segmentation]: https://en.wikipedia.org/wiki/Memory_segmentation
+
+    <img src="static/img/ostep.jpg" class="pull-right">
+
+    ## Reading
+
+    The readings for next week are:
+
+    1. [Operating Systems: Three Easy Pieces]
+
+        - [A Dialog on Memory Virtualization](http://pages.cs.wisc.edu/~remzi/OSTEP/dialogue-vm.pdf)
+
+        - [Address Spaces](http://pages.cs.wisc.edu/~remzi/OSTEP/vm-intro.pdf)
+
+        - [Memory API](http://pages.cs.wisc.edu/~remzi/OSTEP/vm-api.pdf)
+
+        - [Address Translation](http://pages.cs.wisc.edu/~remzi/OSTEP/vm-mechanism.pdf)
+
+        - [Free-Space Management](http://pages.cs.wisc.edu/~remzi/OSTEP/vm-freespace.pdf)
+
+    ## Quiz
+
+    Once you have done the readings, answer the following [Reading 07 Quiz]
+    questions:
+
+    <div id="quiz-questions"></div>
+
+    <div id="quiz-responses"></div>
+
+    <script src="static/js/dredd-quiz.js"></script>
+    <script>
+    loadQuiz('static/json/reading07.json');
+    </script>
+
+    ### Program
+
+    For this week, you are to identify common memory problems.  Given the
+    following five snippets of code:
+
+        :::C
+        // Snippet A
+        for (int i = 1; i < argc; i++) {
+            char *copy = strdup(argv[i]);
+            puts(copy);
+        }
+
+        // Snippet B
+        char buffer[BUFSIZ];
+        puts(buffer);
+
+        // Snippet C
+        char *s = "string";
+        *s = 'S';
+
+        // Snippet D
+        char *s = "string";
+        free(s);
+        
+        // Snippet E
+        char *buffer = calloc(1, strlen(argv[0]));
+        strcat(buffer, argv[0]);
+        puts(buffer);
+        free(buffer);
+
+    Identify if the code snippet demonstrates one of the following errors:
+
+    1. `segfault`
+    2. `buffer overflow`
+    3. `uninitialized read`
+    4. `memory leak`
+    5. `dangling pointer`
+    6. `double free`
+    7. `invalid free`
+
+    In your `program.c`, simply use `puts` to print out the error:
+
+        :::c
+        int main(int argc, char *argv[]) {
+            puts("segfault");
+            ...
+            puts("invalid free");
+            return 0;
+        }
+
+    ## Submission
+
+    To submit you work, follow the same process outlined in [Reading 00]:
+
+        :::bash
+        $ git checkout master                 # Make sure we are in master branch
+        $ git pull --rebase                   # Make sure we are up-to-date with GitLab
+
+        $ git checkout -b reading07           # Create reading07 branch and check it out
+
+        $ cd reading07                        # Go into reading07 folder
+        $ $EDITOR answers.json                # Edit your answers.json file
+
+        $ ../.scripts/submit.py               # Check reading07 quiz
+        Submitting reading07 assignment ...
+        Submitting reading07 quiz ...
+             Q01 0.40
+             Q02 0.30
+             Q03 0.30
+             Q04 0.60
+             Q05 0.30
+             Q06 0.50
+             Q07 0.30
+             Q08 0.30
+           Score 3.00
+
+        $ git add answers.json                # Add answers.json to staging area
+        $ git commit -m "Reading 07: Quiz"    # Commit work
+
+        $ $EDITOR program.c                   # Edit your program.c file
+
+        $ make test-program                   # Check reading03 program
+        Testing reading07 program...
+           Score 3.00
+
+        $ git add Makefile                    # Add Makefile to staging area
+        $ git add program.c                   # Add program.c to staging area
+        $ git commit -m "Reading 07: Code"    # Commit work
+
+        $ git push -u origin reading07        # Push branch to GitHub
+
+    <div class="alert alert-success" markdown="1">
+    #### <i class="fa fa-github"></i> Pull Request
+
+    Once you have committed your work and pushed it to [GitHub], remember to
+    create a **pull request** and assign it to the appropriate **teaching
+    assistant** from the [Reading 07 TA List].
+
+    </div>
+
+    [Operating Systems: Three Easy Pieces]:     http://pages.cs.wisc.edu/~remzi/OSTEP/
+    [GitHub]:                                   https://github.com
+    [Reading 00]:                               reading00.html
+    [Reading 05]:                               reading05.html
+    [Reading 07 Quiz]:                          static/json/reading07.json
+    [JSON]:                                     http://www.json.org/
+    [git-branch]:                               https://git-scm.com/docs/git-branch
+    [dredd]:                                    https://dredd.h4x0r.space
+    [Reading 07 TA List]:                       reading07_tas.html
+

@@ -1,0 +1,57 @@
+{
+    "q01": {
+        "type": "blank",
+        "question": "<strong>\n\nAs with the CPU, the operating system ____ or abstracts memory by providing\nan illusion of a large and private ____ to each process.  To maintain this\nillusion, the OS will need some hardware help to translate pretend ____\naddresses into real ____ addresses.  \n\n</strong>\n"
+    },
+    "q02": {
+        "type": "blank",
+        "question": "<strong>\n\nIn virtualizing memory, the OS has three major goals:\n\n</strong>\n\n<ol>\n  <li>____: The virtualization should ensure processes are guarded from one another as well as the OS itself.</li>\n  <li>____: The virtualization should be invisible to the running program.</li>\n  <li>____: The virtualization should be as effective as possible in terms of space and time.</li>\n</ol>\n"
+    },
+    "q03": {
+        "type": "order",
+        "question": "<strong>\nAn address space is usually divided into four components:\n</strong>\n\n<ol>\n    <li>Contains data that is the instructions of the program.</li>\n    <li>Contains data that is implicitly or automatically managed by the compiler.</li>\n    <li>Contains data that is explicitly or manually managed by the user.</li>\n    <li>Contains data that is statically allocated by the program.</li>\n</ol>\n\nOrder the following labels to match the components described above.\n",
+        "responses": {
+            "data": "Data",
+            "heap": "Heap",
+            "stack": "Stack",
+            "code": "Code"
+        }
+    },
+    "q04": {
+        "type": "order",
+        "question": "<strong>\n\nThe following are descriptions of various memory errors:\n\n</strong>\n\n<ol>\n  <li>Illegal memory access.</li>\n  <li>Not allocating enough memory.</li>\n  <li>Forgetting to initialize allocated memory.</li>\n  <li>Forgetting to free allocated memory.</li>\n  <li>Freeing memory before you are done with it.</li>\n  <li>Freeing memory repeatedly.</li>\n  <li>Incorrectly freeing memory.</li>\n</ol>\n\nOrder the following labels to match the descriptions above.\n",
+        "responses": {
+            "segfault": "Segmentation Fault",
+            "overflow": "Buffer Overflow",
+            "uninitread": "Uninitialized Read",
+            "memleak": "Memory Leak",
+            "dangling": "Dangling Pointer",
+            "double": "Double Free",
+            "invalid": "Invalid Free"
+        }
+    },
+    "q05": {
+        "type": "blank",
+        "question": "\n<strong>\nTo implement virtual memory, operating systems typically use ____, where\nthe hardware transforms each ____ by redirecting the referenced address to\nthe actual location in physical memory.  The OS participates in this\nillusion by setting up the hardware to ensure correct translation takes\nplaces and by ____, that is keeping track of which locations are free and\nwhich are in use.\n</strong>\n"
+    },
+    "q06": {
+        "type": "blank",
+        "question": "\n<strong>\n\nIn the technique known as ____, we use two hardware registers: a ____\nregister which sets the starting point, and a ____ register which sets the\nlimit of our addresses.  This information is used by the ____ in the\nprocessor to translate addresses using the following formula:\n\n</strong>\n\n<pre>\n\nphysical address = ____ + virtual address\n\n</pre>\n\n<strong>\n\nUnfortunately, this technique suffers from an inefficiency known as ____,\nwhich means that space inside an allocated unit is not completely utilized\n(and thus wasted).\n\n</strong>\n"
+    },
+    "q07": {
+        "type": "blank",
+        "question": "<strong>\n\nTo manage free space, the operating system usually maintains a data\nstructure called the ____ to keep track of which memory units are available\n(or in use).  When a request for memory is made, the OS can use a technique\ncalled ____, which involves locating a free chunk of memory and dividing it\ninto two.  Conversely, when memory is returned, the OS can perform ____ to\ncombine contiguous free space.\n\n</strong>\n"
+    },
+    "q08": {
+        "type": "multiple",
+        "question": "<strong>\n\nWhich of the following statements regarding strategies for growing the heap\nare true (select all that apply)?\n\n<strong>\n",
+        "responses": {
+            "bestfit": "Best fit is effective and has low costs.",
+            "worstfit": "Worst fit is prone to excess fragmentation and has high overheads.",
+            "firstfit": "First fit finds the first available block and returns it.",
+            "nextfit": "Next fit keeps track of where the OS left off in the free list and returns next available block.",
+            "segregated": "Segregated lists are used to separate memory requests from different processes.",
+            "buddy": "Buddy allocators always allocate memory in pairs to ensure future requests are possible."
+        }
+    }
+}
