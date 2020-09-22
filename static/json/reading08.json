@@ -1,0 +1,49 @@
+{
+    "q01": {
+        "type": "multiple",
+        "question": "<strong>\n\nWhich are the following are reasons why the base and bounds method of\nimplementing virtual memory is insufficient for a modern operating system\n(choose all that apply)?\n\n<strong>\n",
+        "responses": {
+            "complicated": "It is too complicated.",
+            "slow": "It is too slow and inefficient.",
+            "waste": "It is too wasteful.",
+            "hardware": "It requires special hardware support.",
+            "space": "It requires the address space to fit in physical memory.",
+            "transparent": "It is not transparent to the application."
+        }
+    },
+    "q02": {
+        "type": "blank",
+        "question": "<strong>\n\n<p>\nRather than loading the whole address space as a single block in memory,\n____ divides the address space into independent ____ and loads each\nindividual block into memory, where each region has its own separate ____\nand ____ registers.  Whenever an illegal access occurs, the hardware traps\ninto the OS, and the application is presented with the dreaded ____ error.\n</p>\n\n<p>\nOne quirk with the stack segment (as compared to the heap, data, and code)\nis that it grows in the ____ direction.  To handle this, the hardware must\nkeep track of this direction.  Likewise, to enable ____ the code segment\nbetween processes, the hardware must also store ____ which record whether\nor not the segment can be read or written to.\n</p>\n\n<p>Once again, the operating system must keep track of this information for\neach process and then save and restore it during a ____.  Additionally it\nmust use a ____ management algorithm to minimize ____ (ie. developing many\nlittle holes of free space between each segment).</p>\n\n</strong>\n"
+    },
+    "q03": {
+        "type": "blank",
+        "question": "<strong>\n\nProcess A has the following segmentation information:\n\n</strong>\n\n<table class=\"table table-bordered\">\n  <thead>\n    <th>Field</th>\n    <th>Segment</th>\n    <th>Base</th>\n    <th>Bounds</th>\n  </thead>\n  <tbody>\n    <tr>\n      <td><tt>00</tt></td>\n      <td>Code</td>\n      <td><tt>32K</tt></td>\n      <td><tt>2K</tt></td>\n    </tr>\n    <tr>\n      <td><tt>01</tt></td>\n      <td>Data</td>\n      <td><tt>34K</tt></td>\n      <td><tt>2K</tt></td>\n    </tr>\n    <tr>\n      <td><tt>10</tt></td>\n      <td>Heap</td>\n      <td><tt>36K</tt></td>\n      <td><tt>2K</tt></td>\n    </tr>\n    <tr>\n      <td><tt>11</tt></td>\n      <td>Stack</td>\n      <td><tt>28K</tt></td>\n      <td><tt>2K</tt></td>\n    </tr>\n  </tbody>\n</table>\n\n<p>Given the following 16-bit virtual address: <tt>1000 0010 0000 1010</tt></p>\n\n<ol>\n<li>What is the largest segment size (ignoring any bounds)? ____ (bytes)</li>\n<li>What is the maximum offset value (ignoring any bounds)? ____ (hex)</li>\n<li>Which segment is this virtual address located in? ____</li>\n<li>What is the physical address of this virtual address? ____ (int)</li>\n</ol>\n"
+    },
+    "q04": {
+        "type": "blank",
+        "question": "<strong>\n\nIn segmentation, we chopped up memory into variabled-sized pieces.\nUnfortunately, this made our space fragmented over time.  An alternative\napproach is the idea of ____, which uses fixed-sized units called ____.\nEach of these fixed-sized units is mapped to a corresponding ____ in\nphysical memory.  These mappings are stored in a per-process data structure\ncalled a ____.\n\n</strong>\n"
+    },
+    "q05": {
+        "type": "blank",
+        "question": "<strong>\n\nBased on the page table described in section 18.1 and the virtual address,\n<tt>36</tt>, answer the following questions:\n\n</strong>\n\n<ol>\n  <li>Which page is this address located? ____ (int)</li>\n  <li>Which page frame is this address located? ____ (int)</li>\n  <li>What is the offest of this address? ____ (int)</li>\n  <li>What is the physical address? ____ (int)</li>\n</ol>\n"
+    },
+    "q06": {
+        "type": "blank",
+        "question": "<strong>\n\nTo organize a page table, we can simply use an array or ____, which\nconsists of a series of ____ that contain information such as:\n\n<ul>\n<li>____: This records whether or not the translation is valid.</li>\n<li>____: This records whether or not the page could be read from, written to, or executed from.</li>\n<li>____: This records whether or not the page is in physical memory.</li>\n<li>____: This records whether or not the page has been accessed.</li>\n</ul>\n\n</strong>\n"
+    },
+    "q07": {
+        "type": "blank",
+        "question": "<strong>\n\n<p> Because page tables are so large, they must be stored in physical\nmemory and the OS must tell the hardware where the page table is via the\n____.  This means that there is an extra memory lookup for each virtual\naddress translation.  To speed this up, we can use a ____, which is a part\nof the MMU that ____ or stores virtual-to-physical address translations.\n</p>\n\n<p>\n\nWith this address-translation cache, the hardware first checks if the cache\ncontains the translation information.  If so then, we have a ____ and can\nuse this information right away.  Otherwise, we have a ____, and must\nreference the page table directly and then update the cache.  This\noptimization works because most programs exhibit some form of ____ (that is\nwe are likely to access memory near previous references) and ____ (that is\nwe are likely to access previously memory references).\n\n</p\n\n<p>\n\nSince page tables are generally per-process, when a context switch occurs,\nthe address-translation cache needs to be ____ or marked invalid, or the\ncache must support an ____ field, which allows the hardware to distinguish\nentries from different processes.\n\n</p>\n</strong>\n"
+    },
+    "q08": {
+        "type": "multiple",
+        "question": "<strong>\n\nTo combat the problem of large page tables, we can employ a variety of\napproaches.  Which of the following statements are true regarding these\nmethods (choose all that apply)?\n\n</strong>\n",
+        "responses": {
+            "smaller": "We can use smaller pages to shrink our page tables.",
+            "bigger": "We can use bigger pages, but these would lead to more internal fragmentation.",
+            "hybrid": "We can combine segmentation and pages but this is prone to external fragmentation.",
+            "multi": "We can use multi-level page tables which basically turns the page table into a tree.",
+            "inverted": "We can use an inverted page table, which basically uses hash table to map physical page frames to virtual pages."
+        }
+    }
+}

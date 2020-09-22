@@ -1,0 +1,279 @@
+title:      "Reading 08: Segmentation, Paging"
+icon:       fa-book
+navigation: []
+internal:
+external:
+body:       |
+
+    **Everyone**:
+
+    Next week, we will explore how an OS uses [segmentation] and [paging] to
+    implement a more sophisticated version of [virtual memory].  Rather than
+    rely on simple **base and bounds registers**, we will divide up memory into
+    *blocks* and map these to different parts of **physical memory**.  To
+    perform this mapping, we will utilize a series of hardware tables or caches
+    that need to be updated and managed by the operating system.
+
+    <div class="alert alert-info" markdown="1">
+
+    #### <i class="fa fa-search"></i> TL;DR
+
+    For this reading assignment, you are to read about [segmentation],
+    [paging], [page tables], and [TLBs], and submit your responses to the
+    [Reading 08 Quiz].
+
+    </div>
+
+    [segmentation]:     https://en.wikipedia.org/wiki/Memory_segmentation
+    [paging]:           https://en.wikipedia.org/wiki/Paging
+    [virtual memory]:   https://en.wikipedia.org/wiki/Virtual_memory
+    [page tables]:      https://en.wikipedia.org/wiki/Page_table
+    [tlbs]:             https://en.wikipedia.org/wiki/Translation_lookaside_buffer
+
+    <img src="static/img/ostep.jpg" class="pull-right">
+
+    ## Reading
+
+    The readings for this week are:
+
+    1. [Operating Systems: Three Easy Pieces]
+
+        - [Segmentation](http://pages.cs.wisc.edu/~remzi/OSTEP/vm-segmentation.pdf)
+
+        - [Paging: Introduction](http://pages.cs.wisc.edu/~remzi/OSTEP/vm-paging.pdf)
+
+        - [Paging: Faster Translations](http://pages.cs.wisc.edu/~remzi/OSTEP/vm-tlbs.pdf)
+
+        - [Paging: Smaller Tables](http://pages.cs.wisc.edu/~remzi/OSTEP/vm-smalltables.pdf)
+
+    ## Quiz
+
+    Once you have done the readings, answer the following [Reading 08 Quiz]
+    questions:
+
+    <div id="quiz-questions"></div>
+
+    <div id="quiz-responses"></div>
+
+    <script src="static/js/dredd-quiz.js"></script>
+    <script>
+    loadQuiz('static/json/reading08.json');
+    </script>
+
+    ### Program
+
+    For this week, you are to implement a `program` that translates **16-bit
+    virtual addresses** into **physical addresses**, while also detecting
+    **segmentation faults**:
+
+        :::bash
+        # Download addresses binary file
+        $ curl -LO https://raw.githubusercontent.com/nd-cse-30341-fa20/cse-30341-fa20-assignments/master/reading08/addresses.bin
+
+        # Translate virtual addresses in binary file to physical addresses
+        $ ./program < addresses.bin
+        VA[840a] -> PA[940a]
+        VA[8fff] -> PA[9fff] Segmentation Fault
+        VA[4022] -> PA[8822]
+        VA[4aaa] -> PA[92aa] Segmentation Fault
+        VA[0366] -> PA[8366]
+        VA[0c33] -> PA[8c33] Segmentation Fault
+        VA[c19b] -> PA[719b]
+        VA[cbde] -> PA[7bde] Segmentation Fault
+
+    The program reads in a binary [addresses.bin] file from `stdin` where each
+    **virtual address** is a **16-bit integer** and then uses the following
+    **Segmentation Table** to translate each **virtual address** into a
+    **physical address**:
+
+    <div class="thumbnail text-center">
+    <img src="static/img/reading08-segments.png" class="img-responsive">
+    </div>
+
+    <img src="static/img/reading08-address.png" class="pull-right">
+
+    As noted in the reading, when using [segmentation] each **virtual address**
+    can be broken down into a `segment` portion and an `offset` portion:
+
+    - The `segment` portion is the first few bits in the **virtual
+      address**.  Since we have `4` segments, we will use the first `2` bits to
+      denote the `segment` in each **virtual address**.
+
+        > To programatically extract the `segment`, we can apply a **bitmask**
+        to the **virtual address** and **shift the bits to the right** (the
+        length of the `offset`).
+
+    - The `offset` portion of the **virtual address** are the remaining bits not
+      in the `segment`.
+
+        > To programatically extract the `offset`, we can apply a **bitmask** to
+        the **virtual address**.
+
+    Once we know the `segment` and the `offset`, we can use the `base` of the
+    `segment` in the **Segmentation Table** to compute the **physical
+    address**:
+
+        :::text
+        Physical Address = Segment.base + offset
+
+    To detect for **segmentation faults**, we can check that the `offset` is
+    within the bounds or `size` of the `segment` in the **Segmentation Table**
+    stored in the **MMU**.
+
+    [addresses.bin]: https://raw.githubusercontent.com/nd-cse-30341-fa20/cse-30341-fa20-assignments/master/reading08/addresses.bin
+
+    #### Template
+
+    Your task is to implement this [Segmentation] address translation process
+    by completing the following [template.c]:
+
+        :::c
+        /* Reading 08 */
+
+        #include <stdint.h>
+        #include <stdio.h>
+        #include <stdlib.h>
+
+        /* Constants */
+
+        #define KB            // TODO: Define Kilobyte
+        #define SEGMENT_MASK  // TODO: Define Bitmask for Segment portion of Virtual Address
+        #define SEGMENT_SHIFT // TODO: Define Bitshift amount for Segment portion of Virtual Address
+        #define OFFSET_MASK   // TODO: Define Bitmask for Offset portion of Virtual Address
+
+        /* Structures */
+
+        typedef struct {
+            int16_t base;
+            int16_t size;
+        } SegmentRecord;
+
+        /* Constants */
+
+        SegmentRecord MMU[] = {	// Segmentation Table stored in MMU
+            {.base = 32*KB, .size = 2*KB},   /* 00: Code  */
+            {.base = 34*KB, .size = 2*KB},   /* 01: Data  */
+            {.base = 36*KB, .size = 2*KB},   /* 10: Heap  */
+            {.base = 28*KB, .size = 2*KB},   /* 11: Stack */
+        };
+
+        int main(int argc, char *argv[]) {
+            int16_t virtual_address;
+
+            while (fread(&virtual_address, sizeof(int16_t), 1, stdin)) {
+                int16_t segment	= // TODO: Determine segment using SEGMENT_MASK and SEGMENT_SHIFT
+                int16_t offset	= // TODO: Determine offset using OFFSET_MASK
+
+                char *fault = "";
+                if () { // TODO: Perform bounds checking using MMU and offset
+                    fault = " Segmentation Fault";
+                }
+
+                int16_t physical_address = // TODO: Compute physical address using MMU and offset
+                printf("VA[%04hx] -> PA[%04hx]%s\n", virtual_address, physical_address, fault);
+            }
+
+            return EXIT_SUCCESS;
+        }
+
+
+    As can been seen, the `MMU` consists of the **Segmentation Table**
+    described above with the **base and bounds** registers of each `segment`.
+    You will need to implement each of the `TODO`s to implement the **virtual
+    address** to **physical address** translator.
+
+    [template.c]: https://github.com/nd-cse-30341-fa20/cse-30341-fa20-assignments/blob/master/reading08/template.c
+
+    #### Hints
+
+    1. For `KB`, this is simply the number of bytes in a `kilobyte` (ie. base-2).
+
+    2. For `SEGMENT_MASK`, consider writing out the **bitmask** on paper and
+    then translating into hexadecimal.
+
+    3. For `SEGMENT_SHIFT`, remember that this is the length of the `offset`
+    component of the **virtual address**.
+
+    4. For `OFFSET_MASK`, this is the complement or inverse of the
+    `SEGMENT_MASK`.
+
+    5. To compute the `segment`, we want to apply the `SEGMENT_MASK` to the
+    **virtual address** and then **shift the result to the right** by the
+    `SEGMENT_SHIFT`.
+
+        For instance, if the virtual address was `1100 0010 0000 1010`,
+        applying the `SEGMENT_MASK` should give us `1100 0000 0000 0000`.  We then
+        want to shift to the right to get: `0000 0000 0000 0011`.
+
+    6. To compute the `offset`, we want to apply the `OFFSET_MASK` to the
+    **virtual address**.
+
+        For instance, if the virtual address was `1100 0010 0000 1010`,
+        applying the `OFFSET_MASK` should give us `0000 0010 0000 1010`.
+
+    7. To perform bounds checking, you must check the `offset` with the `size`
+    component of the `segment` record in the **MMU**.
+
+    8. To compute the physical address, you must use the `base` value in the
+    **Segmentation Table** along with the `offset`.
+
+    ## Submission
+
+    To submit you work, follow the same process outlined in [Reading 00]:
+
+        :::bash
+        $ git checkout master                 # Make sure we are in master branch
+        $ git pull --rebase                   # Make sure we are up-to-date with GitLab
+
+        $ git checkout -b reading08           # Create reading08 branch and check it out
+
+        $ cd reading08                        # Go into reading08 folder
+        $ $EDITOR answers.json                # Edit your answers.json file
+
+        $ ../.scripts/submit.py               # Check reading08 quiz
+        Submitting reading08 assignment ...
+        Submitting reading08 quiz ...
+             Q01 0.20
+             Q02 0.80
+             Q03 0.20
+             Q04 0.40
+             Q05 0.20
+             Q06 0.40
+             Q07 0.60
+             Q08 0.20
+           Score 3.00
+
+        $ git add answers.json                # Add answers.json to staging area
+        $ git commit -m "Reading 08: Quiz"    # Commit work
+
+        $ $EDITOR program.c                   # Edit your program.c file
+
+        $ make test-program                   # Check reading03 program
+        Testing reading08 program...
+           Score 3.00
+
+        $ git add Makefile                    # Add Makefile to staging area
+        $ git add program.c                   # Add program.c to staging area
+        $ git commit -m "Reading 08: Code"    # Commit work
+
+        $ git push -u origin reading08        # Push branch to GitHub
+
+    <div class="alert alert-success" markdown="1">
+    #### <i class="fa fa-github"></i> Pull Request
+
+    Once you have committed your work and pushed it to [GitHub], remember to
+    create a **pull request** and assign it to the appropriate **teaching
+    assistant** from the [Reading 08 TA List].
+
+    </div>
+
+    [Operating Systems: Three Easy Pieces]:     http://pages.cs.wisc.edu/~remzi/OSTEP/
+    [GitHub]:                                   https://github.com
+    [Reading 00]:                               reading00.html
+    [Reading 05]:                               reading05.html
+    [Reading 08 Quiz]:                          static/json/reading08.json
+    [JSON]:                                     http://www.json.org/
+    [git-branch]:                               https://git-scm.com/docs/git-branch
+    [dredd]:                                    https://dredd.h4x0r.space
+    [Reading 08 TA List]:                       reading08_tas.html
+
