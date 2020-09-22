@@ -1,0 +1,66 @@
+{
+    "q01": {
+        "type": "blank",
+        "question": "\n<strong>\n\nIn a modern machine, we typically have a ____ or different levels of data\nstorage.  At the bottom, we have the ____, which is the largest but also\nthe slowest.  In the middle, we have ____, which is where we usually put\nthe bulk of our active data.  At the very top, we have storage inside the\nCPU in the form of on-chip ____ and a small set of ____, which are small\nbut very fast.\n\nTo support the illusion of a large virtual memory for multiple\nconcurrently-running processes, the OS can utilize ____, which is a portion\nof disk used to move pages back and forth.\n\n</strong>\n"
+    },
+    "q02": {
+        "type": "multiple",
+        "question": "<strong>\n\nWhich of the following statements regarding page faults is true (select all\nthat apply)?\n\n</strong>\n",
+        "responses": {
+            "physical": "A page fault occurs when we access a page not in physical memory.",
+            "illegal": "A page fault occurs when we access an illegal memory address.",
+            "valid": "The valid bit records whether or not a page is in physical memory.",
+            "handler": "When a page fault occurs, the page fault handler in the OS is invoked.",
+            "swap": "If a page is not present, then the OS will raise an exception.",
+            "overlap": "While servicing a page fault for one process, another ready process can run."
+        }
+    },
+    "q03": {
+        "type": "blank",
+        "question": "<strong>\n\nWhenever memory is full, we may need to ____ one or more pages in memory to\nmake room for new pages that we wish to ____.  To decide which pages to\n____, we will need to implement a ____ policy.\n\nTo determine when to evict pages, we have some kind of ____ and ____ to\nhelp decide when to start swapping pages.  In this system, a ____ runs in\nthe background and watches for when we have too few pages available.  When\nthis happens, the daemon evicts pages until we reach our threshold.\n\n</strong>\n"
+    },
+    "q04": {
+        "type": "order",
+        "question": "<strong>\n\nMatch the following page-replacement policies with the following\ndescriptions:\n\n<ol>\n\n  <li>In this policy, pages are evicted in the order in which they\n  arrive.</li>\n\n  <li>In this policy, any page is picked and evicted.</li>\n\n  <li>In this policy, we use history to determine which page to evict.</li>\n\n  <li>In this policy, we utilize the use or reference bit to approximate\n  the use of history.</li>\n\n</ol>\n</strong>\n",
+        "responses": {
+            "fifo": "FIFO",
+            "random": "Random",
+            "lru": "LRU",
+            "clock": "Clock"
+        }
+    },
+    "q05": {
+        "type": "blank",
+        "question": "<strong>\n\nTo determine when to bring a page into memory, the OS needs to define a\n____ policy.  For instance, it can perform ____, which means a page is\nbrought into memory when it is accessed.  It can also perform ____, which\nmeans the OS guesses that a page is about to be used and thus brings it in\nahead of time.\n\nThe OS also needs to determine when to write a page to disk.  For instance,\nit may choose to perform some sort of ____ where it collects a number of\npending writes together in memory and then writes them to disk in one (more\nefficient) write.\n</strong>\n"
+    },
+    "q06": {
+        "type": "blank",
+        "question": "<strong>\n\nWhen memory is oversubscribed, we may begin ____ or constantly be paging.\nIdeally, the OS would have a way to reduce a processes' ____ or active\npages.  On Linux, however, we have a crude mechanism called the ____ which\nchooses a memory-intensive process and kills it.\n\n</strong>\n"
+    },
+    "q07": {
+        "type": "single",
+        "question": "<strong>\nWhy does a NULL pointer access cause segfaults?\n</strong>\n",
+        "responses": {
+            "reserved": "That address is reserved for the operating system.",
+            "invalid": "Page 0 is always marked invalid.",
+            "positive": "The MMU only supports non-zero addresses.",
+            "thrashing": "To prevent thrashing."
+        }
+    },
+    "q08": {
+        "type": "blank",
+        "question": "<strong>\n\nTwo optimizations implemented by VMS and later copied by modern operating\nsystems are: ____, which involves only zeroing a page when it is utilized,\nand ____, which involves only copying a page from one address space to\nanother when the page is written to (otherwise it is shared).\n\n</strong>\n"
+    },
+    "q09": {
+        "type": "single",
+        "question": "<strong>\n\nGenerally speaking, which of the following is the most effective way of\nimproving the performance of your computer?\n\n</strong>\n",
+        "responses": {
+            "openbsd": "Use OpenBSD.",
+            "linux": "Use Linux.",
+            "policies": "Tweak your current OS to use better policies.",
+            "ram": "Buy more RAM.",
+            "turbo": "Use the turbo button.",
+            "windows": "Use Windows."
+        }
+    }
+}

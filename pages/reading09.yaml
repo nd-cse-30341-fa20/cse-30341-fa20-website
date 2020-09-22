@@ -1,0 +1,291 @@
+title:      "Reading 09: Swapping"
+icon:       fa-book
+navigation: []
+internal:
+external:
+body:       |
+
+    **Everyone**:
+
+    Next week, after finishing up [paging], we will explore how an OS uses
+    [swapping] to allow for virtual address spaces larger than physical memory
+    along with various page replacement algorithms.
+
+    <div class="alert alert-info" markdown="1">
+
+    #### <i class="fa fa-search"></i> TL;DR
+
+    For this reading assignment, you are to read about [swapping], page
+    replacement policies, and submit your responses to the [Reading 09 Quiz].
+
+    </div>
+
+    [paging]:   https://en.wikipedia.org/wiki/Paging
+    [swapping]: https://en.wikipedia.org/wiki/Paging#History
+
+    <img src="static/img/ostep.jpg" class="pull-right">
+
+    ## Reading
+
+    The readings for this week are:
+
+    1. [Operating Systems: Three Easy Pieces]
+
+        - <p>[Swapping: Mechanisms](http://pages.cs.wisc.edu/~remzi/OSTEP/vm-beyondphys.pdf)</p>
+        - <p>[Swapping: Policies](http://pages.cs.wisc.edu/~remzi/OSTEP/vm-beyondphys-policy.pdf)</p>
+        - <p>[Case Study: VAX/VMS](http://pages.cs.wisc.edu/~remzi/OSTEP/vm-complete.pdf)</p>
+        - <p>[Summary](http://pages.cs.wisc.edu/~remzi/OSTEP/vm-dialogue.pdf)</p>
+
+    ## Quiz
+
+    Once you have done the readings, answer the following [Reading 09 Quiz]
+    questions:
+
+    <div id="quiz-questions"></div>
+
+    <div id="quiz-responses"></div>
+
+    <script src="static/js/dredd-quiz.js"></script>
+    <script>
+    loadQuiz('static/json/reading09.json');
+    </script>
+
+    ### Program
+
+    For this week, you are to implement a `program` that translates **8-bit
+    virtual addresses** into **physical addresses**, while also detecting
+    **segmentation and protection faults** in a simple [paging] system with **16-byte pages**:
+
+        :::bash
+        # Download addresses binary file
+        $ curl -LO https://raw.githubusercontent.com/nd-cse-30341-fa20/cse-30341-fa20-assignments/master/reading09/addresses.bin
+
+        # Translate virtual addresses in binary file to physical addresses
+        $ ./program < addresses.bin
+        VA[24] -> PA[54]
+        VA[81] -> PA[01] Segmentation Fault
+        VA[05] -> PA[35]
+        VA[cf] -> PA[0f] Segmentation Fault
+        VA[3c] -> PA[2c] Protection Fault
+        VA[19] -> PA[79]
+
+    The program reads in a binary [addresses.bin] file from `stdin` where each
+    **virtual address** is a **8-bit integer** and then uses the following
+    **Page Table** to translate each **virtual address** into a **physical
+    address**:
+
+    <div class="thumbnail text-center">
+    <img src="static/img/reading09-table.png" class="img-responsive">
+    </div>
+
+    <img src="static/img/reading09-address.png" class="pull-right">
+
+    As discussed in class, when using [paging] each **virtual address** can be
+    broken down into a `vpn` portion and an `offset` portion:
+
+    - The `vpn` portion is the first few bits in the **virtual address**.
+      Given that we have an **8-bit virtual address** and each **page** is **16
+      bytes**, we will use the first `4` bits to denote the `vpn` in each
+      **virtual address**.
+
+        > To programatically extract the `vpn`, we can apply a **bitmask**
+        to the **virtual address** and **shift the bits to the right** (the
+        length of the `offset`).
+
+    - The `offset` portion of the **virtual address** are the remaining bits not
+      in the `vpn`.
+
+        > To programatically extract the `offset`, we can apply a **bitmask** to
+        the **virtual address**.
+
+    Once we know the `vpn` and the `offset`, we can use the `PFN` of the
+    corresponding **Page Table Entry** in the **Page Table** to compute the
+    **physical address**:
+
+        :::text
+        Physical Address = (PageTableEntry.PFN << VPN_SHIFT) | offset
+
+    To detect **segmentation faults**, we can check that the `Valid` bit of the
+    **Page Table Entry**.  Likewise, to detect **protection faults**, we can
+    check the `Protected` bit of the **Page Table Entry**.
+
+    [addresses.bin]: https://raw.githubusercontent.com/nd-cse-30341-fa20/cse-30341-fa20-assignments/master/reading09/addresses.bin
+
+    #### Template
+
+    Your task is to implement this [Paging] address translation process
+    by completing the following [template.c]:
+
+        :::c
+        /* Reading 09 */
+
+        #include <stdint.h>
+        #include <stdio.h>
+        #include <stdlib.h>
+
+        /* Constants */
+
+        #define ADDRESS_LENGTH  // TODO: Define number of bits in virtual address
+        #define PAGE_SIZE       // TODO: Define number of bytes per Page
+
+        #define MAX_PAGES       // TODO: Define number of Pages in virtual address space
+        #define VPN_MASK        // TODO: Define bitmask for VPN portion of virtual address
+        #define VPN_SHIFT       // TODO: Define bitshift amount for VPN portion of virtual address
+        #define OFFSET_MASK     // TODO: Define bitmask for offset portion of virtual address
+
+        /* Structures */
+
+        /**
+        * Each Page Table Entry is a byte with the followin bit fields:
+        *
+        *  NNNNNNVP
+        *
+        *  NNNNNN: Physical Frame Number
+        *  V:     Valid bit (page is valid/in-use)
+        *  P:     Protection bit (page is protected/accessible)
+        **/
+        typedef struct {
+            uint8_t PFN       : 6;
+            uint8_t Valid     : 1;
+            uint8_t Protected : 1;
+        } PageTableEntry;
+
+        /* Constants */
+
+        PageTableEntry PageTable[MAX_PAGES] = { // Page Table (normally in physical memory)
+            {.PFN = 3, .Valid = 1, .Protected = 0}, /* Page 0 */
+            {.PFN = 7, .Valid = 1, .Protected = 0}, /* Page 1 */
+            {.PFN = 5, .Valid = 1, .Protected = 0}, /* Page 2 */
+            {.PFN = 2, .Valid = 1, .Protected = 1}, /* Page 3 */
+        };
+
+        int main(int argc, char *argv[]) {
+            uint8_t virtual_address;
+
+            while (fread(&virtual_address, sizeof(uint8_t), 1, stdin)) {
+                uint8_t vpn    = // TODO: Determine VPN using VPN_MASK and VPN_SHIFT
+                uint8_t offset = // TODO: Determine offset using OFFSET_MASK
+
+                // TODO: Perform bounds and protection checks
+                char *fault = "";
+                if () {
+                    fault = " Segmentation Fault";
+                } else if () {
+                    fault = " Protection Fault";
+                }
+
+                uint8_t physical_address = // TODO: Compute physical address using PFN and offset
+                printf("VA[%02x] -> PA[%02x]%s\n", virtual_address, physical_address, fault);
+            }
+
+            return EXIT_SUCCESS;
+        }
+
+    As can been seen, the `PageTable` consists of the **Page Table Entries**
+    described above with the `PFN`, `Valid`, and `Protection` fields for each
+    corresponding **page**.
+
+    You will need to implement each of the `TODO`s to implement the **virtual
+    address** to **physical address** translator.
+
+    [template.c]: https://github.com/nd-cse-30341-fa20/cse-30341-fa20-assignments/blob/master/reading09/template.c
+
+    #### Hints
+
+    1. For `ADDRESS_LENGTH`, this is given to you in the instructions above.
+
+    2. For `PAGE_SIZE`, this is given to you in the instructions above.
+
+    3. For `MAX_PAGES`, this is the total number of pages possible given the
+    address space size and the individual `PAGE_SIZE`.
+
+    4. For `VPN_MASK`, consider writing out the **bitmask** on paper and
+    then translating into hexadecimal.
+
+    5. For `VPN_SHIFT`, remember that this is the length of the `offset`
+    component of the **virtual address**.
+
+    6. For `OFFSET_MASK`, this is the complement or inverse of the
+    `VPN_MASK`.
+
+    7. To compute the `vpn`, we want to apply the `VPN_MASK` to the
+    **virtual address** and then **shift the result to the right** by the
+    `VPN_SHIFT`.
+
+        For instance, if the virtual address was `0010 0100`,
+        applying the `VPN_MASK` should give us `0000 0100`.  We then
+        want to shift to the right to get: `0000 0010`.
+
+    6. To compute the `offset`, we want to apply the `OFFSET_MASK` to the
+    **virtual address**.
+
+        For instance, if the virtual address was `0010 0100`,
+        applying the `OFFSET_MASK` should give us `0000 0100`.
+
+    7. To check for **segmentation and protection faults**, you must check the
+    `Valid` and `Protected` fields of the **Page Table Entry**.
+
+    8. To compute the physical address, you must use the `PFN` value in the
+    **Page Table** along with the `offset`.
+
+    ## Submission
+
+    To submit you work, follow the same process outlined in [Reading 00]:
+
+        :::bash
+        $ git checkout master                 # Make sure we are in master branch
+        $ git pull --rebase                   # Make sure we are up-to-date with GitLab
+
+        $ git checkout -b reading09           # Create reading09 branch and check it out
+
+        $ cd reading09                        # Go into reading09 folder
+        $ $EDITOR answers.json                # Edit your answers.json file
+
+        $ ../.scripts/submit.py               # Check reading09 quiz
+        Submitting reading09 assignment ...
+        Submitting reading09 quiz ...
+             Q01 0.60
+             Q02 0.40
+             Q03 0.60
+             Q04 0.30
+             Q05 0.40
+             Q06 0.30
+             Q07 0.10
+             Q08 0.20
+             Q09 0.10
+           Score 3.00
+
+        $ git add answers.json                # Add answers.json to staging area
+        $ git commit -m "Reading 09: Quiz"    # Commit work
+
+        $ $EDITOR program.c                   # Edit your program.c file
+
+        $ make test-program                   # Check reading03 program
+        Testing reading09 program...
+           Score 3.00
+
+        $ git add Makefile                    # Add Makefile to staging area
+        $ git add program.c                   # Add program.c to staging area
+        $ git commit -m "Reading 09: Code"    # Commit work
+
+        $ git push -u origin reading09        # Push branch to GitHub
+
+    <div class="alert alert-success" markdown="1">
+    #### <i class="fa fa-github"></i> Pull Request
+
+    Once you have committed your work and pushed it to [GitHub], remember to
+    create a **pull request** and assign it to the appropriate **teaching
+    assistant** from the [Reading 09 TA List].
+
+    </div>
+
+    [Operating Systems: Three Easy Pieces]:     http://pages.cs.wisc.edu/~remzi/OSTEP/
+    [GitHub]:                                   https://github.com
+    [Reading 00]:                               reading00.html
+    [Reading 05]:                               reading05.html
+    [Reading 09 Quiz]:                          static/json/reading09.json
+    [JSON]:                                     http://www.json.org/
+    [git-branch]:                               https://git-scm.com/docs/git-branch
+    [dredd]:                                    https://dredd.h4x0r.space
+    [Reading 09 TA List]:                       reading09_tas.html
+
