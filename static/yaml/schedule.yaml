@@ -155,9 +155,15 @@
         topics:         Address Spaces, Translation
         assignments:
           - Reading 07
+        items:
+          - name:       Slides
+            link:       https://docs.google.com/presentation/d/1E9hPIBwCQb9zWsgDlnmZpBJpYUU7heoeyO5JCHowfu8/edit?usp=sharing
 
       - date:           Thu 10/01
         topics:         Free-Space Management
+        items:
+          - name:       Slides
+            link:       https://docs.google.com/presentation/d/1kjeFEnIkxIDsX17De8WXN4WoXPbnE70JcUNdLyDDSv4/edit?usp=sharing
 
 - name:     Segmentation, Paging
   days:
