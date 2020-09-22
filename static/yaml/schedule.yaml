@@ -171,9 +171,15 @@
         topics:         Segmentation
         assignments:
           - Reading 08
+        items:
+          - name:       Slides
+            link:       https://docs.google.com/presentation/d/19GZYrAazKsz_FcE8Y2-iNSHX1P07h_Gszn4AEWdZaAI/edit?usp=sharing
 
       - date:           Thu 10/08
         topics:         Paging
+        items:
+          - name:       Slides
+            link:       https://docs.google.com/presentation/d/16pmJKxP4L7C_-HeYpLUZYrq-JfJA2cswErZtTKcMIxw/edit?usp=sharing
 
 - name:     Caching, Swapping
   days:
