@@ -74,6 +74,8 @@ body:       |
     loadQuiz('static/json/reading06.json');
     </script>
 
+    <pre style="display: none;" id="dr-container" class="codehilite"><code id="dredd-response"></code></pre>
+
     ## Program
 
     In [Reading 05], you created a [thread] to compute the [sha1sum] of each

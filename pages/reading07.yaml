@@ -57,6 +57,8 @@ body:       |
     loadQuiz('static/json/reading07.json');
     </script>
 
+    <pre style="display: none;" id="dr-container" class="codehilite"><code id="dredd-response"></code></pre>
+
     ### Program
 
     For this week, you are to identify common memory problems.  Given the

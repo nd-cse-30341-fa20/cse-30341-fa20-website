@@ -213,6 +213,8 @@ body:       |
     loadQuiz('static/json/reading01.json');
     </script>
 
+    <pre style="display: none;" id="dr-container" class="codehilite"><code id="dredd-response"></code></pre>
+
     ### Program
 
     In addition to a [dredd] quiz, each reading will also have a short [C]
