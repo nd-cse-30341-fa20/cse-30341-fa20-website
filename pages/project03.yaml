@@ -537,6 +537,8 @@ body:       |
     loadQuiz('static/json/project03.json');
     </script>
 
+    <pre style="display: none;" id="dr-container" class="codehilite"><code id="dredd-response"></code></pre>
+
     The results of the quiz should look like the following:
 
         :::text
