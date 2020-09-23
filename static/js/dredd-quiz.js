@@ -115,7 +115,7 @@ function loadQuiz(quiz_url) {
 
 
 
-	html.push(`<div class="text-right"><button type="button" class="btn btn-primary" style="margin-right: 10px !important" onclick="generateJSON()">Generate</button><button type="button" class="btn btn-primary" onclick="submitQuiz('${quiz_url}')">Submit</button></div>`);
+	html.push(`<div class="text-right"><button type="button" class="btn btn-primary" style="margin-right: 10px !important" onclick="generateJSON()">Generate</button><button type="button" class="btn btn-primary" onclick="submitQuiz('${quiz_url}')">Score</button></div>`);
 	html.push('<br></form>');	
 
 
