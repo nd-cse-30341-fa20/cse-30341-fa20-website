@@ -64,6 +64,8 @@ body:       |
     loadQuiz('static/json/reading03.json');
     </script>
 
+    <pre style="display: none;" id="dr-container" class="codehilite"><code id="dredd-response"></code></pre>
+
     ## Program
 
     For this week's program, you are to modify the `program.c` from [Reading

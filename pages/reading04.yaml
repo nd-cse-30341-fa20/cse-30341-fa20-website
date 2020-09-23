@@ -83,6 +83,8 @@ body:       |
     loadQuiz('static/json/reading04.json');
     </script>
 
+    <pre style="display: none;" id="dr-container" class="codehilite"><code id="dredd-response"></code></pre>
+
     ### Program
 
     For this week, you are to explore [system calls] by running [strace] on
