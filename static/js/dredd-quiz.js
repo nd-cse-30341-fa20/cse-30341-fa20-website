@@ -1,3 +1,11 @@
+/* Utility functions */
+
+function titleCase(str) {
+    return str.split(' ').map(function(val){
+	return val.charAt(0).toUpperCase() + val.substr(1).toLowerCase();
+    }).join(' ');
+}
+
 /* AJAX functions */
 
 function requestJSON(url, callback) {
@@ -59,14 +67,14 @@ function submitQuiz(quiz_url) {
 	.then(res => res.json())
 	.then(data => {
 		// data now contains JSON from dredd
-		dr.innerHTML += `Result for ${assignment_name}...\n`;
+		dr.innerHTML += `Checking ${assignment_name} quiz ...\n`;
 		for (const question in data) {
 			if (question === 'score') {
 				continue;
 			}
-			dr.innerHTML += (`\t${question}: ${data[question]}\n`);
+			dr.innerHTML += (`${titleCase(question).padStart(8, " ")} ${data[question].toFixed(2)}\n`);
 		}
-		dr.innerHTML += `     score: ${data['score']}`
+		dr.innerHTML += `   Score ${data['score'].toFixed(2)}`
 		// show the results
 		document.getElementById('dr-container').style.display = 'block';
 	});
@@ -75,7 +83,7 @@ function submitQuiz(quiz_url) {
 function loadQuiz(quiz_url) {
     requestJSON(quiz_url, function(data) {
 	var html = ['<form id="quiz-form"><ol>']
-	
+
 	Object.keys(data).sort().forEach(function(question) {
 	    html.push(`<li><div class="form-group">${data[question].question}`);
 
@@ -116,7 +124,7 @@ function loadQuiz(quiz_url) {
 
 
 	html.push(`<div class="text-right"><button type="button" class="btn btn-primary" style="margin-right: 10px !important" onclick="generateJSON()">Generate</button><button type="button" class="btn btn-primary" onclick="submitQuiz('${quiz_url}')">Check</button></div>`);
-	html.push('<br></form>');	
+	html.push('<br></form>');
 
 
 	document.getElementById('quiz-questions').innerHTML = html.join('');
