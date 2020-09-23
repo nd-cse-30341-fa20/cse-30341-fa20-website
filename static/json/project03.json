@@ -1,0 +1,34 @@
+{
+    "q1": {
+        "type": "multiple",
+        "question": "\n<strong>\n\nWhich of the following statements regarding <b>segmentation</b>\nand <b>paging</b> are true (select all that apply)?\n\n</strong>\n",
+        "responses": {
+            "seg_sharing": "Segmentation allows for code sharing between different processes.",
+            "pag_sharing": "Paging allows for code sharing between different processes.",
+            "seg_fixed": "Segmentation allocates fixed size blocks of memory.",
+            "pag_fixed": "Paging allocates fixed size blocks of memory.",
+            "seg_internal": "Segmentation is prone to internal fragmentation.",
+            "pag_internal": "Paging is prone to internal fragmentation.",
+            "seg_external": "Segmentation is prone to external fragmentation.",
+            "pag_external": "Paging is prone to external fragmentation."
+        }
+    },
+    "q2": {
+        "type": "multiple",
+        "question": "\n<strong>\n\nWhich of the following statements regarding <b>swapping</b> and <b>page\nreplacement</b> are true (select all that apply)?\n\n</strong>\n",
+        "responses": {
+            "pagefault": "If a page is not present in physical memory, then the hardware triggers a page fault.",
+            "segfault": "If a page is not present in physical memory, then the hardware triggers a segfault.",
+            "oom_evict": "If there are no free frames in physical memory, then the OS evicts one to disk.",
+            "oom_crash": "If there are no free frames in physical memory, then the OS crashes.",
+            "replace_mru": "During page replacement, we generally want to select the most recently used page.",
+            "replace_lru": "During page replacement, we generally want to select the least recently used page.",
+            "clock_lru": "The clock algorithm is an approximation of the LRU strategy.",
+            "clock_used": "The clock algorithm involves checking and clearing the used bit of each PTE."
+        }
+    },
+    "q3": {
+        "type": "blank",
+        "question": "\n<strong>\n\nGiven a virtual memory system with the following properties:\n\n</strong>\n\n<p><ol>\n\n<li><b>14-bit Virtual Address</b></li>\n<li><b>16-bit Physical Address</b></li>\n<li><b>64 byte Pages</b></li>\n<li><b>4 bytes per PTE and PDE</b></li>\n\n</ol></p>\n\n<p>Sketch all the data structures needed to support a multi-level paged\nvirtual memory system by filling in the table below.  When appropriate, you\nwrite the solution as a power of <tt>2</tt> (ie. <tt>2^14</tt>) or simplify\nthe number in terms of <tt>K, M, G, or T units</tt> (ie. <tt>16K</tt>).</p>\n\n<h4>Pages</h4>\n\n<p>\n<ol>\n<li>Number of addressable bytes: ____</li>\n<li>Number of Pages in Address Space: ____</li>  \n<li>Number of VPN bits in Virtual Address: ____</li>\n<li>Number of Offset bits in Virtual Address: ____</li>\n</ol>\n</p>\n\n<h4>Page Table</h4>\n\n<p>\n<ol>\n<li>Number of PTEs: ____</li>\n<li>Number of bytes for just Page Table: ____</li>  \n<li>Number of Pages for just Page Table: ____</li>\n</ol>\n</p>\n\n<h4>Page Directory</h4>\n\n<p>\n<ol>\n<li>Number of PDEs: ____</li>\n<li>Number of PDI bits in VPN: ____</li>  \n<li>Number of PTI bits in VPN: ____</li>\n<li>Number of bytes for just Page Directory: ____</li>\n<li>Number of Pages for just Page Directory: ____</li>\n</ol>\n</p>\n"
+    }
+}
