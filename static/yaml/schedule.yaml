@@ -187,9 +187,15 @@
         topics:         TLBs, Page Tables
         assignments:
           - Reading 09
+        items:
+          - name:       Slides
+            link:       https://docs.google.com/presentation/d/1GltgMqTP4XfcXGu5ncyEM2IgAEeD-eMvKUSh45abybM/edit?usp=sharing
 
       - date:           Thu 10/15
         topics:         Swapping
+        items:
+          - name:       Slides
+            link:       https://docs.google.com/presentation/d/1fjc1WUcRmepXnFXn149Wkr0iIypeCzGfuhdo4a7bDQM/edit?usp=sharing
       
       - date:           Sat 10/17
         assignments:
