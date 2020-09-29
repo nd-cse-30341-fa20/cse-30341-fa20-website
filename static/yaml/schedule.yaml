@@ -152,12 +152,14 @@
 - name:     Virtual Memory
   days:
       - date:           Tue 09/29
-        topics:         Address Spaces, Translation
+        topics:         Address Space, Translation
         assignments:
           - Reading 07
         items:
           - name:       Slides
             link:       https://docs.google.com/presentation/d/1E9hPIBwCQb9zWsgDlnmZpBJpYUU7heoeyO5JCHowfu8/edit?usp=sharing
+          - name:       Panopto
+            link:       https://notredame.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=87b618db-4930-4ddc-b41c-ac450101f696
 
       - date:           Thu 10/01
         topics:         Free-Space Management
