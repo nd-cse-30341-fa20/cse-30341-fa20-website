@@ -1,0 +1,246 @@
+title:      "Reading 11: File Systems"
+icon:       fa-book
+navigation: []
+internal:
+external:
+body:       |
+
+    **Everyone**:
+
+    Next week, we will begin our exploration of [file systems] and in particular
+    the venerable [FFS] and [LFS].
+
+    <div class="alert alert-info" markdown="1">
+
+    #### <i class="fa fa-search"></i> TL;DR
+
+    For this reading assignment, you are to read about [file systems], and
+    submit your responses to the [Reading 11 Quiz].
+
+    </div>
+
+    [file systems]: https://en.wikipedia.org/wiki/File_system
+    [FFS]:          https://en.wikipedia.org/wiki/Unix_File_System
+    [LFS]:          https://en.wikipedia.org/wiki/Log-structured_File_System_(BSD)
+
+    <img src="static/img/ostep.jpg" class="pull-right">
+
+    ## Reading
+
+    The readings for this week are:
+
+    1. [Operating Systems: Three Easy Pieces]
+
+        - <p>[File System Implementation](http://pages.cs.wisc.edu/~remzi/OSTEP/file-implementation.pdf)</p>
+        - <p>[Locality and The Fast File System](http://pages.cs.wisc.edu/~remzi/OSTEP/file-ffs.pdf)</p>
+        - <p>[Log-structured File Systems](http://pages.cs.wisc.edu/~remzi/OSTEP/file-lfs.pdf)</p>
+
+    ## Quiz
+
+    Once you have done the readings, answer the following [Reading 11 Quiz]
+    questions:
+
+    <div id="quiz-questions"></div>
+
+    <div id="quiz-responses"></div>
+
+    <script src="static/js/dredd-quiz.js"></script>
+    <script>
+    loadQuiz('static/json/reading11.json');
+    </script>
+    
+    <pre style="display: none;" id="dr-container" class="codehilite"><code id="dredd-response"></code></pre>
+
+    ## Program
+
+    For this week, you are to take your `program` from [Reading 02] and modify
+    it so that it supports **directories** as arguments.
+
+    The standard [sha1sum] does not understand **directories**:
+
+        :::bash
+        $ sha1sum .
+        sha1sum: .: Is a directory
+
+    Your `program`, however, should *recursively* walk any directories given to
+    it as an argument and check the files (and directories) with in the given
+    folder:
+
+        :::bash
+        # Compute checksum on Makefile, current directory, and non-existent file
+        $ ./program Makefile . asdf
+        6e63c0859f0dfc9bf56996ae593ca048b809fc27  Makefile
+        6e63c0859f0dfc9bf56996ae593ca048b809fc27  ./Makefile
+        8cb3fa236aa278e3557f962e156f2358bd8e6c24  ./README.md
+        3e43745ae7f331f11a8102f47a74043f27539e1e  ./program
+        8c53ff3421b9ed6bca45d866e1b8add47e63bdfa  ./answers.json
+        f51db4f87ed1d34124cb92c7be1c932546f652f4  ./program.c
+        7ec632ad54439235effa874731326fb82ce31d00  ./test_program.sh
+
+        $ echo $?
+        1
+    
+    [sha1sum]: https://man7.org/linux/man-pages/man1/sha1sum.1.html
+
+    ### Requirements
+
+    - Your program must compile cleanly with no warnings.
+
+    - Your program may only use I/O system calls such as [open], [read], and
+      [close] to access the contents of each file.
+
+    - Your program must use the `SHA1_Init`, `SHA1_Update`, and `SHA1_Final`
+      functions provided by [OpenSSL].
+
+    - Your program must use file system functions such as [opendir], [readdir],
+      and [closedir], and use file system calls such as [stat].
+
+    - Your program must not have any resource leaks or memory errors as
+      detected by [valgrind].
+
+    [opendir]: https://man7.org/linux/man-pages/man3/opendir.3.html
+    [readdir]: https://www.man7.org/linux/man-pages/man3/readdir.3.html
+    [closedir]: https://man7.org/linux/man-pages/man3/closedir.3.html
+    [stat]: https://man7.org/linux/man-pages/man2/stat.2.html
+
+    [open]:    https://man7.org/linux/man-pages/man2/open.2.html
+    [read]:    https://man7.org/linux/man-pages/man2/read.2.html
+    [close]:   https://www.man7.org/linux/man-pages/man2/close.2.html
+    [OpenSSL]:          https://www.openssl.org/
+    [valgrind]: https://www.valgrind.org/
+
+    ### Hints
+
+    To handle directories as arguments, you can structure your program as
+    follows:
+
+        :::python
+        cksum_file(path):
+            if sha1sum_file(path, cksum):
+                print(...)
+                return 0
+
+            return 1
+
+        cksum_directory(root):
+            for each entry in root directory:
+                if entry in ('.', '..'):
+                    continue
+
+                if entry is directory:
+                    status += cksum_directory(full path of entry)
+                else:
+                    status += cksum_file(full path of entry)
+
+            return status
+
+        main:
+            for each argument:
+                if argument is directory:
+                    status += cksum_directory(argument)
+                else:
+                    status += cksum_file(argument)
+
+            return status
+
+
+    - In `main`, you can use [stat] to check the type of the argument.
+
+    - In `cksum_directory`, you can use [sprintf] to build the full path of
+      each `entry`.
+    
+    If you do not remember how to programmatically manipulate the file system,
+    I recommend the following resources:
+
+    1. [Files and Directories](http://pages.cs.wisc.edu/~remzi/OSTEP/file-intro.pdf)
+
+    2. [Reading 11: Memory and Data Structures, File System](https://www3.nd.edu/~pbui/teaching/cse.20289.sp20/reading11.html)
+
+    3. [list.c](https://gitlab.com/nd-cse-20289-sp20/cse-20289-sp20-examples/-/blob/master/lecture20/list.c)
+
+
+
+    [sprintf]: https://www.man7.org/linux/man-pages/man3/sprintf.3.html
+
+    ## Submission
+
+    To submit you work, follow the same process outlined in [Reading 00]:
+
+        :::bash
+        $ git checkout master                 # Make sure we are in master branch
+        $ git pull --rebase                   # Make sure we are up-to-date with GitLab
+
+        $ git checkout -b reading11           # Create reading11 branch and check it out
+
+        $ cd reading11                        # Go into reading11 folder
+        $ $EDITOR answers.json                # Edit your answers.json file
+
+        $ ../.scripts/submit.py               # Check reading11 quiz
+        Submitting reading11 assignment ...
+        Submitting reading11 quiz ...
+             Q01 0.80
+             Q02 0.50
+             Q03 0.30
+             Q04 0.30
+             Q05 0.40
+             Q06 0.20
+             Q07 0.50
+           Score 3.00
+
+        $ git add answers.json                # Add answers.json to staging area
+        $ git commit -m "Reading 11: Quiz"    # Commit work
+
+        $ $EDITOR program.c                   # Edit your program.c file
+
+        $ make test-program                   # Check reading11 program
+        Testing reading11 program...
+         I/O System Calls                                             ... Success
+         I/O Functions                                                ... Success
+         SHA1 Functions                                               ... Success
+         File System System Calls                                     ... Success
+         File System Functions                                        ... Success
+         program                                                      ... Success
+         program (valgrind)                                           ... Success
+         program Makefile                                             ... Success
+         program Makefile (valgrind)                                  ... Success
+         program Makefile README.md                                   ... Success
+         program Makefile README.md (valgrind)                        ... Success
+         program Makefile README.md program.c                         ... Success
+         program Makefile README.md program.c (valgrind)              ... Success
+         program Makefile README.md asdf program.c                    ... Success
+         program Makefile README.md asdf program.c (valgrind)         ... Success
+         program Makefile README.md /bin/ls /bin/bash                 ... Success
+         program Makefile README.md /bin/ls /bin/bash (valgrind)      ... Success
+         program .                                                    ... Success
+         program . (valgrind)                                         ... Success
+         program ..                                                   ... Success
+         program .. (valgrind)                                        ... Success
+         program Makefile . asdf /bin/ls                              ... Success
+         program Makefile . asdf /bin/ls (valgrind)                   ... Success
+           Score 3.00
+
+        $ git add Makefile                    # Add Makefile to staging area
+        $ git add program.c                   # Add program.c to staging area
+        $ git commit -m "Reading 11: Code"    # Commit work
+
+        $ git push -u origin reading11        # Push branch to GitHub
+
+    <div class="alert alert-success" markdown="1">
+    #### <i class="fa fa-github"></i> Pull Request
+
+    Once you have committed your work and pushed it to [GitHub], remember to
+    create a **pull request** and assign it to the appropriate **teaching
+    assistant** from the [Reading 11 TA List].
+
+    </div>
+
+    [Operating Systems: Three Easy Pieces]:     http://pages.cs.wisc.edu/~remzi/OSTEP/
+    [GitHub]:                                   https://github.com
+    [Reading 00]:                               reading00.html
+    [Reading 02]:                               reading02.html
+    [Reading 11 Quiz]:                          static/json/reading11.json
+    [JSON]:                                     http://www.json.org/
+    [git-branch]:                               https://git-scm.com/docs/git-branch
+    [dredd]:                                    https://dredd.h4x0r.space
+    [Reading 11 TA List]:                       reading11_tas.html
+

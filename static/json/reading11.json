@@ -1,0 +1,60 @@
+{
+    "q01": {
+        "type": "blank",
+        "question": "<strong>\n\n<p>\nOne way to view file systems is that these are persistent ____ or\norganizations of data and associated meta-data.  File systems usually\ndivide the disk into a series of ____ sized ____.\n</p>\n\n<p>\nThe vast majority of this space is reserved for user data and is referred\nto as the ____.   The remaining portion includes space called the ____,\nwhich stores ____ structures that record the metadata information of the\ndata blocks.\n</p>\n\n<p>\nLikewise, an ____ structure is required to track whether inodes or data\nblocks are free.  This can be implemented as either a free list or a\n____.\n</p>\n\n<p>\nFinally, the last piece of the file system is the ____, which contains\ninformation about the filesystem such as how many of each particular type\nof block it contains.\n</p>\n\n</strong>\n"
+    },
+    "q02": {
+        "type": "multiple",
+        "question": "<strong>\n\nRegarding inodes, which of the following statements are true (choose all\nthat apply)?\n</strong>\n",
+        "responses": {
+            "size": "An inode contains a file's size and number of allocated blocks.",
+            "path": "An inode contains a file's path.",
+            "direct": "Direct pointers track other inodes.",
+            "indirect": "Indirect pointers refer to a block that contains additional pointers to user data.",
+            "ext2": "Linux's ext2 uses a multi-level index with pointers.",
+            "ext4": "Linux's ext4 uses extents rather than pointers.",
+            "fat": "Windows' FAT uses a table of linked list pointers."
+        }
+    },
+    "q03": {
+        "type": "order",
+        "question": "<strong>\n\nOrder the following sequence of events for when the file \"/etc/hosts\" is\nopened and read:\n\n</strong>\n",
+        "responses": {
+            "root_inode": "Read root inode.",
+            "root_data": "Read root data.",
+            "etc_inode": "Read etc inode.",
+            "etc_data": "Read etc data.",
+            "hosts_inode": "Read hosts inode.",
+            "hosts_data": "Read hosts data."
+        }
+    },
+    "q04": {
+        "type": "multiple",
+        "question": "<strong>\nWhich of the following statements regarding caching and buffering is true (choose\nall that apply)?\n</strong>\n",
+        "responses": {
+            "static": "With static partitioning, a portion of memory is reserved for swapping inodes.",
+            "dynamic": "With dynamic partitioning, a unified page cache is used to hold virtual memory pages and file system pages.",
+            "buffering": "Write buffering involves delaying writes in order to batch them into a smaller set of I/O operations.",
+            "resilient": "Write buffering is resilient to system crashes.",
+            "fsync": "To avoid data loss due to buffering, applications can call fsync."
+        }
+    },
+    "q05": {
+        "type": "blank",
+        "question": "<strong>\n\nThe Fast File System improves file system performanc by being ____ aware.\nThat is, it considered the nature of a typical hard drive in its design\nand built around those attributes.  For instance, it organizes the drive\ninto ____, each of which includes all the structures necessary to track\ninodes and data blocks within the group.  To combat ____, FFS introduced\n____ which are little 512-byte blocks that can be used to store small\nfiles.\n</strong>\n"
+    },
+    "q06": {
+        "type": "multiple",
+        "question": "<strong>\n\nRegarding allocation in FFS, which of the following statements are true\n(choose all that apply)?\n\n</strong>\n",
+        "responses": {
+            "dir": "Directories are placed in groups with a lot of other directories.",
+            "data": "Data blocks of a file are allocated in the same group of its inode.",
+            "file": "Files in the same directory are allocated in the same group.",
+            "large": "Large files are allocated complete groups."
+        }
+    },
+    "q07": {
+        "type": "blank",
+        "question": "<strong>\n\nIn order to improve sequential writes, the Log-structured File System\n(LFS), buffers all updates (including metadata) into an in-memory ____\nthat is written to disk only when it is full.  Rather than overwrite\nexisting data, LFS always writes to ____ locations.  Because inodes are\nnow spread all over the disk, LFS uses an ____ to translate between the\ninode number and a disk address.  To keep track of the latest pieces of\nthese structures, LFS has a fixed place on disk called the ____.  Since\nLFS is always writing new data blocks, that means that old versions of\ndata are left around and the system must periodically perform ____ to\nclean the disk space.\n\n</strong>\n"
+    }
+}
