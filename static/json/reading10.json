@@ -1,0 +1,54 @@
+{
+    "q01": {
+        "type": "blank",
+        "question": "<strong>\n\nIn a typical computer, the CPU is connected to I/O devices via a hierarchy of\ncommunication busses or interconnects:\n\n<ol>\n\n<li>____ bus: This is the interconnect between the CPU and main memory.</li>\n\n<li>____ bus: This is the interconnect between the CPU and\nhigher-performance devices such as GPUs.</li>\n\n<li>____ bus: This is the interconnect between the CPU and slower devices\nsuch as disks and mice.</li>\n\n</ol>\n\nWhile some I/O devices are simple, more complex I/O devices may include a\nsimple ____ and some general purpose ____.  They may even require ____ or\nsoftware embedded in the device to implement certain aspects of its\nfunctionality.\n\n</strong>\n"
+    },
+    "q02": {
+        "type": "multiple",
+        "question": "<strong>\n\nRegarding interacting with I/O devices, which of the following statements\nare true (choose all that apply)?\n\n</strong>\n",
+        "responses": {
+            "pio_poll": "Programmed I/O (PIO) involves the OS polling the I/O device.",
+            "interrupts": "Interrupts allow the OS to overlap computation and I/O.",
+            "efficiency": "Using interrupts are always more efficient than PIO.",
+            "dma": "The direct memory access (DMA) orchestrates transfers between devices and main memory so the CPU doesn't need to.",
+            "drivers": "The OS abstracts the interaction with I/O devices via device drivers."
+        }
+    },
+    "q03": {
+        "type": "blank",
+        "question": "<strong>\n\n<p>\nLike main memory, modern disk drives can be viewed as an array of ____.\nAlthough multi-sector operations are possible, manufacturers only\nguarantee that a single ____ byte write is atomic.  \n</p>\n\n<p>\nIn terms of geometry, a modern disk consists of one or more circular hard\nsurfaces called a ____ on which data is stored persistently by inducing\nmagnetic changes to it.  These disks are bundled together around the\n____, which is connected to a motor that surfaces around at a constant\nrate measured in ____.  The data on these surfaces are encoded in\nconcentric ____, which are tightly packed together on the surface.\n</p>\n\n<p>\nTo read and write from the surface, a ____ is moved to position the ____\nover the desired portion of the disk.\n</p>\n\n</strong>\n"
+    },
+    "q04": {
+        "type": "multiple",
+        "question": "<strong>\n\nRegarding disk drives, which of the following statements are true (choose\nall that apply)?\n\n</strong>\n",
+        "responses": {
+            "delay": "The rotational delay is the time it takes for the a desired sector to rotate to the disk head.",
+            "seek": "A seek involves moving the disk arm to the appropriate track and is costly.",
+            "coasting": "When a disk arm is coasting, it is stationary and waiting for the appropriate track.",
+            "settling": "After as seek, there is a settling time to ensure the disk head is over the appropriae track.",
+            "back": "Write-back caching appears faster but can be dangerous."
+        }
+    },
+    "q05": {
+        "type": "order",
+        "question": "<strong>\n\nAs with processes, the OS can schedule the order of I/O requests using a\nvariety of disk scheduling algorithms.  Match the following definitions\nwith their labels.\n\n<ol>\n  \n  <li>This strategy involves sweeping across the disk and servicing\n  requests as it moves across the tracks.</li>\n\n  <li>This strategy orders the queue of I/O requests by track and picks\n  the nearest tracks to complete first.</li>\n\n  <li>This strategy selects the track with the shortest access time,\n  factoring in seek and rotational time.</li>\n\n</ol>\n\n</strong>\n",
+        "responses": {
+            "ssft": "Shortest Seek Time First",
+            "elevator": "Elevator",
+            "sptf": "Shortest Positioning Time First"
+        }
+    },
+    "q06": {
+        "type": "blank",
+        "question": "<strong>\n\n____ is a technique for using multiple disks to build faster, bigger, and\nmore reliable storage system.  Although these systems consist of multiple\ndisks, the aggregation itself appears a single disk device with improved:\n\n<ol>\n  <li>____: due to parallel I/O operations.</li>\n  <li>____: due to the use of multiple large disks.</li>\n  <li>____: due to spreading data across multiple disks.</li>\n</ol>\n\nTo do this, these multi-disk configurations can use ____ where two copies\nof data is stored, or ____ where blocks are stored across multiple disks.\n\n</strong>\n"
+    },
+    "q07": {
+        "type": "order",
+        "question": "<strong>\n\nMatch the following descriptions with the correct RAID strategy.\n\n<ol>\n  \n  <li>In this strategy, we have only perform mirroring.</li>\n  <li>In this strategy, we have striping but no redundancy.</li>\n  <li>In this strategy, we rotate the parity block across multiple disks.</li>\n\n</ol>\n\n</strong>\n",
+        "responses": {
+            "raid0": "RAID 0",
+            "raid1": "RAID 1",
+            "raid5": "RAID 5"
+        }
+    }
+}

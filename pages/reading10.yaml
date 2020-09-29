@@ -1,0 +1,153 @@
+title:      "Reading 10: I/O Devices, RAID"
+icon:       fa-book
+navigation: []
+internal:
+external:
+body:       |
+
+    **Everyone**:
+
+    Next week, we will explore how an OS provides **persistence** by managing
+    [I/O devices] such as [hard disks].  Likewise, we will also consider
+    aggregation strategies such as [RAID] which provide an illusion of a large
+    disk composed of multiple inexpensive disks.
+
+    <div class="alert alert-info" markdown="1">
+
+    #### <i class="fa fa-search"></i> TL;DR
+
+    For this reading assignment, you are to read about [I/O devices] and
+    [RAID], and submit your responses to the [Reading 10 Quiz].
+
+    </div>
+
+    [RAID]:         https://en.wikipedia.org/wiki/RAID
+    [i/o devices]:  https://en.wikipedia.org/wiki/Disk_storage
+    [hard disks]:   https://en.wikipedia.org/wiki/Hard_disk_drive
+
+    <img src="static/img/ostep.jpg" class="pull-right">
+
+    ## Reading
+
+    The readings for this week are:
+
+    1. [Operating Systems: Three Easy Pieces]
+
+        - <p>[Dialogue on Persistence](http://pages.cs.wisc.edu/~remzi/OSTEP/dialogue-persistence.pdf)</p>
+        - <p>[I/O Devices](http://pages.cs.wisc.edu/~remzi/OSTEP/file-devices.pdf)</p>
+        - <p>[Hard Disk Drives](http://pages.cs.wisc.edu/~remzi/OSTEP/file-disks.pdf)</p>
+        - <p>[Redundant Arrays of Inexpensive Disks](http://pages.cs.wisc.edu/~remzi/OSTEP/file-raid.pdf)</p>
+        - <p>[Flash-based SSDs](http://pages.cs.wisc.edu/~remzi/OSTEP/file-ssd.pdf)</p>
+
+    ### Optional Reading
+
+    - [What is RAID and why should you want it?](https://raid.wiki.kernel.org/index.php/What_is_RAID_and_why_should_you_want_it%3F)
+    - [RAID 0, RAID 1, RAID 5, RAID 10 Explained with Diagrams](http://www.thegeekstuff.com/2010/08/raid-levels-tutorial)
+
+    ## Quiz
+
+    Once you have done the readings, answer the following [Reading 10 Quiz]
+    questions:
+
+    <div id="quiz-questions"></div>
+
+    <div id="quiz-responses"></div>
+
+    <script src="static/js/dredd-quiz.js"></script>
+    <script>
+    loadQuiz('static/json/reading10.json');
+    </script>
+
+    <pre style="display: none;" id="dr-container" class="codehilite"><code id="dredd-response"></code></pre>
+
+    ### Program
+
+    For this week, you are to explore the filesystems on
+    **student10.cse.nd.edu** by using [df], [lsblk], [mount], [stat], and
+    `/proc/mdstat` to answer the following questions:
+
+    1. What device is the root (ie. `/`) filesystem mounted on (ie. `/dev/XXX`)?
+    
+    2. What type of filesystem is `/boot` mounted on?
+
+    3. What version of [RAID] does `/home` use (ie. `raidX`)?
+
+    4. How large is the **swap** partition (in `G` units)?
+
+    5. What is the **inode** number of `/etc/hosts`?
+
+    6. What is the file size (in bytes) of `/bin/ls`)?
+
+    In your `program.c`, simply use puts to print out the answers:
+
+        :::c
+        int main(int argc, char *argv[]) {
+            puts("/dev/...");
+            ...
+            puts("1");
+            return 0;
+        }
+
+    [df]: https://man7.org/linux/man-pages/man1/df.1.html
+    [lsblk]: https://man7.org/linux/man-pages/man8/lsblk.8.html
+    [mount]: https://man7.org/linux/man-pages/man8/mount.8.html
+    [stat]: https://man7.org/linux/man-pages/man1/stat.1.html
+
+    ## Submission
+
+    To submit you work, follow the same process outlined in [Reading 00]:
+
+        :::bash
+        $ git checkout master                 # Make sure we are in master branch
+        $ git pull --rebase                   # Make sure we are up-to-date with GitLab
+
+        $ git checkout -b reading10           # Create reading10 branch and check it out
+
+        $ cd reading10                        # Go into reading10 folder
+        $ $EDITOR answers.json                # Edit your answers.json file
+
+        $ ../.scripts/submit.py               # Check reading10 quiz
+        Submitting reading10 assignment ...
+        Submitting reading10 quiz ...
+             Q01 0.50
+             Q02 0.40
+             Q03 0.80
+             Q04 0.40
+             Q05 0.20
+             Q06 0.40
+             Q07 0.30
+           Score 3.00
+
+        $ git add answers.json                # Add answers.json to staging area
+        $ git commit -m "Reading 10: Quiz"    # Commit work
+
+        $ $EDITOR program.c                   # Edit your program.c file
+
+        $ make test-program                   # Check reading10 program
+        Testing reading10 program...
+           Score 3.00
+
+        $ git add Makefile                    # Add Makefile to staging area
+        $ git add program.c                   # Add program.c to staging area
+        $ git commit -m "Reading 10: Code"    # Commit work
+
+        $ git push -u origin reading10        # Push branch to GitHub
+
+    <div class="alert alert-success" markdown="1">
+    #### <i class="fa fa-github"></i> Pull Request
+
+    Once you have committed your work and pushed it to [GitHub], remember to
+    create a **pull request** and assign it to the appropriate **teaching
+    assistant** from the [Reading 10 TA List].
+
+    </div>
+
+    [Operating Systems: Three Easy Pieces]:     http://pages.cs.wisc.edu/~remzi/OSTEP/
+    [GitHub]:                                   https://github.com
+    [Reading 00]:                               reading00.html
+    [Reading 10 Quiz]:                          static/json/reading10.json
+    [JSON]:                                     http://www.json.org/
+    [git-branch]:                               https://git-scm.com/docs/git-branch
+    [dredd]:                                    https://dredd.h4x0r.space
+    [Reading 10 TA List]:                       reading10_tas.html
+
