@@ -1,0 +1,176 @@
+title:      "Reading 12: Consistency and Integrity"
+icon:       fa-book
+navigation: []
+internal:
+external:
+body:       |
+
+    **Everyone**:
+
+    Next week, we will discuss how to enforce **consistency** in [filesystems]
+    and how to maintain data **integrity**.
+
+    <div class="alert alert-info" markdown="1">
+
+    #### <i class="fa fa-search"></i> TL;DR
+
+    For this reading assignment, you are to read about maintaining consistency
+    and integrity in [filesystems], and submit your responses to the [Reading
+    12 Quiz].
+
+    </div>
+
+    [filesystems]:  https://en.wikipedia.org/wiki/File_system
+
+    <img src="static/img/ostep.jpg" class="pull-right">
+
+    ## Reading
+
+    The readings for this week are:
+
+    1. [Operating Systems: Three Easy Pieces]
+
+        - <p>[FSCK and Journaling](http://pages.cs.wisc.edu/~remzi/OSTEP/file-journaling.pdf)</p>
+        - <p>[Data Integrity and Protection](http://pages.cs.wisc.edu/~remzi/OSTEP/file-integrity.pdf)</p>
+
+        - <p>[Summary](http://pages.cs.wisc.edu/~remzi/OSTEP/file-dialogue.pdf)</p>
+
+    ### Optional
+    
+    These readings may be covered in class, but you will not be **quizzed** or
+    **assessed** on the following:
+
+    1. [ZFS 101—Understanding ZFS storage and performance](https://arstechnica.com/information-technology/2020/05/zfs-101-understanding-zfs-storage-and-performance/)
+
+    2. [The Google File System](https://research.google/pubs/pub51/)
+
+    ## Quiz
+
+    Once you have done the readings, answer the following [Reading 12 Quiz]
+    questions:
+
+    <div id="quiz-questions"></div>
+
+    <div id="quiz-responses"></div>
+
+    <script src="static/js/dredd-quiz.js"></script>
+    <script>
+    loadQuiz('static/json/reading12.json');
+    </script>
+
+    <pre style="display: none;" id="dr-container" class="codehilite"><code id="dredd-response"></code></pre>
+
+    ## Program
+    
+    For this week, you are to write a `program` that analyzes a stream of bytes
+    that uses an [even parity bit] scheme to check for consistency within each
+    block of data:
+
+        :::bash
+        # Check byte stream for consistency (no errors)
+        $ printf '12345670' | ./program ; echo $?
+        0
+
+        # Check byte stream for consistency (1 error)
+        $ printf '12345671' | ./program ; echo $?
+        1
+
+    The byte stream is encoded in the following format:
+
+    <div class="thumbnail">
+    <img src="static/img/reading12-block.png" class="img-responsive">
+    </div>
+
+    Each `Block` of bytes consists of **seven bytes** followed by a **parity
+    byte**, which is computed by `XOR`ing all the **bytes** together.
+
+    Your task is to read in a stream of `Block`s and verify that the **parity
+    byte** of each `Block` is **consistent** with the provided data within the
+    `Block`.  At the end of your program, **return the number of inconsistent
+    blocks as the status code**.
+
+    ### Hints
+    
+    1. You can use the `Block` structure defined above.
+
+    2. You can use [fread] to read in one `Block` at a time.
+
+    3. To compute `XOR`, you can use `^`.
+
+    [even parity bit]: https://en.wikipedia.org/wiki/Parity_bit
+    [fread]: https://man7.org/linux/man-pages/man3/fread.3.html
+
+    ## Submission
+
+    To submit you work, follow the same process outlined in [Reading 00]:
+
+        :::bash
+        $ git checkout master                 # Make sure we are in master branch
+        $ git pull --rebase                   # Make sure we are up-to-date with GitLab
+
+        $ git checkout -b reading12           # Create reading12 branch and check it out
+
+        $ cd reading12                        # Go into reading12 folder
+        $ $EDITOR answers.json                # Edit your answers.json file
+
+        $ ../.scripts/submit.py               # Check reading12 quiz
+        Submitting reading12 assignment ...
+        Submitting reading12 quiz ...
+             Q01 0.45
+             Q02 0.40
+             Q03 0.20
+             Q04 0.70
+             Q05 0.55
+             Q06 0.40
+             Q07 0.30
+           Score 3.00
+
+        $ git add answers.json                # Add answers.json to staging area
+        $ git commit -m "Reading 12: Quiz"    # Commit work
+
+        $ $EDITOR program.c                   # Edit your program.c file
+
+        $ make test-program                   # Check reading12 program
+        Testing reading12 program...
+         disk1                                                        ... Success
+         disk1 (inconsistent byte)                                    ... Success
+         disk1 (inconsistent parity)                                  ... Success
+         disk1 (swapped bytes)                                        ... Success
+         disk2                                                        ... Success
+         disk2 (inconsistent byte)                                    ... Success
+         disk2 (inconsistent parity)                                  ... Success
+         disk2 (swapped bytes)                                        ... Success
+         disk3                                                        ... Success
+         disk3 (inconsistent byte)                                    ... Success
+         disk3 (inconsistent parity)                                  ... Success
+         disk3 (swapped bytes)                                        ... Success
+         disk4                                                        ... Success
+         disk4 (inconsistent byte)                                    ... Success
+         disk4 (inconsistent parity)                                  ... Success
+         disk4 (swapped bytes)                                        ... Success
+           Score 3.00
+
+        $ git add Makefile                    # Add Makefile to staging area
+        $ git add program.c                   # Add program.c to staging area
+        $ git commit -m "Reading 12: Code"    # Commit work
+
+        $ git push -u origin reading12        # Push branch to GitHub
+
+    <div class="alert alert-success" markdown="1">
+    #### <i class="fa fa-github"></i> Pull Request
+
+    Once you have committed your work and pushed it to [GitHub], remember to
+    create a **pull request** and assign it to the appropriate **teaching
+    assistant** from the [Reading 12 TA List].
+
+    </div>
+
+    [Operating Systems: Three Easy Pieces]:     http://pages.cs.wisc.edu/~remzi/OSTEP/
+    [GitHub]:                                   https://github.com
+    [Reading 00]:                               reading00.html
+    [Reading 02]:                               reading02.html
+    [Reading 12 Quiz]:                          static/json/reading12.json
+    [JSON]:                                     http://www.json.org/
+    [git-branch]:                               https://git-scm.com/docs/git-branch
+    [dredd]:                                    https://dredd.h4x0r.space
+    [Reading 12 TA List]:                       reading12_tas.html

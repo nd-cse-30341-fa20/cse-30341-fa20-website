@@ -1,0 +1,61 @@
+{
+    "q01": {
+        "type": "blank",
+        "question": "<strong>\n\n<p>\nUnlike most data structures we've talked about in the past, file systems\nmust ____.  That is, they must work properly despite situations such as a\n____ or system ____.  When these events occur, the operating system must\nresolve the ____ problem, which is caused by the fact that the disk may\nonly complete a subset of the desired operations before the situation\nhappens and puts the file system in an ____ state.\n</p>\n\n<p>To put the file system back in order, we can use ____ or the file\nsystem checker which runs ____ the file system is mounted during boot.\nTo speed up this restoration process, modern file systems utilize ____,\nwhich adds a bit of overhead on each write, but allows them to quickly\nrecover from the events discussed above.</p>\n\n</strong>\n"
+    },
+    "q02": {
+        "type": "multiple",
+        "question": "<strong>\nSuppose we were appending to a file and had to allocate a new data block in\nthe file system to accomodate the data we are writing.  Which of the\nfollowing scenarios would yield a \"file-system inconsistency\" problem:\n</strong>\n",
+        "responses": {
+            "dblock_only": "Just the data block is writen to disk.",
+            "ibitmap_only": "Just the inode bitmap is updated.",
+            "dbitmap_only": "Just the data bitmap is updated.",
+            "bitmaps_only": "Just the inode and data bitmap are updated.",
+            "ibitmap_dblock": "Just the inode bitmap is updated and the data block is written to disk.",
+            "dbitmap_dblock": "Just the data bitmap is updated and the data block is written to disk."
+        }
+    },
+    "q03": {
+        "type": "multiple",
+        "question": "<strong>\n\nAs a followup to the previous question, which of the situations above would\nyield garbage data:\n\n</strong>\n",
+        "responses": {
+            "dblock_only": "Just the data block is writen to disk.",
+            "ibitmap_only": "Just the inode bitmap is updated.",
+            "dbitmap_only": "Just the data bitmap is updated.",
+            "bitmaps_only": "Just the inode and data bitmap are updated.",
+            "ibitmap_dblock": "Just the inode bitmap is updated and the data block is written to disk.",
+            "dbitmap_dblock": "Just the data bitmap is updated and the data block is written to disk."
+        }
+    },
+    "q04": {
+        "type": "order",
+        "question": "<strong>\n\nMatch the following labels to the descriptions of what fsck does:\n\n<ol>\n  \n  <li>The contents of each directory is checked.</li>\n  \n  <li>The reference count for each inode is performed.</li>\n  \n  <li>Scans inodes, indirect blocks, double indirect blocks, etc. to build\n  a correct version of the allocation bitmaps.</li>\n\n  <li>Perform sanity checks on the file system attributes such as size and\n  number of blocks allocated.</li>\n  \n  <li>Locate any pointers that are outside the appropriate range.</li>\n\n  <li>The integrity of each inode is checked for corruption.</li>\n  \n  <li>The references to data blocks are checked to see if a block is being\n  shared by two inodes.</li>\n</ol>\n\n</strong>\n",
+        "responses": {
+            "superblock": "Check superblock.",
+            "free_blocks": "Check free blocks.",
+            "inode_state": "Check inode state.",
+            "inode_links": "Check inode links.",
+            "duplicates": "Check for duplicates.",
+            "bad_blocks": "Check for bad blocks.",
+            "directories": "Check directories."
+        }
+    },
+    "q05": {
+        "type": "blank",
+        "question": "<strong>\n\nTo speedup recovery, modern file systems such as ext3 use ____ journaling,\nwhich requires the following four phases to update the file system:\n\n<ol>\n  <li>____: Write the contents of the transaction to the log.</li>\n  <li>____: Write the transaction commit block to the log.</li>\n  <li>____: Write the contents of the final on-disk location.</li>\n  <li>____: Update the journal superblock.</li>\n</ol>\n\nDuring the recovery process, the fsck utility can examine the log and ____\nor redo transactions that have been ____ to disk.\n\nAn alternative form of journaling is ____ journaling, which involves\nwriting the ____ first, and only recording the metadata in the journal.\n</strong>\n"
+    },
+    "q06": {
+        "type": "multiple",
+        "question": "<strong>\n\nWhich of the following are possible causes of latent-sector errors or\nblock corruption?\n\n</strong>\n",
+        "responses": {
+            "cosmic": "Cosmic rays may flip bits.",
+            "crash": "Disk head might touch the platter and damage the surface.",
+            "firmware": "Faulty firmware may incorrectly record data.",
+            "bus": "Data may be corrupted in transit."
+        }
+    },
+    "q07": {
+        "type": "blank",
+        "question": "<strong>\n\nThe primary mechanism for preserving data integrity is to ____ the data.\nThat is, we need to produce concise summaries of data blocks that can be\ncompared in the future.  Ideally, the function we use to produce these\nsummaries would minimize ____ or situations where non-identical blocks\nproduce the same summary.\n\nWhile summaries allow us to detect block corruption, we still have the\nproblem of ____, where data is written to the wrong location.  To solve\nthis, we need to add a ____ to record where the data is suppose to be\nstored.\n\nOnce we have these summaries, we can periodically perform ____, which\nchecks every block of the system and sees if the summaries are still\nvalid.\n\n</strong>\n"
+    }
+}
