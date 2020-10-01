@@ -166,6 +166,8 @@
         items:
           - name:       Slides
             link:       https://docs.google.com/presentation/d/1kjeFEnIkxIDsX17De8WXN4WoXPbnE70JcUNdLyDDSv4/edit?usp=sharing
+          - name:       Panopto
+            link:       https://notredame.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=0143f77e-0558-4587-aa3c-ac47010b8160
 
 - name:     Segmentation, Paging
   days:
