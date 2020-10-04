@@ -132,7 +132,7 @@ body:       |
     [calloc]:   http://man7.org/linux/man-pages/man3/malloc.3.html
     [realloc]:  http://man7.org/linux/man-pages/man3/malloc.3.html
     [free]:     http://man7.org/linux/man-pages/man3/malloc.3.html
-    [dlmalloc]: http://g.oswego.edu/dl/html/malloc.html
+    [dlmalloc]: http://gee.cs.oswego.edu/dl/html/malloc.html
     [tcmalloc]: http://goog-perftools.sourceforge.net/doc/tcmalloc.html
     [Firefox]:  https://www.mozilla.org/en-US/firefox/
     [jemalloc]: http://jemalloc.net/
