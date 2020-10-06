@@ -178,6 +178,8 @@
         items:
           - name:       Slides
             link:       https://docs.google.com/presentation/d/19GZYrAazKsz_FcE8Y2-iNSHX1P07h_Gszn4AEWdZaAI/edit?usp=sharing
+          - name:       Panopto
+            link:       https://notredame.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=58425b70-e30c-43d1-8385-ac4c010243c5
 
       - date:           Thu 10/08
         topics:         Paging
