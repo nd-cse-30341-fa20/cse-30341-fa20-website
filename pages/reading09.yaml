@@ -215,7 +215,7 @@ body:       |
     `VPN_SHIFT`.
 
         For instance, if the virtual address was `0010 0100`,
-        applying the `VPN_MASK` should give us `0000 0100`.  We then
+        applying the `VPN_MASK` should give us `0010 0000`.  We then
         want to shift to the right to get: `0000 0010`.
 
     6. To compute the `offset`, we want to apply the `OFFSET_MASK` to the
