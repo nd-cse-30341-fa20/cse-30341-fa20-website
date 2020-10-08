@@ -186,6 +186,8 @@
         items:
           - name:       Slides
             link:       https://docs.google.com/presentation/d/16pmJKxP4L7C_-HeYpLUZYrq-JfJA2cswErZtTKcMIxw/edit?usp=sharing
+          - name:       Panopto
+            link:       https://notredame.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=5d1efb86-df00-4980-9acb-ac4e01051366
 
 - name:     Caching, Swapping
   days:
