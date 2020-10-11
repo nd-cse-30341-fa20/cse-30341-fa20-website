@@ -37,12 +37,14 @@ body:       |
 
     ### Optional
     
-    These readings may be covered in class, but you will not be **quizzed** or
-    **assessed** on the following:
+    These readings will be covered in class, but you will not be **quizzed** on
+    the following:
 
     1. [ZFS 101—Understanding ZFS storage and performance](https://arstechnica.com/information-technology/2020/05/zfs-101-understanding-zfs-storage-and-performance/)
 
     2. [The Google File System](https://research.google/pubs/pub51/)
+    
+    3. [MapReduce](https://research.google/pubs/pub62/)
 
     ## Quiz
 
