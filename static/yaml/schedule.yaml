@@ -233,9 +233,15 @@
         topics:         File Systems
         assignments:    
           - Reading 11
+        items:
+          - name:       Slides
+            link:       https://docs.google.com/presentation/d/1ZDJovnsP9MTwvyfzCtNpciRy51SXqiXJj0JWEs1OLgw/edit?usp=sharing
 
       - date:           Thu 10/29
         topics:         LFS, FFS
+        items:
+          - name:       Slides
+            link:       https://docs.google.com/presentation/d/1YoJyaFrsD8ioOmaTS5pTVYLv9IttTBH3HLmcnFTBBRQ/edit?usp=sharing
 
 - name:     Consistency, Integrity
   days:
