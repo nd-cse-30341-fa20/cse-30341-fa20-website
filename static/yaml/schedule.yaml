@@ -255,13 +255,13 @@
 
       - date:           Thu 11/05
         topics:         GFS, MapReduce
+        items:
+          - name:       Slides
+            link:       https://docs.google.com/presentation/d/1MjvIegn9upggT2CcQnjHXtPIdtQQ7Wb6UEVBuOzqcJA/edit?usp=sharing
       
       - date:           Sat 11/07
         assignments:
           - Project 04
-        items:
-          - name:       Slides
-            link:       https://docs.google.com/presentation/d/1MjvIegn9upggT2CcQnjHXtPIdtQQ7Wb6UEVBuOzqcJA/edit?usp=sharing
 
 - name:     "Exam 01: Virtual Memory, File Systems"
 
