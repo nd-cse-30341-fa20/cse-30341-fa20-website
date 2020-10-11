@@ -249,13 +249,19 @@
         topics:         Consistency, Integrity
         assignments:    
           - Reading 12
+        items:
+          - name:       Slides
+            link:       https://docs.google.com/presentation/d/1KIrmlrEx8DMK-44yO43nr5F-PzcsWPKlNWkSKYUzVm8/edit?usp=sharing
 
       - date:           Thu 11/05
-        topics:         ZFS, GFS
+        topics:         GFS, MapReduce
       
       - date:           Sat 11/07
         assignments:
           - Project 04
+        items:
+          - name:       Slides
+            link:       https://docs.google.com/presentation/d/1MjvIegn9upggT2CcQnjHXtPIdtQQ7Wb6UEVBuOzqcJA/edit?usp=sharing
 
 - name:     "Exam 01: Virtual Memory, File Systems"
 
