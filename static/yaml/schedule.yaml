@@ -198,6 +198,8 @@
         items:
           - name:       Slides
             link:       https://docs.google.com/presentation/d/1GltgMqTP4XfcXGu5ncyEM2IgAEeD-eMvKUSh45abybM/edit?usp=sharing
+          - name:       Panopto
+            link:       https://notredame.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=ac07aa60-44f5-474a-b5cc-ac530102844d
 
       - date:           Thu 10/15
         topics:         Swapping
