@@ -1,0 +1,36 @@
+{
+    "q1": {
+        "type": "blank",
+        "question": "\n<strong>\n\nGiven <b>four</b> <tt>8GB</tt> disks, how much total storage is available\nif the disks were combined in the following <b>RAID</b> configurations:\n\n</strong>\n\n<ol>\n  <li><b>RAID 0</b>: ____ <b>GB</b></li>\n  <li><b>RAID 1</b>:____ <b>GB</b></li>\n  <li><b>RAID 5</b>:____ <b>GB</b></li>\n  <li><b>RAID 10</b>:____ <b>GB</b></li>\n</ol>\n"
+    },
+    "q2": {
+        "type": "multiple",
+        "question": "\n<strong>\n\nWhich of the following scenarios would lead to an <b>inconsistent</b> file\nsystem?\n\n</strong>\n",
+        "responses": {
+            "bitmap": "Only the data bitmap is updated.",
+            "block": "Only the data block is written.",
+            "inode": "Only the inode table is updated.",
+            "bitmap_block": "Only the data bitmap and data block are updated.",
+            "bitmap_inode": "Only the data bitmap and inode table are updated.",
+            "block_inode": "Only the data block and inode table are updated."
+        }
+    },
+    "q3": {
+        "type": "multiple",
+        "question": "\n<strong>\n\nWhich of the following statements regarding <tt>fsck</tt>,\n<b>journaling</b>, and <b>integrity</b> are true (select all that apply)?\n\n</strong>\n",
+        "responses": {
+            "ck_integrity": "Checksums are used to maintain the integrity of the data stored on the file system.",
+            "jl_integrity": "Journaling is used to maintain the integrity of the data stored on the file system.",
+            "ck_speed": "Checksums are used to speed up file system checks.",
+            "jl_speed": "Journaling is used to speed up file system checks.",
+            "ck_repair": "With only checksums, we can detect disk corruption and repair bad blocks.",
+            "ck_detect": "With only checksums, we can detect disk corruption but cannot repair bad blocks.",
+            "jl_metadata": "To make journaling more efficient, the file system can only journal the metadata.",
+            "jl_data": "To make journaling more efficient, the file system can only journal the data blocks."
+        }
+    },
+    "q4": {
+        "type": "blank",
+        "question": "\n<strong>\n\nGiven a <b>multi-indexed filesystem</b> with a <tt>32-bit</tt> block\naddress, <tt>4KB</tt> block size, and an inode structure with <tt>4</tt>\ndirect pointers and <tt>one</tt> indirect pointer:\n\n</strong>\n\n<ol>\n  <li><b>What is the largest disk this file system can use?</b>: ____ <b>TB</b></li>\n  <li><b>What is the largest file that this file system could store?</b>: ____ <b>bytes</b></li>\n  <li><b>Assuming a disk of 128GB, how big is the free block bitmap?</b>: ____ <b>MB</b></li>\n  <li><b>How many disk blocks (not counting the inode) are required to store 18474 bytes?</b>: ____ <b>blocks</b></li>\n</ol>\n"
+    }
+}
