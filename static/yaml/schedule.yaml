@@ -224,6 +224,8 @@
         items:
           - name:       Slides
             link:       https://docs.google.com/presentation/d/1_zLIIo_9Xn3QCU0xXAXIanl8x0hhLFbQnxFVtUXUBTE/edit?usp=sharing
+          - name:       Panopto
+            link:       https://notredame.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=05a45196-724e-40b5-b8ad-ac5a01063352
 
       - date:           Thu 10/22
         topics:         RAID
