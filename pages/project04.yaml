@@ -172,7 +172,7 @@ body:       |
 
     As with previous projects, you are to work **individually** or in **pairs**
     to create a **library** that implements the `Disk` and `FileSystem`
-    components described above by **Saturday, November 7, 2020**.
+    components described above by **Tuesday, November 10, 2020**.
 
     For this project, you must use [C] (not [C++]) as the implementation
     language.  Any test scripts or auxillary tools can be written in any
@@ -196,8 +196,8 @@ body:       |
           <td>Project description and repository are available.</td>
         </tr>
         <tr>
-          <td class="text-strong">Saturday, November 7</td>
-          <td>Library due (pushed to GitLab `filesystem` branch)..</td>
+          <td class="text-strong">Tuesday, November 10</td>
+          <td>File System due (pushed to GitLab `filesystem` branch).</td>
         </tr>
       </tbody>
     </table>
