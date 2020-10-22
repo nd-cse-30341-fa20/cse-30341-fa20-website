@@ -260,10 +260,6 @@
             link:       https://docs.google.com/presentation/d/1KIrmlrEx8DMK-44yO43nr5F-PzcsWPKlNWkSKYUzVm8/edit?usp=sharing
 
       - date:           Thu 11/05
-        topics:         GFS, MapReduce
-        items:
-          - name:       Slides
-            link:       https://docs.google.com/presentation/d/1MjvIegn9upggT2CcQnjHXtPIdtQQ7Wb6UEVBuOzqcJA/edit?usp=sharing
       
       - date:           Sat 11/07
         assignments:
@@ -276,7 +272,7 @@
       - date:           Tue 11/10
         topics:         Review
 
-      - date:           Tue 11/12
+      - date:           Thu 11/12
         topics:         ''
         items:
           - name:       Exam 02
