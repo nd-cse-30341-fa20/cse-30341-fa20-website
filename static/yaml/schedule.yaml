@@ -244,6 +244,8 @@
         items:
           - name:       Slides
             link:       https://docs.google.com/presentation/d/1ZDJovnsP9MTwvyfzCtNpciRy51SXqiXJj0JWEs1OLgw/edit?usp=sharing
+          - name:       Panopto
+            link:       https://notredame.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=841c9886-89e2-4776-8359-ac6100fff036
 
       - date:           Thu 10/29
         topics:         LFS, FFS
